@@ -23,7 +23,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet">
 
-    <script defer src="{% static 'script\home_script.js' %}"></script>
+    <script defer src="{% static 'script\write_script.js' %}"></script>
 
 </head>
 <body>
@@ -166,16 +166,19 @@
 
                 <h2>Preview</h2>
 
-                <div class="sticky-note" note_color="1">
+                <div class="sticky-note" id="stickynote" note_color="1" 
+                        nickname_color="1" nickname_font="1" content_color="1" 
+                        content_font="2" emoji="🥰" nickname="" content=""
+                        >
 
                     <div class="note-header">
-                        <p class="nickname" nickname_color="black" nickname_font="1">Makietech</p>
+                        <p class="nickname">Makietech</p>
                         <p class="emoji">🥰</p>
                         <span class="pin"></span>
                     </div>
 
                     <div class="sticky-note-content">
-                        <p content_color="black" content_font="2">
+                        <p >
                             Sana magustuhan nyu ang ginawa namin at ilabas nyu ang tunay nyu nararamdaman na hindi kayo makikilala at makapagbibigay ng gaan sa inyung nararamdaman.
                         </p>
                     </div>
@@ -221,21 +224,20 @@
             }
 
             // Get Embedded attributes
-            const note_color = document.getElementsByClassName("sticky-note")[0].getAttribute("note_color");
-            const emoji = document.getElementsByClassName('emoji')[0].textContent;
-            const nickname_color = document.getElementsByClassName('nickname')[0].getAttribute('nickname_color');
-            const nickname_font = document.getElementsByClassName('nickname')[0].getAttribute('nickname_font');
-
-            const sticky_content_parent = document.getElementsByClassName('sticky-note-content')[0];
-            const content_color = sticky_content_parent.getElementsByTagName('p')[0].getAttribute('content_color');
-            const content_font = sticky_content_parent.getElementsByTagName('p')[0].getAttribute('content_font');
-
-            var csrftoken = '{{ csrf_token }}';
+            const sticky_note = document.getElementById("stickynote");
+            const nickname = sticky_note.getAttribute("nickname");
+            const nickname_color = sticky_note.getAttribute("nickname_color");
+            const nickname_font = sticky_note.getAttribute("nickname_font");
+            const content = sticky_note.getAttribute("content");
+            const content_font = sticky_note.getAttribute("content_font");
+            const content_color = sticky_note.getAttribute("content_color");
+            const emoji = sticky_note.getAttribute("emoji");
+            const note_color = sticky_note.getAttribute("note_color");
 
             $.ajax({
                 type: 'POST',
-                url: '/writes/',
-                headers: { 'X-CSRFToken': csrftoken },
+                url: '/write/',
+                headers: { 'X-CSRFToken': '{{ csrf_token }}' },
                 data: {
                     'nickname': nickname,
                     'nickname_color' : nickname_color,

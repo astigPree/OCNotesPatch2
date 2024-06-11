@@ -149,13 +149,13 @@ def write_notes(request):
             #nickname = 'Makietech' if hasOwnerNickname else nickname
             try:
                 sticky_note = StickyNote(
-                nickname=nickname, nickname_color=nickname_color, nickname_font=int(nickname_font),
-                content=content, content_color=content_color, content_font=int(content_font),
+                nickname=nickname, nickname_color=int(nickname_color), nickname_font=int(nickname_font),
+                content=content, content_color=int(content_color), content_font=int(content_font),
                 emoji=emoji , note_color = int(note_color)
                 )
                 sticky_note.save()
-            except ValueError:
-                pass
+            except ValueError as e:
+                print(f"Has error : {e}")
             
         return JsonResponse(
             {
