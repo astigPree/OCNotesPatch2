@@ -1,0 +1,127 @@
+
+.poetsen-one-regular {
+    font-family: "Poetsen One", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.quicksand-light {
+    font-family: "Quicksand", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal;
+}
+  
+
+:root{
+    --primary-color : #791717;
+    --secondary-color : #B76767;
+    --tertiary-color: #FFFFFF;
+    --primary-font : "Poetsen One";
+    --secondary-font : "Quicksand";
+
+    --comic-san : "Comic Sans MS", "Comic Sans", cursive;
+    --arial-rounded : 'Arial Rounded MT Bold', Arial, sans-serif;
+    --lucida-writing : 'Lucida Handwriting', cursive;
+    --bradley-hand : 'Bradley Hand', cursive;
+    --chalkboard-se : 'Chalkboard SE', sans-serif;
+    --dakota : 'Dakota', cursive;
+    --permanent-marker : 'Permanent Marker', cursive;
+    --indie-flower : 'Indie Flower', cursive;
+}   
+
+* {
+    color: var(--tertiary-color);
+    margin: 0;
+}
+
+body{
+    background-color: var(--primary-color);
+    margin: 0;
+    padding-bottom: 13.0svh;
+    min-width: 326px;
+}
+
+.tool-bar{
+    z-index: 5;
+    position: fixed;
+    bottom: 0;
+    display: flex;
+    width: 100%;
+    background-color: var(--secondary-color);
+    justify-content: space-around;
+    height: 8.5svh;
+    box-shadow: 0.0svh -0.5svh 1.0svh rgba(0,0,0,0.2);
+    padding-bottom: 0.5svh;
+}
+
+.tool{
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* background-color: rebeccapurple; */
+    margin-top: 1.0svh;
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+.tool svg{
+    flex : 1;
+    height: 4.0svh;
+    width: 4.0svh;
+}
+
+.tool p{
+    flex: 0;
+    font-family: var(--secondary-font);
+    color: var(--tertiary-color);
+}
+
+.tool:nth-child(1){
+    opacity: 1;
+}
+
+
+
+.header-bar{
+    display: flex;
+    flex-direction: row;
+    margin-top: 7.0svh;
+    justify-content: space-between;
+    padding-bottom: 8.0svh;
+}
+
+.header-left{
+    display: flex;
+    flex-direction: column  ;
+    width: 200px;
+    /* background-color: rebeccapurple; */
+    align-items: center ;
+    height: fit-content;
+}
+
+.app_name{
+    font-size: 5.0svh;
+    width: fit-content;
+    font-family:  var(--primary-font);
+}
+
+.current_day{
+    margin-top: 0.3svh;
+    width: fit-content;
+    font-style: italic;
+    font-weight: var(--secondary-font);
+    font-size: 2.0svh;
+}
+
+.header-right{
+    display: flex;
+    flex-direction: column;
+    /* background-color: rebeccapurple; */
+    align-items: center;
+    transform: rotate(15deg);
+    width: 100px;
+    margin-right: 3.0svh;
+}

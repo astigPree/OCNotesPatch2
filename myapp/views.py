@@ -6,7 +6,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
 from django.shortcuts import render
-from .models import UserSuggestion
+from .models import UserSuggestion, Replies
 
 from .tools import *
 
@@ -17,8 +17,10 @@ def clipboard_list_page(request):
     if request.method == "GET":
         # notes = StickyNote.objects.all().order_by('-id')[:NUMBER_OF_NOTES_TO_DISPLAY]
         notes = StickyNote.objects.order_by('-id')[:NUMBER_OF_NOTES_TO_DISPLAY]
-        context = {"notes" : notes }
+        context = { "notes" : [ note.get_my_data() for note in notes ] }
+        print(context)
         return render(request , 'clipboards_screens.html' , context=context)
+    
 
 def sticky_notes_view(request):
     if request.method == 'POST':
@@ -97,3 +99,5 @@ def suggestion_page(request):
     else:
         return JsonResponse({'error': 'Invalid request method'})
     
+def whiteboard_page(request):
+    return render(request , 'whiteboard.html')

@@ -74,7 +74,7 @@
         <div class="sticky-notes-container">
 
             {% for note in notes %}
-                <div class="sticky-note" note_id="{{ note.id }}" >
+                <div class="sticky-note" note_id="{{ note.note_id }}" >
         
                     <div class="note-header">
                         <p class="nickname" id="nickname-{{note.id}}" style="color: {{note.nickname_color}};" >{{ note.nickname }}</p>
@@ -82,7 +82,7 @@
                         <span class="pin"></span>
                     </div>
 
-                    <div class="sticky-note-content" id="content-{{note.id}}">
+                    <div class="sticky-note-content" id="content-{{note.note_id}}">
                         <p style="color:{{ note.content_color }}; ">{{ note.content }}</p>
                     </div>
                 </div>

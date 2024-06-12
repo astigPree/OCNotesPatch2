@@ -29,28 +29,28 @@ class StickyNote(models.Model):
     def __str__(self) -> str:
         return f"{self.posted_date.date()} - {self.nickname}"
     
-    def get_my_data(self):
-        print(self.replies)
-        # data = {
-        #     'note_color' : self.note_color,
-        #     'nickname' : self.nickname,
-        #     'nickname_color' : self.nickname_color,
-        #     'nickname_font' : self.nickname_font,
-        #     'content' : self.content,
-        #     'content_color' : self.content_color,
-        #     'content_font' : self.content_font,
-        #     'emoji' : self.emoji,
-        #     'time' : self.posted_date.time().__str__,
-        #     'loves' : self.loves,
-        #     'angries' : self.angries,
-        #     'cries' : self.cries,
-        #     'wows' : self.wows,
-        #     'replies' : [
-        #         reply.get_data() for reply in self.replies.objects.all()
-        #     ]
-        # }
+    def get_my_data(self) -> dict:
+        data = {
+            'note_id' : self.id,
+            'note_color' : self.note_color,
+            'nickname' : self.nickname,
+            'nickname_color' : self.nickname_color,
+            'nickname_font' : self.nickname_font,
+            'content' : self.content,
+            'content_color' : self.content_color,
+            'content_font' : self.content_font,
+            'emoji' : self.emoji,
+            'time' : self.posted_date.time().strftime("%d / %I:%M %p").lower(),
+            'loves' : self.loves,
+            'angries' : self.angries,
+            'cries' : self.cries,
+            'wows' : self.wows,
+            'replies' : [
+                reply.get_data() for reply in self.replies.all()
+            ]
+        }
         
-        # return data
+        return data
     
     @classmethod
     def next_page(cls, start_id : int, number_to_display : int) -> tp.List['StickyNote'] :
@@ -111,18 +111,20 @@ class StickyNote(models.Model):
         return sticky_note
     
     
-
 class Replies(models.Model):
     sticky_note = models.ForeignKey(StickyNote, on_delete=models.CASCADE, related_name='replies', default=None)
     nickname = models.CharField(max_length=13)
     content = models.TextField()
     
+    def __str__(self) -> str:
+        return f"{self.sticky_note.posted_date.date()} - {self.sticky_note.nickname}"
+    
     def get_data(self) -> tuple[str, str]:
-        return ( self.nickname.__str__, self.content.__str__)
+        return ( self.nickname, self.content)
     
     @classmethod
     def getData(cls) -> tuple[str, str]:
-        return ( cls.nickname.__str__, cls.content.__str__ )
+        return ( cls.nickname, cls.content )
     
     @classmethod
     def addNewReplies(cls, note_id : int , nickname : str , content : str) -> bool:
@@ -140,8 +142,7 @@ class Replies(models.Model):
         
         cls.objects.create(sticky_note=sticky_note, nickname=nickname, content=content)
         return True
-        
-  
+         
     
 class UserSuggestion(models.Model):
 

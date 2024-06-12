@@ -117,7 +117,6 @@ function configuringPageButton(isDatabaseHasData, direction ){
     } 
 }
 
-
 function displayNote(note , notesList){
     notesList.append(
         `<div class="sticky-note" note_id="${ note.note_id }" >
