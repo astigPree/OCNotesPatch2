@@ -126,12 +126,22 @@ body{
 .suggestion-form{
     display: flex;
     flex-direction: column;
-    height: fit-content;
+}
+
+.form-regulations{
+    display: flex;
+    flex-direction: row;
+    column-gap: 8.0svh;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    row-gap: 5.0svh;
 }
 
 .suggestion-form h2{
     font-family: var(--primary-font);
     padding-bottom: 3.0svh;
+    margin-left: 4.0svh;
 }
 
 .suggestion-form label{
@@ -166,8 +176,9 @@ body{
     display: block;
     height: 16.0svh;
     margin-left: 1.5svh;
-    width: 250px;
+    min-width: 230px;
     font-family: var(--secondary-font);
+    max-width: 250px;
 }
 
 .suggestion-form textarea{
@@ -214,7 +225,6 @@ body{
     display: flex;
     flex-direction: column;
     width: 270px;
-    margin-top: 3.0svh;
     gap: 1.0svh;
     padding: 1.0svh;
     border-radius: 1.0svh;

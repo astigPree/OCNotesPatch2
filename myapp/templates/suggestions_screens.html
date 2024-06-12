@@ -61,39 +61,46 @@
         <div class="suggestion-form-container">
             <div class="suggestion-form">
                 <h2>Let's Improve IT!</h2>
-                <div class="name-input">
-                    <label for="nickname">Nickname :</label>
-                    <input type="text" name="nickname" id="nickname" oninput="cleanseInput('nickname')" maxlength="13" placeholder="13 letters only" required/>
-                </div>
-                <div class="name-input">
-                    <label for="subject">Subject :</label>
-                    <input type="text" name="subject" id="subject" oninput="cleanseInput('subject')" maxlength="30" placeholder="50 letters only" required/>
-                </div>
-                <div class="content-input">
-                    <label for="content">About :</label>
-                    <textarea id="content" name="content" rows="4" cols="50" oninput="cleanseInput('content')"></textarea>
+
+                <div class="form-regulations">
+                    <div class="form-holder">
+                        <div class="name-input">
+                            <label for="nickname">Nickname :</label>
+                            <input type="text" name="nickname" id="nickname" oninput="cleanseInput('nickname')" maxlength="13" placeholder="13 letters only" required/>
+                        </div>
+                        <div class="name-input">
+                            <label for="subject">Subject :</label>
+                            <input type="text" name="subject" id="subject" oninput="cleanseInput('subject')" maxlength="30" placeholder="50 letters only" required/>
+                        </div>
+                        <div class="content-input">
+                            <label for="content">About :</label>
+                            <textarea id="content" name="content" rows="4" cols="50" oninput="cleanseInput('content')"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="regulations">
+                        <h3>Note: </h3>
+                        <p>
+                            By filling up the form you will help the developer to improved the system and 
+                            It will motivate the developer to continue working with this project. 
+                            Or you can ask directly the developer tru Gmail or Messenger by clicking below.
+                        </p>
+                        <div onclick="visitAccount('mailto:techmakie@gmail.com')">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 24 24">
+                                <path fill="currentColor" fill-rule="evenodd" d="M6.712 3.97a59.38 59.38 0 0 1 10.576 0l1.518.136A3.28 3.28 0 0 1 21.76 6.9a35.257 35.257 0 0 1 0 10.2a3.28 3.28 0 0 1-2.954 2.793l-1.518.136a59.38 59.38 0 0 1-10.576 0l-1.518-.136A3.28 3.28 0 0 1 2.24 17.1a35.257 35.257 0 0 1 0-10.2a3.28 3.28 0 0 1 2.954-2.794l1.518-.135Zm-.856 2.87a.75.75 0 0 0-1.106.66V17a.75.75 0 0 0 1.5 0V8.756l5.394 2.904c.222.12.49.12.712 0l5.394-2.904V17a.75.75 0 0 0 1.5 0V7.5a.75.75 0 0 0-1.106-.66L12 10.148L5.856 6.84Z" clip-rule="evenodd"/>
+                            </svg>
+                            <a href="">techmakie@gmail.com</a>
+                        </div>
+                        <div onclick="visitAccount('https://www.facebook.com/profile.php?id=61558374034868&mibextid=ZbWKwL')">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 24 24">
+                                <path fill="currentColor" d="M20.9 2H3.1A1.1 1.1 0 0 0 2 3.1v17.8A1.1 1.1 0 0 0 3.1 22h9.58v-7.75h-2.6v-3h2.6V9a3.64 3.64 0 0 1 3.88-4a20.26 20.26 0 0 1 2.33.12v2.7H17.3c-1.26 0-1.5.6-1.5 1.47v1.93h3l-.39 3H15.8V22h5.1a1.1 1.1 0 0 0 1.1-1.1V3.1A1.1 1.1 0 0 0 20.9 2Z"/>
+                            </svg>
+                            <a href="">Makie Tech</a>
+                        </div>
+                    </div>
+
                 </div>
 
-                <div class="regulations">
-                    <h3>Note: </h3>
-                    <p>
-                        By filling up the form you will help the developer to improved the system and 
-                        It will motivate the developer to continue working with this project. 
-                        Or you can ask personaly the developer tru Gmail or Messenger by clicking below.
-                    </p>
-                    <div onclick="visitAccount('mailto:techmakie@gmail.com')">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 24 24">
-                            <path fill="currentColor" fill-rule="evenodd" d="M6.712 3.97a59.38 59.38 0 0 1 10.576 0l1.518.136A3.28 3.28 0 0 1 21.76 6.9a35.257 35.257 0 0 1 0 10.2a3.28 3.28 0 0 1-2.954 2.793l-1.518.136a59.38 59.38 0 0 1-10.576 0l-1.518-.136A3.28 3.28 0 0 1 2.24 17.1a35.257 35.257 0 0 1 0-10.2a3.28 3.28 0 0 1 2.954-2.794l1.518-.135Zm-.856 2.87a.75.75 0 0 0-1.106.66V17a.75.75 0 0 0 1.5 0V8.756l5.394 2.904c.222.12.49.12.712 0l5.394-2.904V17a.75.75 0 0 0 1.5 0V7.5a.75.75 0 0 0-1.106-.66L12 10.148L5.856 6.84Z" clip-rule="evenodd"/>
-                        </svg>
-                        <a href="">techmakie@gmail.com</a>
-                    </div>
-                    <div onclick="visitAccount('https://www.facebook.com/profile.php?id=61558374034868&mibextid=ZbWKwL')">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 24 24">
-                            <path fill="currentColor" d="M20.9 2H3.1A1.1 1.1 0 0 0 2 3.1v17.8A1.1 1.1 0 0 0 3.1 22h9.58v-7.75h-2.6v-3h2.6V9a3.64 3.64 0 0 1 3.88-4a20.26 20.26 0 0 1 2.33.12v2.7H17.3c-1.26 0-1.5.6-1.5 1.47v1.93h3l-.39 3H15.8V22h5.1a1.1 1.1 0 0 0 1.1-1.1V3.1A1.1 1.1 0 0 0 20.9 2Z"/>
-                        </svg>
-                        <a href="">Makie Tech</a>
-                    </div>
-                </div>
 
                 <div class="preview-buttons">
                     <div onclick="saveUserSuggestion()">
@@ -137,7 +144,7 @@
 
             $.ajax({
                 type: 'POST',
-                url: '/suggestions/',
+                url: '/suggestion/',
                 headers: { 'X-CSRFToken': csrftoken },
                 data: {
                     'nickname': nickname,

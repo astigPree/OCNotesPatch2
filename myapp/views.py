@@ -6,78 +6,9 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
 from django.shortcuts import render
-from .models import StickyNote, UserSuggestion
+from .models import UserSuggestion
 
-from html.parser import HTMLParser
-
-
-NUMBER_OF_NOTES_TO_DISPLAY = 10
-BAD_WORDS = (
-    'puta', 'pota', 'tangina', 'gago' , 'bobo' , 'bubo' , 'bubu' , 'bobu' , 'gaga', 'patay', 'matay', 'natay', 'amp', 'nigga', 'yawa',
-    'pisot' , 'bayag', 'buto', 'totoy', 'boto', 'letche', 'itot', 'lolo' , 'salsal', 'jabol', 'pusli', 'shabu', 'whana', 'bilat', 'belat',
-    'puke', 'sex' , 'porn', 'dudu', 'dede', 'putay', 'kupal', 'kopal', 'bolbol', 'kantu', 'kasta', 'torjack', 'pisti', 'peste' , 'piste', 'pesti',
-    'kant', 'yatis', 'ngina','shuta','nigger','negro','pampam','whore','slut','gagi','shole','hoe','shit','fuck','bitch','ock','uss',
-    'cunt','shat','shite','jaku','kanor','jako',
-)
-
-fontStyles = {
-    1: 'Poetsen One',
-    2: 'Quicksand',
-    3: 'Comic Sans MS, Comic Sans, cursive',
-    4: 'Arial Rounded MT Bold, Arial, sans-serif',
-    5: 'Lucida Handwriting, cursive',
-    6: 'Bradley Hand, cursive',
-    7: 'Chalkboard SE, sans-serif',
-    8: 'Dakota, cursive',
-    9: 'Permanent Marker, cursive',
-    10: 'Indie Flower, cursive'
-}
-
-class MyHTMLParser(HTMLParser):
-    def __init__(self):
-        super().__init__()
-        self.contains_html = False
-
-    def handle_starttag(self, tag, attrs):
-        self.contains_html = True
-        
-def willMakeAHTMLObject(text: str) -> bool:
-    parser = MyHTMLParser()
-    parser.feed(text)
-    return parser.contains_html
-
-def isBadWords(sentence : str, word : str) -> bool:
-    hasBadWord = sentence.lower().find(word)
-    return True if hasBadWord > -1 else False
-
-def updateSentence(sentence, start , end) -> str:
-    for i in range(start , end + 1):
-        sentence[i] = '*'
-    return sentence
-
-def hasBadWord(sentence : str) -> bool:
-    for word in BAD_WORDS:
-        if isBadWords(sentence , word):
-            return True
-    return False
-
-def get_incremental_sticky_notes(start_id, count):
-    sticky_notes = list(StickyNote.objects.filter(id__gte=start_id).order_by('id')[:count])
-    sticky_notes.reverse()
-    return sticky_notes
-
-def next_page(start_id):
-    sticky_notes = StickyNote.objects.filter(id__lt=start_id).order_by('-id')[:NUMBER_OF_NOTES_TO_DISPLAY]
-    return sticky_notes
-
-def previous_page(start_id):
-    sticky_notes = StickyNote.objects.filter(id__gt=start_id).order_by('id')[:NUMBER_OF_NOTES_TO_DISPLAY:-1]
-    return sticky_notes
-    
-def get_decremental_sticky_notes(start_id, count):
-    sticky_notes = list(StickyNote.objects.filter(id__lte=start_id).order_by('-id')[:count])
-    sticky_notes.reverse()
-    return sticky_notes
+from .tools import *
 
 
 # Create your views here.
@@ -89,7 +20,6 @@ def clipboard_list_page(request):
         context = {"notes" : notes }
         return render(request , 'clipboards_screens.html' , context=context)
 
-
 def sticky_notes_view(request):
     if request.method == 'POST':
         direction = request.POST.get('direction')
@@ -98,9 +28,9 @@ def sticky_notes_view(request):
         start_id = int(request.POST.get('start_id'))
 
         if direction == 'up':
-            sticky_notes = next_page(start_id=start_id)
+            sticky_notes = StickyNote.next_page(start_id=start_id, number_to_display=NUMBER_OF_NOTES_TO_DISPLAY)
         elif direction == 'down':
-            sticky_notes = previous_page(start_id)
+            sticky_notes = StickyNote.previous_page(start_id=start_id, number_to_display=NUMBER_OF_NOTES_TO_DISPLAY)
             
         else:
             return JsonResponse({'error': 'Invalid direction'}, status=400)
@@ -111,7 +41,7 @@ def sticky_notes_view(request):
                 "nickname": note.nickname, "nickname_color": note.nickname_color, 
                 "nickname_font": note.nickname_font, "content": note.content, 
                 "content_color": note.content_color, "content_font": note.content_font,
-                "emoji": note.emoji , 'note_id': note.id 
+                "emoji": note.emoji , 'note_id': note.id
             }
             for note in sticky_notes
         ]
@@ -129,38 +59,21 @@ def sticky_notes_view(request):
 @csrf_exempt
 def write_notes(request):
     if request.method == 'POST':
-        nickname = request.POST.get('nickname')
-        nickname_color = request.POST.get('nickname_color')
-        nickname_font = request.POST.get('nickname_font')
-        content = request.POST.get('content')
-        content_color = request.POST.get('content_color')
-        content_font = request.POST.get('content_font')
-        emoji = request.POST.get('emoji')
-        note_color = request.POST.get('note_color')
-                
-        nicknameHasBadWord = hasBadWord(nickname)
-        contentHasBadWord = hasBadWord(content)
-        nicknameCanbeHTML = willMakeAHTMLObject(nickname)
-        contentCanbeHTML = willMakeAHTMLObject(content)
         
-        hasOwnerNickname = True if (nickname.find('Makietech') > -1) else False
+        result, data = isDataIncorrect(request)
         
-        if not nicknameHasBadWord and not contentHasBadWord and not hasOwnerNickname and not nicknameCanbeHTML and not contentCanbeHTML:
-            #nickname = 'Makietech' if hasOwnerNickname else nickname
-            try:
-                sticky_note = StickyNote(
-                nickname=nickname, nickname_color=int(nickname_color), nickname_font=int(nickname_font),
-                content=content, content_color=int(content_color), content_font=int(content_font),
-                emoji=emoji , note_color = int(note_color)
-                )
-                sticky_note.save()
-            except ValueError as e:
-                print(f"Has error : {e}")
+        if not result:
+            sticky_note = StickyNote(
+            nickname=data[0], nickname_color=int(data[1]), nickname_font=int(data[2]),
+            content=data[3], content_color=int(data[4]), content_font=int(data[5]),
+            emoji=data[6] , note_color = int(data[7])
+            )
+            sticky_note.save()
             
         return JsonResponse(
             {
-                'message': 'User Notes saved successfully!',
-                'hasBadWord' : nicknameHasBadWord or contentHasBadWord or hasOwnerNickname or nicknameCanbeHTML or contentCanbeHTML,
+                'message': '',
+                'incorrect_data' : result,
             }
         )
     elif request.method == 'GET':
@@ -170,6 +83,8 @@ def write_notes(request):
 
 @csrf_exempt
 def suggestion_page(request):
+    print(StickyNote.getStickyNote(7).get_my_data())
+    
     if request.method == 'POST':
         nickname = request.POST.get('nickname')
         subject = request.POST.get('subject')

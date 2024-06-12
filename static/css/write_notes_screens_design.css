@@ -260,44 +260,44 @@ body{
     background-color: var(--primary-color);
 }
 
-.sticky-notes-fonts button:nth-child(1){
+.comic{
     font-family: var(--comic-san);    
 }
 
-.sticky-notes-fonts button:nth-child(2){
+.arial{
     font-family: var(--arial-rounded);
 }
 
 
-.sticky-notes-fonts button:nth-child(3){
+.lucida{
     font-family: var(--lucida-writing);
 }
 
-.sticky-notes-fonts button:nth-child(4){
+.bradley{
     font-family: var(--bradley-hand);
 }
 
-.sticky-notes-fonts button:nth-child(5){
+.chalkboard{
     font-family: var(--chalkboard-se);
 }
 
-.sticky-notes-fonts button:nth-child(6){
+.permanent{
     font-family: var(--permanent-marker);
 }
 
-.sticky-notes-fonts button:nth-child(7){
+.flower{
     font-family: var(--indie-flower);
 }
 
-.sticky-notes-fonts button:nth-child(8){
+.dakota{
     font-family: var(--dakota);
 }
 
-.sticky-notes-fonts button:nth-child(9){
+.poetsen{
     font-family: var(--primary-font);
 }
 
-.sticky-notes-fonts button:nth-child(10){
+.quicksand{
     font-family: var(--secondary-font);
 }
 

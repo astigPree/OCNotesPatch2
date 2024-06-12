@@ -47,8 +47,13 @@
             </svg>
             <p>Write Notes</p>
         </div>
+
+        
+        {% comment %}
+            onclick="changeTemplate('{% url 'suggestion' %}');"
+        {% endcomment %}
             
-        <div class="tool" onclick="changeTemplate('{% url 'suggestion' %}');" >
+        <div class="tool" >
             <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 20 20">
                 <path fill="currentColor" d="M8.5 4.498a1.5 1.5 0 1 1 3 0a1.5 1.5 0 0 1-3 0m1.5-2.5a2.5 2.5 0 0 0-2.43 3.086L5.471 4.15a1.76 1.76 0 0 0-2.317.88c-.4.882-.007 1.917.877 2.31L7 8.662v2.287l-1.877 4.645a1.75 1.75 0 0 0 3.246 1.311l.085-.213a5.5 5.5 0 0 1-.424-1.618l-.589 1.457a.75.75 0 1 1-1.39-.562l1.876-4.645A1 1 0 0 0 8 10.949V8.662a1 1 0 0 0-.593-.914L4.439 6.427a.74.74 0 0 1-.374-.983a.76.76 0 0 1 1-.38l3.918 1.744a2.5 2.5 0 0 0 2.034 0l3.918-1.744a.76.76 0 0 1 1 .38a.74.74 0 0 1-.373.983l-2.969 1.321a1 1 0 0 0-.593.914v.545a5.5 5.5 0 0 1 1-.185v-.36l2.968-1.322a1.74 1.74 0 0 0 .878-2.31a1.76 1.76 0 0 0-2.318-.88l-2.097.934q.069-.282.07-.586a2.5 2.5 0 0 0-2.5-2.5M18 14.5a4.5 4.5 0 1 1-9 0a4.5 4.5 0 0 1 9 0m-4.5 1.88a.625.625 0 1 0 0 1.25a.625.625 0 0 0 0-1.25m0-4.877c-1.048 0-1.864.818-1.853 1.955a.5.5 0 1 0 1-.01c-.006-.579.36-.945.853-.945c.473 0 .854.392.854.95c0 .202-.072.315-.36.544l-.278.215c-.506.404-.716.717-.716 1.288a.5.5 0 0 0 .992.09l.011-.156c.017-.148.1-.254.346-.448l.277-.215c.513-.41.728-.732.728-1.318c0-1.104-.823-1.95-1.854-1.95"/>
             </svg>
@@ -69,77 +74,6 @@
             </div>
         </div>
 
-
-        {% comment %} Division for the main content  {% endcomment %}
-        <div class="sticky-notes-container">
-
-            {% for note in notes %}
-                <div class="sticky-note" note_id="{{ note.id }}" >
-        
-                    <div class="note-header">
-                        <p class="nickname" id="nickname-{{note.id}}" style="color: {{note.nickname_color}};" >{{ note.nickname }}</p>
-                        <p class="emoji">{{ note.emoji }}</p>
-                        <span class="pin"></span>
-                    </div>
-
-                    <div class="sticky-note-content" id="content-{{note.id}}">
-                        <p style="color:{{ note.content_color }}; ">{{ note.content }}</p>
-                    </div>
-                </div>
-
-                <script>
-                    function onetimeChange(){
-                        const selected_font = getComputedStyle(document.documentElement).getPropertyValue('{{note.nickname_font}}');
-                        const sticky_nickname = document.getElementById('nickname-{{note.id}}');
-                        sticky_nickname.style.fontFamily = selected_font;
-                        
-                        const selected_content_font = getComputedStyle(document.documentElement).getPropertyValue('{{note.content_font}}');
-                        const sticky_content_parent = document.getElementById('content-{{note.id}}')
-                        const content = sticky_content_parent.getElementsByTagName('p')[0];
-                        content.style.fontFamily = selected_content_font;
-                    }
-                    onetimeChange();
-
-                </script>
-                
-            {% endfor %}
-                
-
-
-        </div>
-
-        <div class="paging-buttons">
-            <div class="page-button" onclick="fetchStickyNotes('down')" id="prev-page-button">
-                <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 24 24">
-                    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 11l3 2m0-8a1 1 0 1 0 0-2a1 1 0 0 0 0 2ZM9.5 9.5L9.525 6H15L8 17H4m11-9l-3 5l.5 1L17 7.5L15 6m-4 7l5 3.5v5"/>
-                </svg>
-                <p>go back</p>
-            </div>
-            <div class="page-button" onclick="changeTemplate('{% url 'home' %}')">
-                <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 72 72">
-                    <path fill="#ffffff" d="m52.501 10.564l-10.328 7.859v13.453h4.78v-9.231l5.583-4.311l5.597 4.311v9.231h4.781V18.435l-10.413-7.871z"/>
-                    <g fill="#ffffff">
-                        <path d="M25.267 39.441v2.214l4.16 5.124a6.622 6.622 0 0 1 .756 2.705l.406 9.151c.086 1.78-.824 2.72-1.736 2.72c-.97 0-1.72-.912-1.884-2.631l-1.053-8.66L19 44.172a3.216 3.216 0 0 1-1.113-2.366a5.417 5.417 0 0 1 .765-2.581l3.293-5.947c1.141-2.281 2.256-3.091 3.762-3.091a2.714 2.714 0 0 1 2.68 2.767Zm-9.152 6.549l-2.229 3.37l-6.331 3.07a1.42 1.42 0 0 0-.836 1.742a1.236 1.236 0 0 0 1.602.818l6.035-1.85a5.372 5.372 0 0 0 2.187-1.392l3.287-3.328Z"/>
-                        <circle cx="31.383" cy="26.116" r="3.266"/>
-                    </g>
-                    <g fill="none" stroke="#ffffff" stroke-linecap="round" stroke-width="2">
-                        <path stroke-miterlimit="10" d="M46.327 15.263v-4.175"/>
-                        <path stroke-linejoin="round" d="M42.173 31.546V18.423m20.741.012v13.111M40.193 19.839l12.308-9.275l12.393 9.275"/>
-                        <path stroke-linejoin="round" d="M46.954 31.216v-8.571l5.582-4.311l5.597 4.311v8.571m-22.899 8.356h-5.298l-4.647-5.332m-.246-3.996s-5.785 1.354-7.088 2.287c-1.664 1.192-5.674 7.162-5.674 7.162m3.834 6.297l-2.229 3.37l-6.331 3.07a1.42 1.42 0 0 0-.836 1.742a1.236 1.236 0 0 0 1.602.818l6.035-1.85a5.372 5.372 0 0 0 2.187-1.392l5.112-5.175"/>
-                        <path stroke-linejoin="round" d="M25.267 39.441v2.214l4.16 5.124a6.622 6.622 0 0 1 .756 2.705l.406 9.151c.086 1.78-.824 2.72-1.736 2.72c-.97 0-1.72-.912-1.884-2.631l-1.053-8.66L19 44.172a3.216 3.216 0 0 1-1.113-2.366a5.417 5.417 0 0 1 .765-2.581l3.293-5.947c1.141-2.281 2.256-3.091 3.762-3.091a2.714 2.714 0 0 1 2.68 2.767m-.27-6.838a3.266 3.266 0 1 1 3.266 3.266"/>
-                    </g>
-                </svg>
-                <p>go home</p>
-            </div>
-            <div class="page-button" onclick="fetchStickyNotes('up')" id="next-page-button">
-                <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 24 24">
-                    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 11l3 2m0-8a1 1 0 1 0 0-2a1 1 0 0 0 0 2ZM9.5 9.5L9.525 6H15L8 17H4m11-9l-3 5l.5 1L17 7.5L15 6m-4 7l5 3.5v5"/>
-                </svg>
-                <p>forward</p>
-            </div>
-
-        </div>
-        
 
     </div>
 

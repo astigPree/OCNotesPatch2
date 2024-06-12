@@ -26,7 +26,6 @@ const textColor = {
     "blue" : "3"
 }
 
-
 function getCurrentDateFormatted() {
     const date = new Date();
     const monthNames = [
@@ -38,7 +37,6 @@ function getCurrentDateFormatted() {
     const year = date.getFullYear();
     return `${month} ${day}, ${year}`;
 }
-
 
 function changeTemplate(url) {
     window.location.href = url;

@@ -69,7 +69,7 @@ function onetimeChangeOnTheMainScript(nickname_font, content_font, note_id) {
 
 }
 
-function getStartId(){
+function getStartId(direction){
     var note_list = document.getElementsByClassName('sticky-notes-container')[0].getElementsByClassName('sticky-note');
         
     // reverse because the reading is the upper Id to lower id
@@ -86,7 +86,7 @@ function getStartId(){
     return startId
 }
 
-function configuringPageButton(isDatabaseHasData ){
+function configuringPageButton(isDatabaseHasData, direction ){
     // Removing a function on the buttons in next page and previus page
     if ( isDatabaseHasData ){
         const nextPageBut = document.getElementById('next-page-button');
@@ -143,7 +143,7 @@ function displayNote(note , notesList){
     
 }
 
-function updatePageNumberAndMove(){
+function updatePageNumberAndMove(direction){
     const pageNum = document.getElementById("page-number");
     if (direction == "down"){
         pageNum.innerHTML = `${parseInt(pageNum.innerHTML, 10 ) - 1}`;
