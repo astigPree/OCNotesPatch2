@@ -21,6 +21,7 @@ NICKNAME_CONTENT_COLORS = ( '1' , '2' , '3')
 NICKNAME_FONTS = ('1' , '2', '3' , '4' , '5' , '6', '7', '8', '9', '10')
 CONTENT_FONTS = ('3', '4' , '2' , '6' , '7' , '8' , '10')
 NOTE_COLORS = ('1' , '2', '3' , '4', '5' , '6')
+REACTIONS = { "1" : "loves", "2" : 'angries', "3" : 'cries', "4" : 'wows'}
 
 
 class MyHTMLParser(HTMLParser):
@@ -119,5 +120,16 @@ def isDataIncorrect(request) -> tuple[bool, object] :
     
     # IF all is False then it is correct
     return False, ( nickname, nickname_color, nickname_font, content, content_color, content_font, emoji, note_color)
+
+def isReactionClickingCorrect(note_id : str , react : str):
+    if not note_id.isnumeric():
+        return False
+    stickynote = StickyNote.getStickyNote(int(note_id))
+    if not stickynote or stickynote is None:
+        return False
+    if react not in REACTIONS:
+        return False
     
+    StickyNote.addUserReaction(int(note_id), REACTIONS[react])
+    return True
     

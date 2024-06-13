@@ -50,6 +50,22 @@ def sticky_notes_view(request):
     else:
         # If it's not a POST request, you can return an empty response or handle it accordingly
         return JsonResponse({'error': 'Invalid request method'}, status=405)
+    
+
+def reacted(request):
+    if request.method == 'POST':
+        note_id = request.POST.get('note_id')
+        react = request.POST.get('react')
+        
+        result = isReactionClickingCorrect(note_id, react)
+        
+        if not result:
+            return JsonResponse({'error': 'Invalid direction'}, status=400)
+            
+        return JsonResponse({'message':''})
+    else:
+        # If it's not a POST request, you can return an empty response or handle it accordingly
+        return JsonResponse({'error': 'Invalid request method'}, status=405)
 
 @csrf_exempt
 def write_notes(request):
