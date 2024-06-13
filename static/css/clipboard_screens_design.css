@@ -43,7 +43,7 @@ body{
 }
 
 .tool-bar{
-    z-index: 5;
+    z-index: 999;
     position: fixed;
     bottom: 0;
     display: flex;
@@ -167,9 +167,12 @@ body{
 
 
 .sticky-note {
+    position: relative;
     transform: rotate(-5deg);
     width: 250px;
     height: 230px;
+    min-width: 250px;
+    min-height: 230px;
     background-color: #f9f485; 
     box-shadow: 5px 5px 15px rgba(0,0,0,0.2);
     padding: 10px;
@@ -177,6 +180,7 @@ body{
     line-height: 1.5;
     border-radius: 5px; 
     flex: 0 1 250px;
+    z-index: 5;
 }
 
 
@@ -234,6 +238,7 @@ body{
     height: 10.0svh;
     justify-content: space-around;
     align-items: center;
+    z-index: 999;
 }
 
 
@@ -272,3 +277,189 @@ body{
 .page-button:nth-child(3){
     transform: rotate(5deg);
 }
+
+/* New Features Patch 2 */
+.reactions{
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    column-gap: 2.0svh;
+    bottom: 7px;
+    transform: rotate(-5deg);
+    width: 230px;
+    margin-left: 20px;
+    justify-content: space-evenly;
+    z-index: 1;
+}
+
+@keyframes remove_react {
+    to{
+        transform : translateY(-56%);
+    }
+}
+
+@keyframes jumpEmote {
+    50%{
+        transform : translateY(-100%) scale(110%);
+    }
+    0% , 100% {
+        transform: translateY(10%) scale(100%);
+    }
+}
+
+@keyframes angryEmote {
+    30%{
+        transform: rotate(30deg) scale(120%);
+    }
+    50%{
+       transform: rotate(-30deg) scale(140%); 
+    }
+    0% , 100%{
+        transform: rotate(0deg) scale(100%);
+    }
+}
+
+@keyframes cryEmote {
+    30%, 50%{
+        transform: translateY(10%);
+    }
+    40%, 0%, 100%{
+        transform: translateY(0%);
+    }
+}
+
+@keyframes wowEmote {
+    20%{
+        transform: translateX(20%) rotate(-30deg);
+    }
+    40% {
+        transform: translate(40%) rotate(30deg);
+    }
+    60%{
+        transform: translateX(80%) rotate(-30deg) ;
+    }
+
+    80%{
+        transform: translateX(80%) rotate(10deg);
+    }
+
+    90%{
+        transform: translate(80%) rotate(-50deg);
+    }
+
+    0%, 100%{
+        transform: translateX(0%);
+    }
+}
+
+.react{
+    position: relative;
+    text-align: center;
+    padding: 5px 3px ;
+    border-radius: 0% 0% 0% 25% / 25% 25% 25% 25%;
+    cursor: pointer;
+}
+
+.react-clicked{
+    animation: remove_react 0.6s ease-in-out 0s 1 forwards;
+
+}
+
+.react p{
+    font-size: 30px;
+}
+
+.react i{
+    font-size: 12px;
+    color: black;
+    font-family: var(--secondary-font);
+}
+
+
+.clip{
+    position: relative;
+    text-align: center;
+    display: flex;
+    width: fit-content;
+    flex-direction: column;
+    padding: 1.0svh;
+    border-radius: 1.0svh 0 0 0;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    left: 244px;
+    top: 57px;
+    transform: rotate(89deg);
+}
+
+.clip svg{
+    position: relative;
+    flex: 1;
+    width: 8.0svh;
+    height: 8.0svh;
+    filter: drop-shadow(0 0 1px rgba(1, 1, 1 ,0.7));
+    z-index: 10;
+}
+
+.clip p{
+    position: relative;
+    top: 45px;
+    z-index: 11;
+    font-size: 1.5svh;
+    font-weight: bold;
+    font-family: var(--secondary-font);
+    letter-spacing: 0.1svh;
+}
+
+.view-leaderboards{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2.0svh;
+    margin-left: 10.0svh;
+    width: fit-content;
+    margin-bottom: 5.0svh;
+}
+
+.emojies-leaderboard{
+    display: flex;
+    flex-direction: row;
+    width: 18.0svh;
+    padding: 0 5px;
+    justify-content: space-evenly;
+}
+
+.emojies-leaderboard > * {
+    font-size: 3.0svh;
+}
+
+.emojies-leaderboard p:nth-child(1){
+    animation: jumpEmote 1s ease-in-out 0s infinite;
+}
+
+.emojies-leaderboard p:nth-child(2){
+    animation: angryEmote 1s ease-in-out 0s infinite;
+}
+
+.emojies-leaderboard p:nth-child(3){
+    animation: cryEmote 1s ease-in-out 0s infinite;
+}
+
+.emojies-leaderboard p:nth-child(4){
+    animation: wowEmote 3s ease-in-out 0s infinite;
+}
+
+.leaderboard-text{
+    background-color: #E7A333; 
+    color: var(--primary-color);
+    width: 18.0svh;
+    font-size: 2.0svh;
+    padding: 10px 5px;
+    text-align: center;
+    font-family: var(--primary-font);
+    letter-spacing: 0.5svh;
+    box-shadow: 0 3px 4px rgba(0,0,0,0.2);
+    border-radius: 0% 0% 8% 8% / 25% 25% 25% 25%;
+    cursor: pointer;
+    transform: rotate(-2deg);
+}
+

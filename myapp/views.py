@@ -18,7 +18,6 @@ def clipboard_list_page(request):
         # notes = StickyNote.objects.all().order_by('-id')[:NUMBER_OF_NOTES_TO_DISPLAY]
         notes = StickyNote.objects.order_by('-id')[:NUMBER_OF_NOTES_TO_DISPLAY]
         context = { "notes" : [ note.get_my_data() for note in notes ] }
-        print(context)
         return render(request , 'clipboards_screens.html' , context=context)
     
 

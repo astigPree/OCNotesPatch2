@@ -1,24 +1,4 @@
-const fontStylesIndex = {
-    '--primary-font': "1",
-    '--secondary-font': "2",
-    '--comic-san': "3",
-    '--arial-rounded': "4",
-    '--lucida-writing': "5",
-    '--bradley-hand': "6",
-    '--chalkboard-se': "7",
-    '--dakota': "8",
-    '--permanent-marker': "9",
-    '--indie-flower': "10"
-};
 
-const noteColor = {
-    "1" : "#f9f485",
-    "2" : "#F3BCCF",
-    "3" : "#A1FF6C",
-    "4" : "#DCCAFF",
-    "5" : "#87CDFF",
-    "6" : "#F37750",
-}
 
 function getCurrentDateFormatted() {
     const date = new Date();
