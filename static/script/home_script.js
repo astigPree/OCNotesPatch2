@@ -124,19 +124,19 @@ function displayNote(note , notesList){
             <div class="reactions">
                 <div class="react react-${note.note_id}" onclick="clickReact(this)" >
                     <p>😻</p>
-                    <i>${note.loves}</i>
+                    <i id="love-num-${note.note_id}" total="${note.loves}"></i>
                 </div>
                 <div class="react react-${note.note_id}" onclick="clickReact(this)" >
                     <p>😾</p>
-                    <i>${note.angries}</i>
+                    <i id="angry-num-${note.note_id}" total="${note.angries}"></i>
                 </div>
                 <div class="react react-${note.note_id}" onclick="clickReact(this)" >
                     <p>😿</p>
-                    <i>${note.cries}</i>
+                    <i id="cry-num-${note.note_id}" total="${note.cries}"></i>
                 </div>
                 <div class="react react-${note.note_id}" onclick="clickReact(this)" >
                     <p>🙀</p>
-                    <i>${note.wows}</i>
+                    <i id="wow-num-${note.note_id}" total="${note.wows}"></i>
                 </div>
             </div>
 

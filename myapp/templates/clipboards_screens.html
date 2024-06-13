@@ -147,8 +147,17 @@
                 const reply_text = document.getElementById(`replies-text-${note_id}`);
                 reply_text.style.color = noteColor[note_color];
 
-                const love_emoji = document.getElementById("love-num");
+                const love_emoji = document.getElementById(`love-num-${note_id}`);
                 love_emoji.innerHTML = abbreviateNumber(parseInt(love_emoji.getAttribute("total")));
+
+                const angry_emoji = document.getElementById(`angry-num-${note_id}`);
+                angry_emoji.innerHTML = abbreviateNumber(parseInt(angry_emoji.getAttribute("total")));
+
+                const cry_emoji = document.getElementById(`cry-num-${note_id}`);
+                cry_emoji.innerHTML = abbreviateNumber(parseInt(cry_emoji.getAttribute("total")));
+
+                const wows_emoji = document.getElementById(`wow-num-${note_id}`);
+                wows_emoji.innerHTML = abbreviateNumber(parseInt(wows_emoji.getAttribute("total")));
             }
 
             function clickReact(react){
@@ -189,19 +198,19 @@
                     <div class="reactions">
                         <div class="react react-{{note.note_id}}" onclick="clickReact(this)" >
                             <p>😻</p>
-                            <i id="love-num" total="{{note.loves}}">{{note.loves}}</i>
+                            <i id="love-num-{{note.note_id}}" total="{{note.loves}}"></i>
                         </div>
                         <div class="react react-{{note.note_id}}" onclick="clickReact(this)">
                             <p>😾</p>
-                            <i id="angry-num" total="{{note.angries}}">{{note.angries}}</i>
+                            <i id="angry-num-{{note.note_id}}" total="{{note.angries}}"></i>
                         </div>
                         <div class="react react-{{note.note_id}}" onclick="clickReact(this)">
                             <p>😿</p>
-                            <i id="cry-num" total="{{note.cries}}">{{note.cries}}</i>
+                            <i id="cry-num-{{note.note_id}}" total="{{note.cries}}"></i>
                         </div>
                         <div class="react react-{{note.note_id}}" onclick="clickReact(this)">
                             <p>🙀</p>
-                            <i id="wow-num" total="{{note.wows}}">{{note.wows}}</i>
+                            <i id="wow-num-{{note.note_id}}" total="{{note.wows}}"></i>
                         </div>
                     </div>
 
@@ -214,7 +223,6 @@
                         {{note.note_id}}, {{note.note_color}}, {{note.nickname_font}}, 
                         {{note.nickname_color}}, {{note.content_font}}, {{note.content_color}}
                     );
-
                 </script>
                 
             {% endfor %}
