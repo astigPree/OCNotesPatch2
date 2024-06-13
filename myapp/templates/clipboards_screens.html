@@ -110,7 +110,22 @@
                 '3' : 'blue'
             }
 
-            function onetimeChange(note_id, note_color, nickname_font, nickname_color, content_font, content_color){
+            function abbreviateNumber(number) {
+                if (number >= 1e8) {
+                    return (number / 1e9).toFixed(1) + 'B';
+                } else if (number >= 1e5) {
+                    return (number / 1e6).toFixed(1) + 'M';
+                } else if (number >= 1e3) {
+                    return (number / 1e3).toFixed(1) + 'k';
+                } else {
+                    return Math.floor(number).toString();
+                }
+            }
+
+            function onetimeChange(
+                note_id, note_color, nickname_font, nickname_color, content_font, content_color ,
+                love_num, angry_num, cry_num, wow_num
+            ){
                 const sticky_note = document.getElementById(`sticky-note-${note_id}`);
                 sticky_note.style.backgroundColor = noteColor[note_color];
 
@@ -131,6 +146,9 @@
 
                 const reply_text = document.getElementById(`replies-text-${note_id}`);
                 reply_text.style.color = noteColor[note_color];
+
+                const love_emoji = document.getElementById("love-num");
+                love_emoji.innerHTML = abbreviateNumber(parseInt(love_emoji.getAttribute("total")));
             }
 
             function clickReact(react){
@@ -138,7 +156,7 @@
                 react.onclick = null;
                 
                 const reactNum = react.querySelector('i');
-                reactNum.innerHTML = `${parseInt(reactNum.innerHTML, 10 ) + 1}`;
+                reactNum.innerHTML = abbreviateNumber(parseInt(reactNum.getAttribute("total"), 10 ) + 1);
             }
 
         </script>
@@ -171,19 +189,19 @@
                     <div class="reactions">
                         <div class="react react-{{note.note_id}}" onclick="clickReact(this)" >
                             <p>😻</p>
-                            <i>{{note.loves}}</i>
+                            <i id="love-num" total="{{note.loves}}">{{note.loves}}</i>
                         </div>
                         <div class="react react-{{note.note_id}}" onclick="clickReact(this)">
                             <p>😾</p>
-                            <i>{{note.angries}}</i>
+                            <i id="angry-num" total="{{note.angries}}">{{note.angries}}</i>
                         </div>
                         <div class="react react-{{note.note_id}}" onclick="clickReact(this)">
                             <p>😿</p>
-                            <i>{{note.cries}}</i>
+                            <i id="cry-num" total="{{note.cries}}">{{note.cries}}</i>
                         </div>
                         <div class="react react-{{note.note_id}}" onclick="clickReact(this)">
                             <p>🙀</p>
-                            <i>{{note.wows}}</i>
+                            <i id="wow-num" total="{{note.wows}}">{{note.wows}}</i>
                         </div>
                     </div>
 

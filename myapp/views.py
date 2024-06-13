@@ -38,13 +38,7 @@ def sticky_notes_view(request):
 
         isDatabaseHasData = len(sticky_notes) > NUMBER_OF_NOTES_TO_DISPLAY - 1
         notes_data = [
-            {
-                "nickname": note.nickname, "nickname_color": note.nickname_color, 
-                "nickname_font": note.nickname_font, "content": note.content, 
-                "content_color": note.content_color, "content_font": note.content_font,
-                "emoji": note.emoji , 'note_id': note.id
-            }
-            for note in sticky_notes
+            note.get_my_data() for note in sticky_notes
         ]
         
         return JsonResponse(

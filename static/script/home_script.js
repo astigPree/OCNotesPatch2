@@ -97,28 +97,59 @@ function configuringPageButton(isDatabaseHasData, direction ){
     } 
 }
 
+
 function displayNote(note , notesList){
     notesList.append(
-        `<div class="sticky-note" note_id="${ note.note_id }" >
+        `
+        <div>
+            <div class="sticky-note"id="sticky-note-${note.note_id}" note_id="${ note.note_id }">
 
-            <div class="note-header">
-                <p class="nickname" id="nickname-${note.note_id}" style="color: ${note.nickname_color};" >
-                    ${ note.nickname }
-                </p>
-                <p class="emoji">${ note.emoji }</p>
-                <span class="pin"></span>
+                <div class="note-header">
+                    <p class="nickname" id="nickname-${note.note_id}" >${ note.nickname }</p>
+                    <p class="emoji">${ note.emoji }</p>
+                    <span class="pin"></span>
+                </div>
+
+                <div class="sticky-note-content">
+                    <p id="content-${note.note_id}">${ note.content }</p>
+                </div>
+
+                <div class="clip">
+                    <p id="replies-text-${note.note_id}">REPLIES</p>
+                    <svg fill="#B76767" height="200px" width="200px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <path d="M487.458,271.701C501.632,267.546,512,254.43,512,238.933c0-18.825-15.309-34.133-34.133-34.133H316.083l-7.808-45.662 c20.198-10.906,33.058-28.075,33.058-47.787c0-33.724-37.478-60.151-85.333-60.151c-47.846,0-85.333,26.428-85.333,60.151 c0,19.712,12.868,36.881,33.067,47.787l-7.808,45.662H34.133C15.317,204.8,0,220.109,0,238.933 c0,15.497,10.377,28.612,24.55,32.768L2.722,431.744c-0.998,7.322,1.22,14.72,6.084,20.301c4.855,5.564,11.887,8.755,19.277,8.755 h91.383c4.719,0,8.533-3.814,8.533-8.533c0-18.825,15.317-34.133,34.133-34.133c18.825,0,34.133,15.309,34.133,34.133 c0,4.719,3.823,8.533,8.533,8.533h102.4c4.719,0,8.533-3.814,8.533-8.533c0-18.825,15.317-34.133,34.133-34.133 c18.825,0,34.133,15.309,34.133,34.133c0,4.719,3.823,8.533,8.533,8.533h91.383c7.398,0,14.43-3.191,19.285-8.764 c4.864-5.581,7.083-12.971,6.084-20.292L487.458,271.701z M213.24,204.8l6.639-38.827c10.931,3.516,23.117,5.53,36.122,5.53 c13.005,0,25.199-2.014,36.13-5.53l6.639,38.827H213.24z"></path> </g> </g> </g></svg>
+                </div>
+
             </div>
 
-            <div class="sticky-note-content" id="content-${note.note_id}">
-                <p style="color:${ note.content_color };">
-                    ${ note.content }
-                </p>
+            <div class="reactions">
+                <div class="react react-${note.note_id}" onclick="clickReact(this)" >
+                    <p>😻</p>
+                    <i>${note.loves}</i>
+                </div>
+                <div class="react react-${note.note_id}" onclick="clickReact(this)" >
+                    <p>😾</p>
+                    <i>${note.angries}</i>
+                </div>
+                <div class="react react-${note.note_id}" onclick="clickReact(this)" >
+                    <p>😿</p>
+                    <i>${note.cries}</i>
+                </div>
+                <div class="react react-${note.note_id}" onclick="clickReact(this)" >
+                    <p>🙀</p>
+                    <i>${note.wows}</i>
+                </div>
             </div>
+
         </div>
         `
+    )
+
+    onetimeChange(
+        note.note_id, note.note_color,note.nickname_font, 
+        note.nickname_color, note.content_font, note.content_color
     );
 
-    onetimeChangeOnTheMainScript(note.nickname_font , note.content_font, note.note_id);
+    console.log("happen");
     
 }
 
