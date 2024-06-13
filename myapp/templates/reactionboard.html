@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     
-    <link rel="stylesheet" href="{% static 'css\clipboard_screens_design.css' %}">
+    <link rel="stylesheet" href="{% static 'css\reactionboards_design.css' %}">
     <script defer scr="{% static 'script\sticky_notes_wall.js' %}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -63,26 +63,9 @@
                 <h1 class="app_name">OC Notes</h1>
                 <h4 class="current_day" id="currentDate"></h4>
             </div>
-            <div class="header-right">
-                <div class="number-page"><h1 id="page-number"> 1 </h1></div>
-                <p class="text-page">page</p>
-            </div>
         </div>
 
-        <div class="view-leaderboards">
-
-            <div class="emojies-leaderboard">
-                <p>😻</p>
-                <p>😾</p>
-                <p>😿</p>
-                <p>🙀</p>
-            </div>
-
-            <div class="leaderboard-text" onclick="changeTemplate('{% url 'reactionboards' %}')">
-                Most React
-            </div>
-        </div>
-
+        
         <script>
             const noteColor = {
                 "1" : "#f9f485",
@@ -144,9 +127,6 @@
                     react.style.backgroundColor = noteColor[note_color];
                 });
 
-                const note_time = document.getElementById(`note-date-${note_id}`);
-                note_time.style.backgroundColor = noteColor[note_color];
-
                 const reply_text = document.getElementById(`replies-text-${note_id}`);
                 reply_text.style.color = noteColor[note_color];
 
@@ -190,143 +170,101 @@
                     }
                 });
             }
-
+    
+            
         </script>
 
+        
+        <div class="reaction-boards-container">
 
-        {% comment %} Division for the main content  {% endcomment %}
-        <div class="sticky-notes-container">
+            <div class="reactions-board">
 
-            {% for note in notes %}
-                <div>
-                    <div class="sticky-note"id="sticky-note-{{note.note_id}}" note_id="{{ note.note_id }}">
-
-                        <div class="note-header">
-                            <p class="nickname" id="nickname-{{note.note_id}}" >{{ note.nickname }}</p>
-                            <p class="emoji">{{ note.emoji }}</p>
-                            <span class="pin"></span>
-                        </div>
-
-                        <div class="sticky-note-content">
-                            <p id="content-{{note.note_id}}">{{ note.content }}</p>
-                        </div>
-
-                        <div class="clip">
-                            <p id="replies-text-{{note.note_id}}">REPLIES</p>
-                            <svg fill="#B76767" height="200px" width="200px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <path d="M487.458,271.701C501.632,267.546,512,254.43,512,238.933c0-18.825-15.309-34.133-34.133-34.133H316.083l-7.808-45.662 c20.198-10.906,33.058-28.075,33.058-47.787c0-33.724-37.478-60.151-85.333-60.151c-47.846,0-85.333,26.428-85.333,60.151 c0,19.712,12.868,36.881,33.067,47.787l-7.808,45.662H34.133C15.317,204.8,0,220.109,0,238.933 c0,15.497,10.377,28.612,24.55,32.768L2.722,431.744c-0.998,7.322,1.22,14.72,6.084,20.301c4.855,5.564,11.887,8.755,19.277,8.755 h91.383c4.719,0,8.533-3.814,8.533-8.533c0-18.825,15.317-34.133,34.133-34.133c18.825,0,34.133,15.309,34.133,34.133 c0,4.719,3.823,8.533,8.533,8.533h102.4c4.719,0,8.533-3.814,8.533-8.533c0-18.825,15.317-34.133,34.133-34.133 c18.825,0,34.133,15.309,34.133,34.133c0,4.719,3.823,8.533,8.533,8.533h91.383c7.398,0,14.43-3.191,19.285-8.764 c4.864-5.581,7.083-12.971,6.084-20.292L487.458,271.701z M213.24,204.8l6.639-38.827c10.931,3.516,23.117,5.53,36.122,5.53 c13.005,0,25.199-2.014,36.13-5.53l6.639,38.827H213.24z"></path> </g> </g> </g></svg>
-                        </div>
-
+                <div class="reactions-board-label">
+                    <div class="most-text">
+                        <h1>M</h1>
+                        <h1>O</h1>
+                        <h1>S</h1>
+                        <h1>T</h1>
                     </div>
-
-                    <div class="reactions">
-                        <div class="react react-{{note.note_id}}" onclick="clickReact(this)" >
-                            <p>😻</p>
-                            <i id="love-num-{{note.note_id}}" note-id="{{note.note_id}}" react="1" total="{{note.loves}}"></i>
-                        </div>
-                        <div class="react react-{{note.note_id}}"  onclick="clickReact(this)">
-                            <p>😾</p>
-                            <i id="angry-num-{{note.note_id}}" note-id="{{note.note_id}}" react="2" total="{{note.angries}}"></i>
-                        </div>
-                        <div class="react react-{{note.note_id}}" onclick="clickReact(this)">
-                            <p>😿</p>
-                            <i id="cry-num-{{note.note_id}}" note-id="{{note.note_id}}" react="3" total="{{note.cries}}"></i>
-                        </div>
-                        <div class="react react-{{note.note_id}}" onclick="clickReact(this)">
-                            <p>🙀</p>
-                            <i id="wow-num-{{note.note_id}}" note-id="{{note.note_id}}" react="4" total="{{note.wows}}"></i>
-                        </div>
+                    <div class="reacts">
+                        <p>😻</p>
+                        <p>😾</p>
+                        <p>😿</p>
+                        <p>🙀</p>
                     </div>
-
-                    <div class="note-date" id="note-date-{{note.note_id}}">
-                        {{note.time}}
-                    </div>
-
+                    <div  class="label-hr"></div>
                 </div>
 
-            
+            </div>
 
-                <script>
-                    onetimeChange(
-                        {{note.note_id}}, {{note.note_color}}, {{note.nickname_font}}, 
-                        {{note.nickname_color}}, {{note.content_font}}, {{note.content_color}}
-                    );
-                </script>
-                
-            {% endfor %}
-                
+            <div class="sticky-notes-container">
 
+                {% for note in notes %}
+                    <div>
+                        <div class="sticky-note"id="sticky-note-{{note.note_id}}" note_id="{{ note.note_id }}">
+    
+                            <div class="note-header">
+                                <p class="nickname" id="nickname-{{note.note_id}}" >{{ note.nickname }}</p>
+                                <p class="emoji">{{ note.emoji }}</p>
+                                <span class="pin"></span>
+                            </div>
+    
+                            <div class="sticky-note-content">
+                                <p id="content-{{note.note_id}}">{{ note.content }}</p>
+                            </div>
+    
+                            <div class="clip">
+                                <p id="replies-text-{{note.note_id}}">REPLIES</p>
+                                <svg fill="#B76767" height="200px" width="200px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <path d="M487.458,271.701C501.632,267.546,512,254.43,512,238.933c0-18.825-15.309-34.133-34.133-34.133H316.083l-7.808-45.662 c20.198-10.906,33.058-28.075,33.058-47.787c0-33.724-37.478-60.151-85.333-60.151c-47.846,0-85.333,26.428-85.333,60.151 c0,19.712,12.868,36.881,33.067,47.787l-7.808,45.662H34.133C15.317,204.8,0,220.109,0,238.933 c0,15.497,10.377,28.612,24.55,32.768L2.722,431.744c-0.998,7.322,1.22,14.72,6.084,20.301c4.855,5.564,11.887,8.755,19.277,8.755 h91.383c4.719,0,8.533-3.814,8.533-8.533c0-18.825,15.317-34.133,34.133-34.133c18.825,0,34.133,15.309,34.133,34.133 c0,4.719,3.823,8.533,8.533,8.533h102.4c4.719,0,8.533-3.814,8.533-8.533c0-18.825,15.317-34.133,34.133-34.133 c18.825,0,34.133,15.309,34.133,34.133c0,4.719,3.823,8.533,8.533,8.533h91.383c7.398,0,14.43-3.191,19.285-8.764 c4.864-5.581,7.083-12.971,6.084-20.292L487.458,271.701z M213.24,204.8l6.639-38.827c10.931,3.516,23.117,5.53,36.122,5.53 c13.005,0,25.199-2.014,36.13-5.53l6.639,38.827H213.24z"></path> </g> </g> </g></svg>
+                            </div>
+    
+                        </div>
+    
+                        <div class="reactions">
+                            <div class="react react-{{note.note_id}}" onclick="clickReact(this)" >
+                                <p>😻</p>
+                                <i id="love-num-{{note.note_id}}" note-id="{{note.note_id}}" react="1" total="{{note.loves}}"></i>
+                            </div>
+                            <div class="react react-{{note.note_id}}"  onclick="clickReact(this)">
+                                <p>😾</p>
+                                <i id="angry-num-{{note.note_id}}" note-id="{{note.note_id}}" react="2" total="{{note.angries}}"></i>
+                            </div>
+                            <div class="react react-{{note.note_id}}" onclick="clickReact(this)">
+                                <p>😿</p>
+                                <i id="cry-num-{{note.note_id}}" note-id="{{note.note_id}}" react="3" total="{{note.cries}}"></i>
+                            </div>
+                            <div class="react react-{{note.note_id}}" onclick="clickReact(this)">
+                                <p>🙀</p>
+                                <i id="wow-num-{{note.note_id}}" note-id="{{note.note_id}}" react="4" total="{{note.wows}}"></i>
+                            </div>
+                        </div>
+    
+                    </div>
+    
+                
+    
+                    <script>
+                        onetimeChange(
+                            {{note.note_id}}, {{note.note_color}}, {{note.nickname_font}}, 
+                            {{note.nickname_color}}, {{note.content_font}}, {{note.content_color}}
+                        );
+                    </script>
+                    
+                {% endfor %}
+                    
+            </div>
+    
         </div>
-
-        <div class="paging-buttons">
-            <div class="page-button" onclick="fetchStickyNotes('down')" id="prev-page-button">
-                <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 24 24">
-                    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 11l3 2m0-8a1 1 0 1 0 0-2a1 1 0 0 0 0 2ZM9.5 9.5L9.525 6H15L8 17H4m11-9l-3 5l.5 1L17 7.5L15 6m-4 7l5 3.5v5"/>
-                </svg>
-                <p>go back</p>
-            </div>
-            <div class="page-button" onclick="changeTemplate('{% url 'home' %}')">
-                <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 72 72">
-                    <path fill="#ffffff" d="m52.501 10.564l-10.328 7.859v13.453h4.78v-9.231l5.583-4.311l5.597 4.311v9.231h4.781V18.435l-10.413-7.871z"/>
-                    <g fill="#ffffff">
-                        <path d="M25.267 39.441v2.214l4.16 5.124a6.622 6.622 0 0 1 .756 2.705l.406 9.151c.086 1.78-.824 2.72-1.736 2.72c-.97 0-1.72-.912-1.884-2.631l-1.053-8.66L19 44.172a3.216 3.216 0 0 1-1.113-2.366a5.417 5.417 0 0 1 .765-2.581l3.293-5.947c1.141-2.281 2.256-3.091 3.762-3.091a2.714 2.714 0 0 1 2.68 2.767Zm-9.152 6.549l-2.229 3.37l-6.331 3.07a1.42 1.42 0 0 0-.836 1.742a1.236 1.236 0 0 0 1.602.818l6.035-1.85a5.372 5.372 0 0 0 2.187-1.392l3.287-3.328Z"/>
-                        <circle cx="31.383" cy="26.116" r="3.266"/>
-                    </g>
-                    <g fill="none" stroke="#ffffff" stroke-linecap="round" stroke-width="2">
-                        <path stroke-miterlimit="10" d="M46.327 15.263v-4.175"/>
-                        <path stroke-linejoin="round" d="M42.173 31.546V18.423m20.741.012v13.111M40.193 19.839l12.308-9.275l12.393 9.275"/>
-                        <path stroke-linejoin="round" d="M46.954 31.216v-8.571l5.582-4.311l5.597 4.311v8.571m-22.899 8.356h-5.298l-4.647-5.332m-.246-3.996s-5.785 1.354-7.088 2.287c-1.664 1.192-5.674 7.162-5.674 7.162m3.834 6.297l-2.229 3.37l-6.331 3.07a1.42 1.42 0 0 0-.836 1.742a1.236 1.236 0 0 0 1.602.818l6.035-1.85a5.372 5.372 0 0 0 2.187-1.392l5.112-5.175"/>
-                        <path stroke-linejoin="round" d="M25.267 39.441v2.214l4.16 5.124a6.622 6.622 0 0 1 .756 2.705l.406 9.151c.086 1.78-.824 2.72-1.736 2.72c-.97 0-1.72-.912-1.884-2.631l-1.053-8.66L19 44.172a3.216 3.216 0 0 1-1.113-2.366a5.417 5.417 0 0 1 .765-2.581l3.293-5.947c1.141-2.281 2.256-3.091 3.762-3.091a2.714 2.714 0 0 1 2.68 2.767m-.27-6.838a3.266 3.266 0 1 1 3.266 3.266"/>
-                    </g>
-                </svg>
-                <p>go home</p>
-            </div>
-            <div class="page-button" onclick="fetchStickyNotes('up')" id="next-page-button">
-                <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 24 24">
-                    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 11l3 2m0-8a1 1 0 1 0 0-2a1 1 0 0 0 0 2ZM9.5 9.5L9.525 6H15L8 17H4m11-9l-3 5l.5 1L17 7.5L15 6m-4 7l5 3.5v5"/>
-                </svg>
-                <p>forward</p>
-            </div>
 
         </div>
         
-
-    </div>
 
     <script>
         
-        function fetchStickyNotes(direction ) {
-            var csrftoken = '{{ csrf_token }}';
-        
-            const startId = getStartId(direction);
-        
-            $.ajax({
-                type: 'POST',
-                url: '/stickynotes/',
-                headers: { 'X-CSRFToken': csrftoken },
-                data: {
-                    'direction': direction,
-                    'start_id': startId
-                },
-                success: function(response) {
-                    
-                    if (response.sticky_notes) {
-                        var notesList = $('.sticky-notes-container');
-                        configuringPageButton(response.isDatabaseHasData, direction);
-        
-                        if (response.sticky_notes.length > 0){
-                            notesList.empty(); // Clear current list
-                            response.sticky_notes.forEach( note => displayNote(note , notesList) );
-                            updatePageNumberAndMove(direction);
-                        }
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error fetching sticky notes:', error);
-                }
-            });
-        }
         document.addEventListener('DOMContentLoaded', function() {
-            homePrePageLoad();
+            // Get the current date and display it in the p tag
+            const currentDateElement = document.getElementById('currentDate');
+            currentDateElement.textContent = getCurrentDateFormatted();
         });
     
     </script>

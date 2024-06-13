@@ -40,7 +40,7 @@ class StickyNote(models.Model):
             'content_color' : self.content_color,
             'content_font' : self.content_font,
             'emoji' : self.emoji,
-            'time' : self.posted_date.time().strftime("%d / %I:%M %p").lower(),
+            'time' : self.posted_date.strftime("%b / %I:%M %p").lower(),
             'loves' : self.loves,
             'angries' : self.angries,
             'cries' : self.cries,
@@ -53,12 +53,12 @@ class StickyNote(models.Model):
         return data
     
     @classmethod
-    def next_page(cls, start_id : int, number_to_display : int) -> tp.List['StickyNote'] :
+    def next_page(cls, start_id : int, number_to_display : int) -> tp.Union[tp.List['StickyNote'], None] :
         sticky_notes = cls.objects.filter(id__lt=start_id).order_by('-id')[:number_to_display]
         return sticky_notes
-
+        
     @classmethod
-    def previous_page(cls, start_id : int, number_to_display : int) -> tp.List['StickyNote'] :
+    def previous_page(cls, start_id : int, number_to_display : int) -> tp.Union[ tp.List['StickyNote'], None] :
         sticky_notes = cls.objects.filter(id__gt=start_id).order_by('id')[:number_to_display:-1]
         return sticky_notes
     

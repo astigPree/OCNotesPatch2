@@ -18,9 +18,9 @@ def clipboard_list_page(request):
         # notes = StickyNote.objects.all().order_by('-id')[:NUMBER_OF_NOTES_TO_DISPLAY]
         notes = StickyNote.objects.order_by('-id')[:NUMBER_OF_NOTES_TO_DISPLAY]
         context = { "notes" : [ note.get_my_data() for note in notes ] }
+        print(context)
         return render(request , 'clipboards_screens.html' , context=context)
     
-
 def sticky_notes_view(request):
     if request.method == 'POST':
         direction = request.POST.get('direction')
@@ -35,6 +35,9 @@ def sticky_notes_view(request):
             
         else:
             return JsonResponse({'error': 'Invalid direction'}, status=400)
+        
+        if sticky_notes is None:
+            return JsonResponse({'error': 'Invalid ID'}, status=400)
 
         isDatabaseHasData = len(sticky_notes) > NUMBER_OF_NOTES_TO_DISPLAY - 1
         notes_data = [
@@ -51,7 +54,6 @@ def sticky_notes_view(request):
         # If it's not a POST request, you can return an empty response or handle it accordingly
         return JsonResponse({'error': 'Invalid request method'}, status=405)
     
-
 def reacted(request):
     if request.method == 'POST':
         note_id = request.POST.get('note_id')
@@ -66,6 +68,12 @@ def reacted(request):
     else:
         # If it's not a POST request, you can return an empty response or handle it accordingly
         return JsonResponse({'error': 'Invalid request method'}, status=405)
+
+def reactionboards(request):
+    notes = StickyNote.objects.order_by('-id')[:NUMBER_OF_NOTES_TO_DISPLAY]
+    context = { "notes" : [ note.get_my_data() for note in notes ] }
+    return render(request, 'reactionboard.html', context)
+
 
 @csrf_exempt
 def write_notes(request):

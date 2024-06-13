@@ -1,5 +1,4 @@
 
-
 function getCurrentDateFormatted() {
     const date = new Date();
     const monthNames = [
@@ -138,6 +137,10 @@ function displayNote(note , notesList){
                     <p>🙀</p>
                     <i id="wow-num-${note.note_id}" note-id="${note.note_id}" react="4" total="${note.wows}"></i>
                 </div>
+            </div>
+
+            <div class="note-date" id="note-date-${note.note_id}">
+                ${note.time}
             </div>
 
         </div>

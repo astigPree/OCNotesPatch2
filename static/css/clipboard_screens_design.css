@@ -352,6 +352,15 @@ body{
     }
 }
 
+@keyframes reactionBoardMove {
+    50%{
+        transform: rotate(0deg);
+    }
+    0%, 100%{
+        transform: rotate(-3deg);
+    }
+}
+
 .react{
     position: relative;
     text-align: center;
@@ -411,6 +420,20 @@ body{
     letter-spacing: 0.1svh;
 }
 
+.note-date{
+    position: relative;
+    text-align: center;
+    padding: 5px 3px ;
+    color: black;
+    font-family: var(--primary-font);
+    font-size: 1.5svh;
+    width: fit-content;
+    border-radius: 25% 25% 0% 0% / 25% 25% 25% 25%;
+    bottom: 332px;
+    transform: rotate(-5deg) translateX(10%);
+}
+
+
 .view-leaderboards{
     display: flex;
     flex-direction: column;
@@ -461,5 +484,9 @@ body{
     border-radius: 0% 0% 8% 8% / 25% 25% 25% 25%;
     cursor: pointer;
     transform: rotate(-2deg);
+    /* position: relative;
+    top: 3px; */
+    
+    animation: reactionBoardMove 1s ease-in-out 0s infinite;
 }
 
