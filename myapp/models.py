@@ -13,7 +13,7 @@ class StickyNote(models.Model):
     nickname_color = models.PositiveSmallIntegerField()
     nickname_font = models.PositiveSmallIntegerField()
     
-    content = models.CharField(max_length=230)
+    content = models.CharField(max_length=240)
     content_color = models.PositiveSmallIntegerField()
     content_font = models.PositiveSmallIntegerField()
     
@@ -25,6 +25,8 @@ class StickyNote(models.Model):
     angries = models.PositiveBigIntegerField(default=0)
     cries = models.PositiveBigIntegerField(default=0)
     wows = models.PositiveBigIntegerField(default=0)
+    
+    gender = models.CharField(max_length=1, default='')
     
     def __str__(self) -> str:
         return f"{self.posted_date.date()} - {self.nickname}"
@@ -45,6 +47,7 @@ class StickyNote(models.Model):
             'angries' : self.angries,
             'cries' : self.cries,
             'wows' : self.wows,
+            'gender' : self.gender,
             'replies' : [
                 reply.get_data() for reply in self.replies.all()
             ]

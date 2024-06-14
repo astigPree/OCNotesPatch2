@@ -278,7 +278,10 @@ body{
     top: 30px;
     border-radius: 0% 0% 75% 25% / 25% 25% 75% 25%;
     animation: wavesHR 1s ease-in-out 0s infinite;
+    margin-bottom: 15.0svh;
 }
+
+
 
 .sticky-notes-container{
     display: flex;
@@ -350,4 +353,94 @@ body{
     font-weight: 400;
     margin-top: 3.1svh;
     word-wrap: break-word;
+}
+
+.clip{
+    position: relative;
+    text-align: center;
+    display: flex;
+    width: fit-content;
+    flex-direction: column;
+    padding: 1.0svh;
+    border-radius: 1.0svh 0 0 0;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    left: 244px;
+    top: 57px;
+    transform: rotate(89deg);
+}
+
+.clip svg{
+    position: relative;
+    flex: 1;
+    width: 8.0svh;
+    height: 8.0svh;
+    filter: drop-shadow(0 0 1px rgba(1, 1, 1 ,0.7));
+    z-index: 10;
+}
+
+.clip p{
+    position: relative;
+    top: 45px;
+    z-index: 11;
+    font-size: 1.5svh;
+    font-weight: bold;
+    font-family: var(--secondary-font);
+    letter-spacing: 0.1svh;
+}
+
+.note-date{
+    position: relative;
+    text-align: center;
+    padding: 5px 3px ;
+    color: black;
+    font-family: var(--primary-font);
+    font-size: 1.5svh;
+    width: fit-content;
+    border-radius: 25% 25% 0% 0% / 25% 25% 25% 25%;
+    bottom: 332px;
+    transform: rotate(-5deg) translateX(10%);
+}
+
+.reactions{
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    column-gap: 2.0svh;
+    bottom: 7px;
+    transform: rotate(-5deg);
+    width: 230px;
+    margin-left: 20px;
+    justify-content: space-evenly;
+    z-index: 1;
+}
+
+@keyframes remove_react {
+    to{
+        transform : translateY(-56%);
+    }
+}
+
+.react{
+    position: relative;
+    text-align: center;
+    padding: 5px 3px ;
+    border-radius: 0% 0% 0% 25% / 25% 25% 25% 25%;
+    cursor: pointer;
+}
+
+.react-clicked{
+    animation: remove_react 0.6s ease-in-out 0s 1 forwards;
+
+}
+
+.react p{
+    font-size: 30px;
+}
+
+.react i{
+    font-size: 12px;
+    color: black;
+    font-family: var(--secondary-font);
 }

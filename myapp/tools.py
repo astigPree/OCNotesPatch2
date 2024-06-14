@@ -16,12 +16,13 @@ EMOJIS = (
     '🥵', '🤮', '😮', '😒', '😌'
 )
 NICKNAME_LENGTH = 13
-CONTENT_LENGTH = 230
+CONTENT_LENGTH = 500
 NICKNAME_CONTENT_COLORS = ( '1' , '2' , '3')
 NICKNAME_FONTS = ('1' , '2', '3' , '4' , '5' , '6', '7', '8', '9', '10')
 CONTENT_FONTS = ('3', '4' , '2' , '6' , '7' , '8' , '10')
 NOTE_COLORS = ('1' , '2', '3' , '4', '5' , '6')
 REACTIONS = { "1" : "loves", "2" : 'angries', "3" : 'cries', "4" : 'wows'}
+GENDER = {"1" : "MALE", "2" : "FEMALE", "3" : "NON-BINARY"}
 
 
 class MyHTMLParser(HTMLParser):
@@ -35,10 +36,12 @@ class MyHTMLParser(HTMLParser):
 def willMakeAHTMLObject(text: str) -> bool:
     parser = MyHTMLParser()
     parser.feed(text)
+    print("Has html object" , parser.contains_html)
     return parser.contains_html
 
 def isBadWords(sentence : str, word : str) -> bool:
     hasBadWord = sentence.lower().find(word)
+    print("has badwords" , hasBadWord)
     return True if hasBadWord > -1 else False
 
 def updateSentence(sentence, start , end) -> str:
@@ -116,10 +119,17 @@ def isDataIncorrect(request) -> tuple[bool, object] :
     note_color = request.POST.get('note_color')
     if (note_color not in NOTE_COLORS):
         return True, None
-
+    #Check if the gender exist
+    gender = request.POST.get('gender')
+    if (gender not in GENDER):
+        return True, None
     
     # IF all is False then it is correct
-    return False, ( nickname, nickname_color, nickname_font, content, content_color, content_font, emoji, note_color)
+    return False, ( 
+        nickname, nickname_color, nickname_font, 
+        content, content_color, content_font, 
+        emoji, note_color, gender
+    )
 
 def isReactionClickingCorrect(note_id : str , react : str):
     if not note_id.isnumeric():

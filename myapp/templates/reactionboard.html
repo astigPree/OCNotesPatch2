@@ -30,7 +30,7 @@
 <body>
 
     <div class="tool-bar">
-        <div class="tool">
+        <div class="tool" onclick="changeTemplate('{% url 'home' %}');">
             <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 50 50">
                 <g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                     <path stroke="#FFFFFF" d="M35.417 14.583v18.75a2.083 2.083 0 0 1-2.084 2.084h-25a2.083 2.083 0 0 1-2.083-2.084v-18.75A2.083 2.083 0 0 1 8.333 12.5h25"/>
@@ -127,6 +127,9 @@
                     react.style.backgroundColor = noteColor[note_color];
                 });
 
+                const note_time = document.getElementById(`note-date-${note_id}`);
+                note_time.style.backgroundColor = noteColor[note_color];
+
                 const reply_text = document.getElementById(`replies-text-${note_id}`);
                 reply_text.style.color = noteColor[note_color];
 
@@ -170,8 +173,7 @@
                     }
                 });
             }
-    
-            
+      
         </script>
 
         
@@ -196,7 +198,7 @@
                 </div>
 
             </div>
-
+            
             <div class="sticky-notes-container">
 
                 {% for note in notes %}
@@ -238,6 +240,10 @@
                                 <i id="wow-num-{{note.note_id}}" note-id="{{note.note_id}}" react="4" total="{{note.wows}}"></i>
                             </div>
                         </div>
+
+                        <div class="note-date" id="note-date-{{note.note_id}}">
+                            {{note.time}}
+                        </div>
     
                     </div>
     
@@ -253,6 +259,8 @@
                 {% endfor %}
                     
             </div>
+
+            
     
         </div>
 

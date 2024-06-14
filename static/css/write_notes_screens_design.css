@@ -167,6 +167,8 @@ body{
     margin-left: 1.5svh;
     width: 250px;
     font-family: var(--secondary-font);
+    max-width: 250px;
+    min-width: 250px;
 }
 
 .text-colors-textarea{
@@ -413,7 +415,6 @@ body{
     background-color: #f9f485; 
     box-shadow: 5px 5px 15px rgba(0,0,0,0.2);
     padding: 10px;
-    font-size: 1rem;
     line-height: 1.5;
     border-radius: 5px; 
     flex: 0 1 250px;
@@ -445,6 +446,15 @@ body{
     position: relative;
     top: -20px;
     right: -20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pin > * {
+    resize: both;
+    height: 80%;
+    width: 80%;
 }
 
 .emoji{
@@ -463,6 +473,7 @@ body{
     width: 250px;
     height: fit-content;
     word-wrap:break-word ;
+    font-size: 2.0svh;
 }
 
 .preview-buttons {
@@ -505,4 +516,16 @@ body{
 
 .preview-buttons div:nth-child(2){
     transform: rotate(5deg);
+}
+
+.gender-colors button:nth-child(1){
+    background-color: #87CDFF;
+}
+
+.gender-colors button:nth-child(2){
+    background-color: #f9f485;
+}
+
+.gender-colors button:nth-child(3){
+    background-color:  #F3BCCF;
 }
