@@ -501,6 +501,22 @@ body{
     letter-spacing: 0.2svh;
 }
 
+
+@keyframes loadNote {
+    0%{
+        opacity: 0;
+        transform: translateY(5%);
+
+    }
+    80%{
+        transform: translateY(0%);
+    }
+    100%{
+        opacity: 1;
+
+    }
+}
+
 .replies-container{
     margin-top: 2.0svh;
     display: flex;
@@ -526,7 +542,7 @@ body{
     margin-left: 1.5svh;
     margin-right: 1.5svh;
     transform: rotate(-2deg);
-    
+    animation: loadNote 0.6s ease-in 0s 1 forwards;
 }
 
 .reply-content{

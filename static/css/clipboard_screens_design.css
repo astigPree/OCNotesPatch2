@@ -151,7 +151,20 @@ body{
     font-size: 3.5svh;
 }
 
+@keyframes loadNote {
+    0%{
+        opacity: 0;
+        transform: translateY(5%);
 
+    }
+    80%{
+        transform: translateY(0%);
+    }
+    100%{
+        opacity: 1;
+
+    }
+}
 
 .sticky-notes-container{
     display: flex;
@@ -159,11 +172,14 @@ body{
     flex-wrap: wrap;
     justify-content: center;
     /* background-color: rebeccapurple; */
-    row-gap: 10.0svh;
+    row-gap: 0.5svh;
     column-gap: 10.0svh;
     padding-bottom: 5.0svh;
 }
 
+.sticky-notes-container > *{
+    animation: loadNote 0.6s ease-in 0s 1 forwards;
+}
 
 .sticky-note {
     position: relative;
