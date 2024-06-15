@@ -57,6 +57,177 @@
 
     </div>
 
+    <script>
+        const noteColor = {
+            "1" : "#f9f485",
+            "2" : "#F3BCCF",
+            "3" : "#A1FF6C",
+            "4" : "#DCCAFF",
+            "5" : "#87CDFF",
+            "6" : "#F37750",
+        }
+        const FontNames = {
+            "1" :'--primary-font',
+            "2" : '--secondary-font',
+            "3" : '--comic-san',
+            "4" : '--arial-rounded',
+            "5" : '--lucida-writing',
+            "6" : '--bradley-hand',
+            "7" : '--chalkboard-se',
+            "8" : '--dakota',
+            "9" : '--permanent-marker',
+            "10" : '--indie-flower'
+        }
+        const textColor = {
+            '1' : "black",
+            '2' : 'red',
+            '3' : 'blue'
+        }
+        
+        function clearAll(){
+            document.getElementById('nickname').value = "";
+            document.getElementById('content').value = "";
+
+        }
+
+        function validateInput(input) {
+            const regex = /^[ -~]*$/; // Regular expression to match ASCII characters
+            if (!regex.test(input.value)) {
+                // If input contains non-ASCII characters, remove them
+                input.value = input.value.replace(/[^\x20-\x7E]/g, '');
+            }
+        }
+        
+        function updateNickname(){
+            var form_nickname = document.getElementById('nickname');
+            validateInput(form_nickname);
+        
+            const sticky_note = document.getElementById("headbar-location");
+            sticky_note.setAttribute('nickname', form_nickname.value);
+        }
+
+        function updateContent(){
+            var form_content = document.getElementById('content');
+            validateInput(form_content);
+        
+            const sticky_note = document.getElementById("headbar-location");
+            sticky_note.setAttribute('content', form_content.value);
+        }
+
+        function genderIcon(gender, iconColor){
+            if (gender == "1"){
+                return `<svg id="gender-icon" fill="${iconColor}" viewBox="-25.6 -25.6 307.20 307.20" id="Flat" xmlns="http://www.w3.org/2000/svg" stroke="#791717" transform="rotate(0)"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="1.536"></g><g id="SVGRepo_iconCarrier"> <path d="M227.9978,39.95557q-.00219-.56984-.05749-1.13819c-.018-.18408-.05237-.36279-.07849-.54443-.02979-.20557-.05371-.41211-.09424-.61621-.04029-.20362-.09607-.40088-.14649-.60059-.04541-.18017-.08484-.36084-.13867-.53906-.05884-.19434-.13159-.38135-.19971-.57129-.06445-.17969-.12353-.36084-.19677-.5376-.07349-.17724-.15967-.34668-.24109-.51953-.08582-.18213-.16687-.36621-.26257-.54492-.088-.16455-.18824-.32031-.2837-.48047-.10534-.17627-.2052-.355-.32031-.52685-.11572-.17334-.24475-.33545-.369-.502-.11-.14746-.21252-.29834-.3302-.4414-.23462-.28614-.4834-.55957-.74316-.82227-.01782-.01807-.03247-.03809-.05054-.05615-.01953-.01953-.041-.03565-.06067-.05469-.26123-.25781-.53271-.50537-.81653-.73828-.14794-.12158-.30383-.22754-.45605-.34082-.16138-.12061-.31885-.24561-.48645-.35791-.17725-.11865-.36108-.22168-.54309-.33008-.15442-.0918-.30518-.189-.46411-.27392-.18311-.09815-.37134-.18116-.55811-.269-.16846-.07959-.334-.16357-.50659-.23486-.18042-.0752-.36475-.13525-.54785-.20068-.18652-.0669-.37073-.13868-.56152-.19629-.18189-.05518-.3667-.09571-.55066-.14161-.19568-.04931-.389-.10449-.58851-.144-.20935-.041-.42077-.06592-.63171-.09619-.17688-.02539-.351-.05908-.53027-.07666q-.56837-.05567-1.13953-.05762c-.01465,0-.02893-.002-.0437-.002H168a12,12,0,0,0,0,24h19.02905l-32.7334,32.7334a83.9988,83.9988,0,1,0,16.971,16.97021L204,68.9707V88a12,12,0,0,0,24,0V40C228,39.98486,227.9978,39.97021,227.9978,39.95557ZM146.42627,194.42676a59.97169,59.97169,0,1,1,0-84.85352A60.06666,60.06666,0,0,1,146.42627,194.42676Z"></path> </g></svg>`
+            }
+            if (gender == "2"){
+                return `<svg id="gender-icon" fill="${iconColor}" viewBox="0 0 256 256" id="Flat" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M212,96a84,84,0,1,0-96,83.12891V196H88a12,12,0,0,0,0,24h28v20a12,12,0,0,0,24,0V220h28a12,12,0,0,0,0-24H140V179.12891A84.119,84.119,0,0,0,212,96ZM68,96a60,60,0,1,1,60,60A60.06812,60.06812,0,0,1,68,96Z"></path> </g></svg>`
+            }
+            return `<svg id="gender-icon" fill="${iconColor}" viewBox="0 0 256 256" id="Flat" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M219.9978,23.95557q-.00219-.56984-.05749-1.13819c-.018-.18408-.05237-.36279-.07849-.54443-.02979-.20557-.05371-.41211-.09424-.61621-.04029-.20362-.09607-.40088-.14649-.60059-.04541-.18017-.08484-.36084-.13867-.53906-.05884-.19434-.13159-.38135-.19971-.57129-.06445-.17969-.12353-.36084-.19677-.5376-.07349-.17724-.15967-.34668-.24109-.51953-.08582-.18213-.16687-.36621-.26257-.54492-.088-.16455-.18824-.32031-.2837-.48047-.10534-.17627-.2052-.355-.32031-.52685-.11572-.17334-.24475-.33545-.369-.502-.11-.14746-.21252-.29834-.3302-.4414-.23462-.28614-.4834-.55957-.74316-.82227-.01782-.01807-.03247-.03809-.05054-.05615-.01831-.01856-.03857-.0332-.05688-.05127q-.39441-.38966-.82227-.74317c-.13965-.11474-.28686-.21435-.43042-.32177-.16992-.127-.33606-.25879-.51269-.377-.16883-.11328-.34424-.21093-.51734-.31445-.16333-.09765-.32324-.20019-.49145-.29-.1731-.09277-.3512-.1709-.52759-.25439-.17871-.08448-.35462-.17383-.538-.24951-.16932-.07032-.34229-.12647-.514-.18848-.19751-.07129-.39307-.14649-.59534-.208-.16882-.05078-.34045-.08789-.51086-.13135-.20874-.05322-.41529-.11132-.62818-.15332-.19055-.03759-.383-.05957-.57507-.08789-.19544-.02881-.38831-.06494-.58679-.08447-.33252-.03271-.666-.04541-.99988-.05078C208.11853,12.0083,208.0603,12,208,12H172a12,12,0,0,0,0,24h7.0293l-15.051,15.05127A71.97526,71.97526,0,1,0,108,178.981V192H88a12,12,0,0,0,0,24h20v16a12,12,0,0,0,24,0V216h20a12,12,0,0,0,0-24H132V178.981A71.928,71.928,0,0,0,180.27783,68.69287L196,52.9707V60a12,12,0,0,0,24,0V24C220,23.98486,219.9978,23.97021,219.9978,23.95557ZM120,156a48,48,0,1,1,48-48A48.05468,48.05468,0,0,1,120,156Z"></path> </g></svg>`
+        }
+
+        function abbreviateNumber(number) {
+            if (number >= 1e8) {
+                return (number / 1e9).toFixed(1) + 'B';
+            } else if (number >= 1e5) {
+                return (number / 1e6).toFixed(1) + 'M';
+            } else if (number >= 1e3) {
+                return (number / 1e3).toFixed(1) + 'k';
+            } else {
+                return Math.floor(number).toString();
+            }
+        }
+
+        function onetimeChange(
+            note_id, note_color, nickname_font, nickname_color, content_font, content_color , gender
+        ){
+            const sticky_note = document.getElementById(`sticky-note-${note_id}`);
+            sticky_note.style.backgroundColor = noteColor[note_color];
+
+            // Nickname Font
+            const selected_font = getComputedStyle(document.documentElement).getPropertyValue(FontNames[nickname_font]);
+            const sticky_nickname = document.getElementById(`nickname-${note_id}`);
+            sticky_nickname.style.fontFamily = selected_font;
+            sticky_nickname.style.color = textColor[nickname_color];
+            
+            const reply_nickname = document.getElementsByClassName('reply-content')
+            Array.from(reply_nickname).forEach(rep_nick =>{
+                let rep = rep_nick.getElementsByTagName('p')[0];
+                rep.style.fontFamily = selected_font;
+                rep.style.color = textColor[nickname_color];
+            })
+
+            // Content Font
+            const selected_content_font = getComputedStyle(document.documentElement).getPropertyValue(FontNames[content_font]);
+            const sticky_content = document.getElementById(`content-${note_id}`);
+            sticky_content.style.fontFamily = selected_content_font;
+            sticky_content.style.color = textColor[content_color];
+
+            const reply_content = document.getElementsByClassName('reply-content')
+            Array.from(reply_content).forEach(rep_con =>{
+                let rep = rep_con.getElementsByTagName('p')[1];
+                rep.style.fontFamily = selected_content_font;
+                rep.style.color = textColor[content_color];
+            })
+
+            // React
+            const reacts = document.getElementsByClassName(`react-${note_id}`);
+            Array.from(reacts).forEach( react => {
+                react.style.backgroundColor = noteColor[note_color];
+            });
+
+            
+
+            const reply_text = document.getElementById(`replies-text-${note_id}`);
+            reply_text.style.color = noteColor[note_color];
+            reply_text.innerHTML = `${abbreviateNumber({{ note.replies|length }})} <br> REPLIES`
+
+            const love_emoji = document.getElementById(`love-num-${note_id}`);
+            love_emoji.innerHTML = abbreviateNumber(parseInt(love_emoji.getAttribute("total")));
+
+            const angry_emoji = document.getElementById(`angry-num-${note_id}`);
+            angry_emoji.innerHTML = abbreviateNumber(parseInt(angry_emoji.getAttribute("total")));
+
+            const cry_emoji = document.getElementById(`cry-num-${note_id}`);
+            cry_emoji.innerHTML = abbreviateNumber(parseInt(cry_emoji.getAttribute("total")));
+
+            const wows_emoji = document.getElementById(`wow-num-${note_id}`);
+            wows_emoji.innerHTML = abbreviateNumber(parseInt(wows_emoji.getAttribute("total")));
+
+            const pin = document.getElementById(`pin-${note_id}`);
+            pin.innerHTML = genderIcon(gender, noteColor[note_color]);
+
+        }
+
+        function clickReact(react){
+            react.classList.add('react-clicked');
+            react.onclick = null;
+            
+            const reactNum = react.querySelector('i');
+            reactNum.innerHTML = abbreviateNumber(parseInt(reactNum.getAttribute("total"), 10 ) + 1);
+            const note_id = reactNum.getAttribute("note-id");
+            const react_selected = reactNum.getAttribute("react");
+            
+            var csrftoken = '{{ csrf_token }}';
+        
+            $.ajax({
+                type: 'POST',
+                url: '/reacted/',
+                headers: { 'X-CSRFToken': csrftoken },
+                data: {
+                    'note_id': note_id,
+                    'react': react_selected
+                },
+                success: function(response) {
+                    
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching sticky notes:', error);
+                }
+            });
+        }
+
+    </script>
+
+
     <div class="container" id="headbar-location">
         <div class="header-bar" >
             <div class="header-left">        
@@ -66,104 +237,144 @@
         </div>
 
 
-        <div class="note-whiteboard-container">
+        <div class="note-whiteboard-placeholder">
 
-            <div class="note-container">
-                <h2>Note</h2>
-
-                <div class="sticky-note" id="stickynote" note_color="1" 
-                        nickname_color="1" nickname_font="1" content_color="1" 
-                        content_font="2" emoji="🥰" nickname="" content=""
-                        >
-
-                    <div class="note-header">
-                        <p class="nickname">Makietech</p>
-                        <p class="emoji">🥰</p>
-                        <span class="pin"></span>
+            <div class="note-whiteboard-container">
+    
+                <div class="note-container">
+                    <h2>Note</h2>
+    
+                    <div class="sticky-note" id="sticky-note-{{note.note_id}}">
+    
+                        <div class="note-header">
+                            <p class="nickname" id="nickname-{{note.note_id}}">{{ note.nickname }}</p>
+                            <p class="emoji">{{ note.emoji }}</p>
+                            <span class="pin" id="pin-{{note.note_id}}"></span>
+                        </div>
+    
+                        <div class="sticky-note-content content">
+                            <p id="content-{{note.note_id}}">{{ note.content }}</p>
+                        </div>
+        
                     </div>
-
-                    <div class="sticky-note-content">
-                        <p >
-                            Sana magustuhan nyu ang ginawa namin at ilabas nyu ang tunay nyu nararamdaman na hindi kayo makikilala at makapagbibigay ng gaan sa inyung nararamdaman.
+    
+                    <div class="reactions">
+                        <div class="react react-{{note.note_id}}" >
+                            <p>😻</p>
+                            <i id="love-num-{{note.note_id}}" note-id="{{note.note_id}}" react="1" total="{{note.loves}}"></i>
+                        </div>
+                        <div class="react react-{{note.note_id}}">
+                            <p>😾</p>
+                            <i id="angry-num-{{note.note_id}}" note-id="{{note.note_id}}" react="2" total="{{note.angries}}"></i>
+                        </div>
+                        <div class="react react-{{note.note_id}}">
+                            <p>😿</p>
+                            <i id="cry-num-{{note.note_id}}" note-id="{{note.note_id}}" react="3" total="{{note.cries}}"></i>
+                        </div>
+                        <div class="react react-{{note.note_id}}">
+                            <p>🙀</p>
+                            <i id="wow-num-{{note.note_id}}" note-id="{{note.note_id}}" react="4" total="{{note.wows}}"></i>
+                        </div>
+                    </div>
+    
+                    <div class="clip">
+                        <p id="replies-text-{{note.note_id}}" onclick="changeTemplate('{% url 'whiteboard' note.note_id %}');">
+                            60
+                            <br>
+                            REPLIES
                         </p>
+                        <svg fill="#B76767" height="200px" width="200px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <path d="M487.458,271.701C501.632,267.546,512,254.43,512,238.933c0-18.825-15.309-34.133-34.133-34.133H316.083l-7.808-45.662 c20.198-10.906,33.058-28.075,33.058-47.787c0-33.724-37.478-60.151-85.333-60.151c-47.846,0-85.333,26.428-85.333,60.151 c0,19.712,12.868,36.881,33.067,47.787l-7.808,45.662H34.133C15.317,204.8,0,220.109,0,238.933 c0,15.497,10.377,28.612,24.55,32.768L2.722,431.744c-0.998,7.322,1.22,14.72,6.084,20.301c4.855,5.564,11.887,8.755,19.277,8.755 h91.383c4.719,0,8.533-3.814,8.533-8.533c0-18.825,15.317-34.133,34.133-34.133c18.825,0,34.133,15.309,34.133,34.133 c0,4.719,3.823,8.533,8.533,8.533h102.4c4.719,0,8.533-3.814,8.533-8.533c0-18.825,15.317-34.133,34.133-34.133 c18.825,0,34.133,15.309,34.133,34.133c0,4.719,3.823,8.533,8.533,8.533h91.383c7.398,0,14.43-3.191,19.285-8.764 c4.864-5.581,7.083-12.971,6.084-20.292L487.458,271.701z M213.24,204.8l6.639-38.827c10.931,3.516,23.117,5.53,36.122,5.53 c13.005,0,25.199-2.014,36.13-5.53l6.639,38.827H213.24z"></path> </g> </g> </g></svg>
+                    </div>
+                    
+                    <h2 class="label-reply">Relpy</h2>
+                    
+                    <div class="name-input">
+                        <label for="nickname">Nickname :</label>
+                        <input type="text" id="nickname" oninput="updateNickname()" maxlength="13" placeholder="13 letters only" required/>
+                    </div>
+                    <div class="content-input">
+                        <label for="content">Content :</label>
+                        <textarea id="content" rows="4" cols="50" oninput="updateContent()" maxlength="347" placeholder="347 letters only can be put inside"></textarea>
+                    </div>
+    
+                    <div class="preview-buttons">
+                        <div onclick="pasteReply()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 32 32">
+                                <path fill="currentColor" d="M15 3c-1.258 0-2.152.89-2.594 2H5v23h8v2h14V14h-2V5h-7.406C17.152 3.89 16.258 3 15 3zm0 2c.555 0 1 .445 1 1v1h3v2h-8V7h3V6c0-.555.445-1 1-1zM7 7h2v4h12V7h2v7H13v12H7zm8 9h10v12H15z"/>
+                            </svg>
+                            <p>Paste It!</p>
+                        </div>
+                        <div onclick="clearAll()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 48 48">
+                                <g fill="none" stroke="currentColor">
+                                    <path stroke-linejoin="round" stroke-width="4.302" d="M44.782 24.17L31.918 7.1L14.135 20.5L27.5 37l3.356-2.336L44.782 24.17Z"/>
+                                    <path stroke-linejoin="round" stroke-width="4.302" d="m27.5 37l-3.839 3.075l-10.563-.001l-2.6-3.45l-6.433-8.536L14.5 20.225"/>
+                                    <path stroke-linecap="round" stroke-width="4.5" d="M13.206 40.072h31.36"/>
+                                </g>
+                            </svg>
+                            <p>Rewrite!</p>
+                        </div>
                     </div>
     
                 </div>
+    
+                <div class="whiteboard-container">
 
-                <div class="reactions">
-                    <div class="react react-{{note.note_id}}" >
-                        <p>😻</p>
-                        <i id="love-num-{{note.note_id}}" note-id="{{note.note_id}}" react="1" total="{{note.loves}}">100</i>
-                    </div>
-                    <div class="react react-{{note.note_id}}">
-                        <p>😾</p>
-                        <i id="angry-num-{{note.note_id}}" note-id="{{note.note_id}}" react="2" total="{{note.angries}}">100</i>
-                    </div>
-                    <div class="react react-{{note.note_id}}">
-                        <p>😿</p>
-                        <i id="cry-num-{{note.note_id}}" note-id="{{note.note_id}}" react="3" total="{{note.cries}}">100</i>
-                    </div>
-                    <div class="react react-{{note.note_id}}">
-                        <p>🙀</p>
-                        <i id="wow-num-{{note.note_id}}" note-id="{{note.note_id}}" react="4" total="{{note.wows}}">100</i>
-                    </div>
-                </div>
+                    <div class="whiteboard">
+                        <h2>Reply Board</h2>
+    
+                        <div class="replies-container">
 
-                <div class="clip">
-                    <p id="replies-text-{{note.note_id}}" onclick="changeTemplate('{% url 'whiteboard' note.note_id %}');">60 <br> REPLIES</p>
-                    <svg fill="#B76767" height="200px" width="200px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <path d="M487.458,271.701C501.632,267.546,512,254.43,512,238.933c0-18.825-15.309-34.133-34.133-34.133H316.083l-7.808-45.662 c20.198-10.906,33.058-28.075,33.058-47.787c0-33.724-37.478-60.151-85.333-60.151c-47.846,0-85.333,26.428-85.333,60.151 c0,19.712,12.868,36.881,33.067,47.787l-7.808,45.662H34.133C15.317,204.8,0,220.109,0,238.933 c0,15.497,10.377,28.612,24.55,32.768L2.722,431.744c-0.998,7.322,1.22,14.72,6.084,20.301c4.855,5.564,11.887,8.755,19.277,8.755 h91.383c4.719,0,8.533-3.814,8.533-8.533c0-18.825,15.317-34.133,34.133-34.133c18.825,0,34.133,15.309,34.133,34.133 c0,4.719,3.823,8.533,8.533,8.533h102.4c4.719,0,8.533-3.814,8.533-8.533c0-18.825,15.317-34.133,34.133-34.133 c18.825,0,34.133,15.309,34.133,34.133c0,4.719,3.823,8.533,8.533,8.533h91.383c7.398,0,14.43-3.191,19.285-8.764 c4.864-5.581,7.083-12.971,6.084-20.292L487.458,271.701z M213.24,204.8l6.639-38.827c10.931,3.516,23.117,5.53,36.122,5.53 c13.005,0,25.199-2.014,36.13-5.53l6.639,38.827H213.24z"></path> </g> </g> </g></svg>
-                </div>
+                            {% comment %} <div class="reply">
+                                <div class="tape">
+                                    <i>04:50pm</i>
+                                </div>
 
-                
-                <h2 class="label-reply">Relpy</h2>
-                
-                <div class="name-input">
-                    <label for="nickname">Nickname :</label>
-                    <input type="text" id="nickname" oninput="updateNickname()" maxlength="13" placeholder="13 letters only" required/>
-                </div>
-                <div class="content-input">
-                    <label for="content">Content :</label>
-                    <textarea id="content" rows="4" cols="50" oninput="updateContent()" maxlength="240" placeholder="240 letters only can be put inside"></textarea>
-                </div>
+                                <div class="reply-content">
+                                    
+                                    <p>Makietech</p>
+                                    <p>
+                                        gkj sdklgd sjlkg sj'g kg sdj jkgl sdgj kjdk sldgkgjs dksjldg sklg skldg sdlkg sdjgdslgjk gkj sdklgd sjlkg sj'g kg sdj jkgl sdgj kjdk sldgkgjs dksjldg sklg skldg sdlkg sdjgdslgjk gkj sdklgd sjlkg sj'g kg sdj jkgl sdgj  kjdk sldgkgjs dksjldg sklg skldg sdlkg sdjgdslgjk gkj sdklgd sjlkg sj'g kg sdj jkgl sdgj 
+                                    </p>
+                                </div>
 
-                <div class="preview-buttons">
-                    <div onclick="saveUserNotes()">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 32 32">
-                            <path fill="currentColor" d="M15 3c-1.258 0-2.152.89-2.594 2H5v23h8v2h14V14h-2V5h-7.406C17.152 3.89 16.258 3 15 3zm0 2c.555 0 1 .445 1 1v1h3v2h-8V7h3V6c0-.555.445-1 1-1zM7 7h2v4h12V7h2v7H13v12H7zm8 9h10v12H15z"/>
-                        </svg>
-                        <p>Paste It!</p>
-                    </div>
-                    <div onclick="clearAll()">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 48 48">
-                            <g fill="none" stroke="currentColor">
-                                <path stroke-linejoin="round" stroke-width="4.302" d="M44.782 24.17L31.918 7.1L14.135 20.5L27.5 37l3.356-2.336L44.782 24.17Z"/>
-                                <path stroke-linejoin="round" stroke-width="4.302" d="m27.5 37l-3.839 3.075l-10.563-.001l-2.6-3.45l-6.433-8.536L14.5 20.225"/>
-                                <path stroke-linecap="round" stroke-width="4.5" d="M13.206 40.072h31.36"/>
-                            </g>
-                        </svg>
-                        <p>Rewrite!</p>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="whiteboard-container">
-                <div class="whiteboard">
-                    <h2>White Board</h2>
-
-                    <div class="replies-container">
-
-                        
-                        {% for reply in note.replies %}
-                            <div class="reply">
                                 
-                            </div>
-                        {% endfor %}
+                            </div>  {% endcomment %}
+
                             
+                            {% for reply in note.replies %}
+                                
+                                <div class="reply">
+                                    <div class="tape">
+                                        <i>{{ reply.2 }}</i>
+                                    </div>
 
+                                    <div class="reply-content">
+                                        
+                                        <p>{{ reply.0 }}</p>
+                                        <p> {{ reply.1 }}</p>
+                                    </div>
+
+                                    
+                                </div>
+                            {% endfor %}
+                                
+                                
+    
+                        </div>
+    
                     </div>
-
                 </div>
+
+
+                <script>
+                    onetimeChange(
+                        {{note.note_id}}, {{note.note_color}}, {{note.nickname_font}}, 
+                        {{note.nickname_color}}, {{note.content_font}}, {{note.content_color}},
+                        {{note.gender}}
+                    );
+                </script>                
+   
             </div>
 
         </div>
@@ -172,31 +383,42 @@
     </div>
 
     <script>
+
+        function isFillUp(nickname , content){
+            // Get the form value
+            
+            if (!nickname || !content){
+                return false;
+            }
+            return true;
+        }
         
-        function fetchStickyNotes(direction ) {
+        function pasteReply() {
             var csrftoken = '{{ csrf_token }}';
         
-            const startId = getStartId(direction);
+            const data = document.getElementById("headbar-location");
+            const nickname = data.getAttribute('nickname');
+            const content = data.getAttribute('content');
+
+            if (!isFillUp(nickname, content)){
+                alert("Pakilagyan ang buong form");
+                return;
+            }
         
             $.ajax({
                 type: 'POST',
-                url: '/stickynotes/',
+                url: '/reply/',
                 headers: { 'X-CSRFToken': csrftoken },
                 data: {
-                    'direction': direction,
-                    'start_id': startId
+                    'note_id' : {{note.note_id}},
+                    'nickname': nickname,
+                    'content': content
                 },
                 success: function(response) {
-                    
-                    if (response.sticky_notes) {
-                        var notesList = $('.sticky-notes-container');
-                        configuringPageButton(response.isDatabaseHasData, direction);
-        
-                        if (response.sticky_notes.length > 0){
-                            notesList.empty(); // Clear current list
-                            response.sticky_notes.forEach( note => displayNote(note , notesList) );
-                            updatePageNumberAndMove(direction);
-                        }
+                    if (response["hasError"]){
+                        alert(response['msg']);
+                    } else {
+                        changeTemplate('{% url 'whiteboard' note.note_id %}');
                     }
                 },
                 error: function(xhr, status, error) {

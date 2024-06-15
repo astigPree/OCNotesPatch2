@@ -19,3 +19,4 @@ function homePrePageLoad() {
 function changeTemplate(url) {
     window.location.href = url;
 }
+

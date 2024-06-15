@@ -5,9 +5,9 @@ import re
 
 NUMBER_OF_NOTES_TO_DISPLAY = 3
 BAD_WORDS = (
-    'puta', 'pota', 'tangina', 'gago' , 'bobo' , 'bubo' , 'bubu' , 'bobu' , 'gaga', 'patay', 'matay', 'natay', 'amp', 'nigga', 'yawa',
-    'pisot' , 'bayag', 'buto', 'totoy', 'boto', 'letche', 'itot', 'lolo' , 'salsal', 'jabol', 'pusli', 'shabu', 'whana', 'bilat', 'belat',
-    'puke', 'sex' , 'porn', 'dudu', 'dede', 'putay', 'kupal', 'kopal', 'bolbol', 'kantu', 'kasta', 'torjack', 'pisti', 'peste' , 'piste', 'pesti',
+    'puta', 'pota', 'tangina', 'gago' , 'bobo' , 'bubo' , 'bubu' , 'bobu', 'patay', 'matay', 'natay', 'amp', 'nigga', 'yawa',
+    'pisot' , 'bayag', 'buto', 'totoy', 'boto', 'letche', 'itot' , 'salsal', 'jabol', 'pusli', 'shabu', 'whana', 'bilat', 'belat',
+    'puke', 'sex' , 'porn', 'dede', 'putay', 'kupal', 'kopal', 'bolbol', 'kantu', 'kasta', 'torjack', 'pisti', 'peste' , 'piste', 'pesti',
     'kant', 'yatis', 'ngina','shuta','nigger','negro','pampam','whore','slut','gagi','shole','hoe','shit','fuck','bitch','cock','pussy',
     'cunt','shat','shite','jaku','kanor','jako',
 )
@@ -16,7 +16,8 @@ EMOJIS = (
     '🥵', '🤮', '😮', '😒', '😌'
 )
 NICKNAME_LENGTH = 13
-CONTENT_LENGTH = 500
+CONTENT_LENGTH = 240
+REPLY_CONTENT_LENGTH = 347
 NICKNAME_CONTENT_COLORS = ( '1' , '2' , '3')
 NICKNAME_FONTS = ('1' , '2', '3' , '4' , '5' , '6', '7', '8', '9', '10')
 CONTENT_FONTS = ('3', '4' , '2' , '6' , '7' , '8' , '10')
@@ -24,14 +25,24 @@ NOTE_COLORS = ('1' , '2', '3' , '4', '5' , '6')
 REACTIONS = { "1" : "loves", "2" : 'angries', "3" : 'cries', "4" : 'wows'}
 GENDER = {"1" : "MALE", "2" : "FEMALE", "3" : "NON-BINARY"}
 
+ERROR_TYPE = {
+    'html' : "May nilagay ka na pwede kamakasira sa website at ito ay {word}. Alisin o lagyan mo ng '*'",
+    'bad' : "May salita ka na nilagay na hindi kaaya aya pwede mo to lagyan ng '*' at kung gusto mo palitan mo ito! Ang salitang yun ay ' {word} '",
+    'hack' : "May ginawa ka na hindi kaaya aya at pwede makasira sa website! Sana naman ayusin mo ang pag gamit neto"
+}
 
 class MyHTMLParser(HTMLParser):
     def __init__(self):
         super().__init__()
         self.contains_html = False
+        self.tag_positions = []
 
     def handle_starttag(self, tag, attrs):
         self.contains_html = True
+        self.tag_positions.append((tag, self.getpos()))
+
+    def get_tag_positions(self):
+        return self.tag_positions
         
 def willMakeAHTMLObject(text: str) -> bool:
     parser = MyHTMLParser()
@@ -39,9 +50,16 @@ def willMakeAHTMLObject(text: str) -> bool:
     print("Has html object" , parser.contains_html)
     return parser.contains_html
 
+def getLocationOfTag(text: str) -> list:
+    parser = MyHTMLParser()
+    parser.feed(text)
+    tags = parser.get_tag_positions()
+    print("Tag html object" , tags )
+    return [ f'{tag[0]}' for tag in tags]
+
+
 def isBadWords(sentence : str, word : str) -> bool:
     hasBadWord = sentence.lower().find(word)
-    print("has badwords" , hasBadWord)
     return True if hasBadWord > -1 else False
 
 def updateSentence(sentence, start , end) -> str:
@@ -54,6 +72,12 @@ def hasBadWord(sentence : str) -> bool:
         if isBadWords(sentence , word):
             return True
     return False
+
+def getBadWords(sentence : str) -> str:
+    for word in BAD_WORDS:
+        if isBadWords(sentence , word):
+            return word
+    return ''
 
 def get_incremental_sticky_notes(start_id, count):
     sticky_notes = list(StickyNote.objects.filter(id__gte=start_id).order_by('id')[:count])
@@ -95,41 +119,51 @@ def isDataIncorrect(request) -> tuple[bool, object] :
     nickname = request.POST.get('nickname')
     content = request.POST.get('content')
     
-    # Check if has a badwords and Check if can be turn to html object        
-    if ( hasBadWord(nickname) or hasBadWord(content) or willMakeAHTMLObject(nickname) or willMakeAHTMLObject(content) ):
-        return True, None
+    # Check if can be turn to html object        
+    if willMakeAHTMLObject(nickname):
+        return True, None, ERROR_TYPE['html'].format(word=getLocationOfTag(nickname))
+    if willMakeAHTMLObject(content) :
+        return True, None, ERROR_TYPE['html'].format(word=getLocationOfTag(content))
+    #  Check if has a badwords and 
+    if hasBadWord(nickname):
+        return True, None, ERROR_TYPE['bad'].format(word=getBadWords(nickname))
+    if hasBadWord(content) :
+        return True, None, ERROR_TYPE['bad'].format(word=getBadWords(content))
+    
     # Check if the text is in the right format
     if ( not isCorrectTextFormat(nickname, NICKNAME_LENGTH) or not isCorrectTextFormat(content , CONTENT_LENGTH) ):
-        return True, None
+        return True, None, ERROR_TYPE['hack']
+    
     # Check if the colors is correct and the font is correct
     nickname_color = request.POST.get('nickname_color')
     content_color = request.POST.get('content_color')
     if (nickname_color not in NICKNAME_CONTENT_COLORS or content_color not in NICKNAME_CONTENT_COLORS):
-        return True, None
+        return True, None, ERROR_TYPE['hack']
     # Check if the content and nickname font is correct
+    
     nickname_font = request.POST.get('nickname_font')
     content_font = request.POST.get('content_font')
     if (nickname_font not in NICKNAME_FONTS or content_font not in CONTENT_FONTS):
-        return True, None
+        return True, None, ERROR_TYPE['hack']
     # Check if the emoji exist
     emoji = request.POST.get('emoji')
     if (emoji not in EMOJIS):
-        return True, None
+        return True, None, ERROR_TYPE['hack']
     # Check if the sticky note colors exist
     note_color = request.POST.get('note_color')
     if (note_color not in NOTE_COLORS):
-        return True, None
+        return True, None, ERROR_TYPE['hack']
     #Check if the gender exist
     gender = request.POST.get('gender')
     if (gender not in GENDER):
-        return True, None
+        return True, None, ERROR_TYPE['hack']
     
     # IF all is False then it is correct
-    return False, ( 
+    return ( False, ( 
         nickname, nickname_color, nickname_font, 
         content, content_color, content_font, 
         emoji, note_color, gender
-    )
+    ), '' )
 
 def isReactionClickingCorrect(note_id : str , react : str):
     if not note_id.isnumeric():
@@ -142,4 +176,17 @@ def isReactionClickingCorrect(note_id : str , react : str):
     
     StickyNote.addUserReaction(int(note_id), REACTIONS[react])
     return True
+
+def isReplyCorrect(nickname : str, content : str):
+    if len(nickname) > NICKNAME_LENGTH or len(content) > REPLY_CONTENT_LENGTH:
+        return False , ERROR_TYPE['hack']
+    if willMakeAHTMLObject(nickname):
+        return False , ERROR_TYPE['html'].format(word=getLocationOfTag(nickname))
+    if willMakeAHTMLObject(content) :
+        return False , ERROR_TYPE['html'].format(word=getLocationOfTag(content))
+    if hasBadWord(nickname):
+        return False, ERROR_TYPE['bad'].format(word=getBadWords(nickname))
+    if hasBadWord(content):
+        return False, ERROR_TYPE['bad'].format(word=getBadWords(content))
     
+    return True , None

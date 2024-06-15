@@ -167,7 +167,7 @@
                         <div class="note-colors gender-colors">
                             <button onclick="updateGenderIcon('1')">Male</button>
                             <button onclick="updateGenderIcon('2')">Female</button>
-                            <button onclick="updateGenderIcon('3')">LGBT</button>
+                            <button onclick="updateGenderIcon('3')">Non-Bi</button>
                         </div>
                     </div>
 
@@ -266,7 +266,7 @@
                 },
                 success: function(response) {
                     if (response['incorrect_data']){
-                        alert('May ginagawa po kayo or nilagay na di tinatangap ng system!')
+                        alert(response['msg']);
                     } else {
                         alert('Napaste na ang inyong Note! tara na\'t tingnan natin!');
                         changeTemplate('{% url 'home' %}');

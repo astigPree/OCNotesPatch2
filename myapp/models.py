@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 import typing as tp
 
 # Create your models here.
@@ -49,7 +50,7 @@ class StickyNote(models.Model):
             'wows' : self.wows,
             'gender' : self.gender,
             'replies' : [
-                reply.get_data() for reply in self.replies.all()
+                reply.get_data() for reply in self.replies.all()[::-1]
             ]
         }
         
@@ -118,16 +119,17 @@ class Replies(models.Model):
     sticky_note = models.ForeignKey(StickyNote, on_delete=models.CASCADE, related_name='replies', default=None)
     nickname = models.CharField(max_length=13)
     content = models.TextField()
+    replies_date = models.DateTimeField(default=timezone.now)
     
     def __str__(self) -> str:
         return f"{self.sticky_note.posted_date.date()} - {self.sticky_note.nickname}"
     
     def get_data(self) -> tuple[str, str]:
-        return ( self.nickname, self.content)
+        return ( self.nickname, self.content , self.replies_date.strftime("%I:%M%p").lower())
     
     @classmethod
     def getData(cls) -> tuple[str, str]:
-        return ( cls.nickname, cls.content )
+        return ( cls.nickname, cls.content, cls.replies_date.strftime("%I:%M%p").lower() )
     
     @classmethod
     def addNewReplies(cls, note_id : int , nickname : str , content : str) -> bool:

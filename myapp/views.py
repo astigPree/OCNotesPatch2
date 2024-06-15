@@ -24,7 +24,10 @@ def clipboard_list_page(request):
 def sticky_notes_view(request):
     if request.method == 'POST':
         direction = request.POST.get('direction')
-        start_id = request.POST.get('start_id')
+        start_id : str = request.POST.get('start_id')
+        
+        if not start_id.isnumeric():
+            return JsonResponse({'error': 'Invalid direction'}, status=400)
         
         start_id = int(request.POST.get('start_id'))
 
@@ -75,12 +78,11 @@ def reactionboards(request):
     context = { "notes" : [ note.get_my_data() for note in notes ] }
     return render(request, 'reactionboard.html', context)
 
-
 @csrf_exempt
 def write_notes(request):
     if request.method == 'POST':
         
-        result, data = isDataIncorrect(request)
+        result, data, msg = isDataIncorrect(request)
         
         if not result:
             sticky_note = StickyNote(
@@ -92,7 +94,7 @@ def write_notes(request):
             
         return JsonResponse(
             {
-                'message': '',
+                'msg': msg,
                 'incorrect_data' : result,
             }
         )
@@ -118,7 +120,6 @@ def suggestion_page(request):
         return JsonResponse({'error': 'Invalid request method'})
     
 def whiteboard_page(request , pk : str):
-    
     if not pk.isnumeric():
         return HttpResponse("No sticky notes available.", status=404)
     
@@ -129,3 +130,28 @@ def whiteboard_page(request , pk : str):
     context = {'note' : stickynote.get_my_data()}
     print(context)
     return render(request , 'whiteboard.html', context=context)
+
+def reply_in_whiteboard(request):
+    if request.method == 'POST':
+        note_id : str = request.POST.get('note_id')
+        if not note_id.isnumeric():
+            return JsonResponse({'error': 'Invalid direction'}, status=400)
+        
+        sticky_note = StickyNote.getStickyNote(int(note_id))
+        if sticky_note is None:
+            return JsonResponse({'error': 'Invalid ID'}, status=400)
+        
+        nickname : str = request.POST.get('nickname')
+        content : str = request.POST.get('content')
+        result , msg = isReplyCorrect(nickname, content)
+        
+        if not result:
+            return JsonResponse({ 'hasError': True, 'msg': msg })
+        
+        Replies.addNewReplies(int(note_id), nickname, content)
+        
+        return JsonResponse({ 'hasError': False, 'msg': '' })
+    
+    else:
+        # If it's not a POST request, you can return an empty response or handle it accordingly
+        return JsonResponse({'error': 'Invalid request method'}, status=405)

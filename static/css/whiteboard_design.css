@@ -126,19 +126,30 @@ body{
     margin-right: 3.0svh;
 }
 
+.container{
+}
+
+.note-whiteboard-placeholder{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 5.0svh;
+}
 
 .note-whiteboard-container{
-    margin: 0 auto;
+    flex: 1 1 300px;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
+    align-items: flex-start;
     column-gap: 10.0svh;
-    row-gap: 5.0svh;
+    row-gap: 13.0svh;
     max-width: 1300px;
 }
 
 .note-container{
+    flex: 0 0 250px;
 }
 
 .note-container h2{
@@ -185,6 +196,9 @@ body{
     position: relative;
     top: -20px;
     right: -20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .pin > * {
@@ -239,12 +253,12 @@ body{
 
 .clip p{
     position: relative;
-    top: 45px;
+    top: 6.1svh;
     z-index: 11;
     font-size: 1.1svh;  
     font-weight: bold;
     font-family: var(--secondary-font);
-    letter-spacing: 0.1svh;
+    letter-spacing: 0.2svh;
 }
 
 @keyframes cryEmote {
@@ -393,6 +407,7 @@ body{
     font-family: var(--secondary-font);
     max-width: 250px;
     min-width: 250px;
+    min-height: 200px;
 }
 
 
@@ -453,50 +468,107 @@ body{
 }
 
 .whiteboard-container{
-    min-width: 300px;
+    flex: 1 1 300px;
     resize: horizontal;
     max-width: 100%;
     width: fit-content;
-    height: 1000px;
-    background-color: var(--tertiary-color);
+    height: fit-content;
+    background-color: #915E38;
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 2.0svh;
-    margin-left: 3.0svh;
-    margin-right: 3.0svh;
+    margin-left: 0.5svh;
+    margin-right: 0.5svh;
+    border: var(--tertiary-color) solid 0.5svh;
 }
 
 .whiteboard{
     resize: both;
-    width: 97%;
-    height: 98%;
-    border: 5px solid black ;
+    width: 98%;
+    height: 97%;
+    margin: 0;
+    border: 1.5svh solid black ;
     border-radius: 2.0svh;
 }
 
 .whiteboard h2{
     font-family: var(--primary-font);
     padding-bottom: 3.0svh;
-    color: black;
+    color: var(--tertiary-color);
     margin-left: 2.0svh;
     margin-top: 2.0svh;
+    letter-spacing: 0.2svh;
 }
 
 .replies-container{
+    margin-top: 2.0svh;
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-evenly;
     align-items: center;
     flex-wrap: wrap;
-    gap: 1.5svh;
+    row-gap: 5.0svh;
     resize: horizontal;
     width: 100%;
-    padding: 0 1.0svh;
-    background-color: #791717;
+    margin-bottom: 3.0svh;
+    /* background-color: #791717; */
 }
 
 .reply{
-    width: 230px;
+    width: 210px;
     height: 230px;
+    background-color: #f9f485; 
+    box-shadow: 0px 3px 3px rgba(0,0,0,0.4);
+    padding: 0.8svh;
+    line-height: 1.5;
+    border-radius: 5px; 
+    flex: 0 1 250px;
+    margin-left: 1.5svh;
+    margin-right: 1.5svh;
+    transform: rotate(-2deg);
+    
+}
+
+.reply-content{
+    display: flex;
+    flex-direction: column;
+    padding: 0 0.5svh;
+    row-gap: 1.3svh;
+}
+
+.reply-content > *{
+    color: black;
+}
+
+.reply-content > p:nth-child(1){
+    font-size: 3.5svh;
+    font-family: var(--permanent-marker);
+}
+
+.reply-content > p:nth-child(2){
+    font-size: 1.8svh;
+    font-family: var(--secondary-font);
+    height: fit-content;
+    word-wrap:break-word ;
+    letter-spacing: 0.1svh;
+}
+
+.tape{
+    width: 45px;
+    height: 20px;
     background-color: #B76767;
+    border-radius: 1.0svh;
+    position: absolute;
+    transform: translateX(500%) translateY(-80%) rotate(30deg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.tape > *{
+    font-family: var(--secondary-font);
+    font-size: 1.3svh;
+    color: #f9f485;
+    font-weight: bold;
 }

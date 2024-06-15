@@ -176,10 +176,12 @@ body{
     display: block;
     height: 16.0svh;
     margin-left: 1.5svh;
-    min-width: 230px;
     font-family: var(--secondary-font);
     max-width: 250px;
     min-width: 250px;
+    max-height: 200px;
+    min-height: 200px;
+    
 }
 
 .suggestion-form textarea{
