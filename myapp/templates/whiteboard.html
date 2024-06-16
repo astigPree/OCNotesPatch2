@@ -234,7 +234,7 @@
 
     <div class="container" id="headbar-location">
         <div class="header-bar" >
-            <div class="header-left">        
+            <div class="header-left" onclick="changeTemplate('{% url 'home' %}');">        
                 <h1 class="app_name">OC Notes</h1>
                 <h4 class="current_day" id="currentDate"></h4>
             </div>
@@ -334,22 +334,6 @@
                         <h2>Reply Board</h2>
     
                         <div class="replies-container">
-
-                            {% comment %} <div class="reply">
-                                <div class="tape">
-                                    <i>04:50pm</i>
-                                </div>
-
-                                <div class="reply-content">
-                                    
-                                    <p>Makietech</p>
-                                    <p>
-                                        gkj sdklgd sjlkg sj'g kg sdj jkgl sdgj kjdk sldgkgjs dksjldg sklg skldg sdlkg sdjgdslgjk gkj sdklgd sjlkg sj'g kg sdj jkgl sdgj kjdk sldgkgjs dksjldg sklg skldg sdlkg sdjgdslgjk gkj sdklgd sjlkg sj'g kg sdj jkgl sdgj  kjdk sldgkgjs dksjldg sklg skldg sdlkg sdjgdslgjk gkj sdklgd sjlkg sj'g kg sdj jkgl sdgj 
-                                    </p>
-                                </div>
-
-                                
-                            </div>  {% endcomment %}
 
                             
                             {% for reply in note.replies %}

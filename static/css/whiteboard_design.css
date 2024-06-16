@@ -40,6 +40,7 @@ body{
     margin: 0;
     padding-bottom: 100px;
     min-width: 326px;
+    min-height: 326px;
 }
 
 
@@ -58,6 +59,7 @@ body{
     /* background-color: rebeccapurple; */
     align-items: center ;
     height: fit-content;
+    cursor: pointer;
 }
 
 .app_name{
