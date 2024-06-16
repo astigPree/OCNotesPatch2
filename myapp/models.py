@@ -137,25 +137,53 @@ class StickyNote(models.Model):
     
     @classmethod
     def get_top_stats(cls):
-        top_love = cls.objects.order_by('-loves').first()
-        top_angry = cls.objects.order_by('-angries').first()
-        top_cry = cls.objects.order_by('-cries').first()
-        top_wow = cls.objects.order_by('-wows').first()
-        top_5_loves = [ top_5.get_my_data_without_reply() for top_5 in cls.objects.order_by('-loves')[:5] ]
-        top_5_angries = [ top_5.get_my_data_without_reply() for top_5 in cls.objects.order_by('-angries')[:5] ]
-        top_5_cries = [ top_5.get_my_data_without_reply() for top_5 in cls.objects.order_by('-cries')[:5] ] 
-        top_5_wows = [ top_5.get_my_data_without_reply() for top_5 in cls.objects.order_by('-wows')[:5] ]
+        contain_notes = cls.objects.all().exists()
+        print("contain" , contain_notes)
+        if (contain_notes):
+            top_5_loves = [ top_5.get_my_data_without_reply() for top_5 in cls.objects.order_by('-loves')[:5] ]
+            top_5_angries = [ top_5.get_my_data_without_reply() for top_5 in cls.objects.order_by('-angries')[:5] ]
+            top_5_cries = [ top_5.get_my_data_without_reply() for top_5 in cls.objects.order_by('-cries')[:5] ] 
+            top_5_wows = [ top_5.get_my_data_without_reply() for top_5 in cls.objects.order_by('-wows')[:5] ]
 
-        top_stats = {
-            'top_overall':[ 
-                top_love.get_my_data_without_reply(), top_angry.get_my_data_without_reply(), 
-                top_cry.get_my_data_without_reply(), top_wow.get_my_data_without_reply() ],
-            'top_5_loves': top_5_loves,
-            'top_5_angries': top_5_angries,
-            'top_5_cries': top_5_cries,
-            'top_5_wows': top_5_wows
-        }
-        return top_stats
+            top_stats = {
+                'top_overall':[ ],
+                'top_5_loves': top_5_loves,
+                'top_5_angries': top_5_angries,
+                'top_5_cries': top_5_cries,
+                'top_5_wows': top_5_wows
+            }
+            
+            top_love = cls.objects.order_by('-loves').first()
+            top_love_data = top_love.get_my_data_without_reply()
+            top_stats['top_overall'].append(top_love_data)
+            
+            top_angry = cls.objects.order_by('-angries').first()
+            top_angry_data = top_angry.get_my_data_without_reply()
+            if top_angry_data not in top_stats['top_overall']:
+                top_stats['top_overall'].append(top_angry_data)
+            
+            top_cry = cls.objects.order_by('-cries').first()
+            top_cry_data = top_cry.get_my_data_without_reply()
+            if top_cry_data not in top_stats['top_overall']:
+                top_stats['top_overall'].append(top_cry_data)
+                
+            top_wow = cls.objects.order_by('-wows').first()
+            top_wow_data = top_wow.get_my_data_without_reply()
+            if top_wow_data not in top_stats['top_overall']:
+                top_stats['top_overall'].append(top_wow_data)
+            
+            return top_stats
+
+        else:
+            top_stats = {
+                'top_overall':[],
+                'top_5_loves': [],
+                'top_5_angries': [],
+                'top_5_cries': [],
+                'top_5_wows': []
+            }
+            return top_stats
+            
     
     
 class Replies(models.Model):

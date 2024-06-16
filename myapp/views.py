@@ -75,7 +75,6 @@ def reacted(request):
 
 def reactionboards(request):
     context = StickyNote.get_top_stats()
-    print(context)
     return render(request, 'reactionboard.html', context)
 
 @csrf_exempt
