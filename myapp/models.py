@@ -138,7 +138,7 @@ class StickyNote(models.Model):
     @classmethod
     def get_top_stats(cls):
         contain_notes = cls.objects.all().exists()
-        print("contain" , contain_notes)
+        # print("contain" , contain_notes)
         if (contain_notes):
             top_5_loves = [ top_5.get_my_data_without_reply() for top_5 in cls.objects.order_by('-loves')[:5] ]
             top_5_angries = [ top_5.get_my_data_without_reply() for top_5 in cls.objects.order_by('-angries')[:5] ]

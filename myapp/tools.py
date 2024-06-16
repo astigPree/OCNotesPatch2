@@ -3,7 +3,7 @@ from .models import StickyNote
 from html.parser import HTMLParser
 import re
 
-NUMBER_OF_NOTES_TO_DISPLAY = 6
+NUMBER_OF_NOTES_TO_DISPLAY = 30
 BAD_WORDS = (
     'puta', 'pota', 'tangina', 'gago' , 'bobo' , 'bubo' , 'bubu' , 'bobu', 'patay', 'matay', 'natay', 'amp', 'nigga', 'yawa',
     'pisot' , 'bayag', 'buto', 'totoy', 'boto', 'letche', 'itot' , 'salsal', 'jabol', 'pusli', 'shabu', 'whana', 'bilat', 'belat',
@@ -47,14 +47,14 @@ class MyHTMLParser(HTMLParser):
 def willMakeAHTMLObject(text: str) -> bool:
     parser = MyHTMLParser()
     parser.feed(text)
-    print("Has html object" , parser.contains_html)
+    # print("Has html object" , parser.contains_html)
     return parser.contains_html
 
 def getLocationOfTag(text: str) -> list:
     parser = MyHTMLParser()
     parser.feed(text)
     tags = parser.get_tag_positions()
-    print("Tag html object" , tags )
+    # print("Tag html object" , tags )
     return [ f'{tag[0]}' for tag in tags]
 
 

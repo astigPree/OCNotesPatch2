@@ -18,7 +18,7 @@ def clipboard_list_page(request):
         # notes = StickyNote.objects.all().order_by('-id')[:NUMBER_OF_NOTES_TO_DISPLAY]
         notes = StickyNote.objects.order_by('-id')[:NUMBER_OF_NOTES_TO_DISPLAY]
         context = { "notes" : [ note.get_my_data_without_reply() for note in notes ] }
-        print(context)
+        # print(context)
         return render(request , 'clipboards_screens.html' , context=context)
     
 def sticky_notes_view(request):
@@ -46,7 +46,7 @@ def sticky_notes_view(request):
         notes_data = [
             note.get_my_data_without_reply() for note in sticky_notes
         ]
-        print(len(notes_data))
+        # print(len(notes_data))
         
         return JsonResponse(
             {
@@ -125,7 +125,7 @@ def whiteboard_page(request , pk : str):
         return HttpResponse("No sticky notes available.", status=404)
     
     context = {'note' : stickynote.get_my_data()}
-    print(context)
+    # print(context)
     return render(request , 'whiteboard.html', context=context)
 
 def reply_in_whiteboard(request):
