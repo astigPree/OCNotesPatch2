@@ -74,8 +74,8 @@ def reacted(request):
         return JsonResponse({'error': 'Invalid request method'}, status=405)
 
 def reactionboards(request):
-    notes = StickyNote.objects.order_by('-id')[:NUMBER_OF_NOTES_TO_DISPLAY]
-    context = { "notes" : [ note.get_my_data() for note in notes ] }
+    context = StickyNote.get_top_stats()
+    print(context)
     return render(request, 'reactionboard.html', context)
 
 @csrf_exempt

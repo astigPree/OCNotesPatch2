@@ -135,6 +135,28 @@ class StickyNote(models.Model):
         sticky_note = cls.objects.filter(id=note_id).first()
         return sticky_note
     
+    @classmethod
+    def get_top_stats(cls):
+        top_love = cls.objects.order_by('-loves').first()
+        top_angry = cls.objects.order_by('-angries').first()
+        top_cry = cls.objects.order_by('-cries').first()
+        top_wow = cls.objects.order_by('-wows').first()
+        top_5_loves = [ top_5.get_my_data_without_reply() for top_5 in cls.objects.order_by('-loves')[:5] ]
+        top_5_angries = [ top_5.get_my_data_without_reply() for top_5 in cls.objects.order_by('-angries')[:5] ]
+        top_5_cries = [ top_5.get_my_data_without_reply() for top_5 in cls.objects.order_by('-cries')[:5] ] 
+        top_5_wows = [ top_5.get_my_data_without_reply() for top_5 in cls.objects.order_by('-wows')[:5] ]
+
+        top_stats = {
+            'top_overall':[ 
+                top_love.get_my_data_without_reply(), top_angry.get_my_data_without_reply(), 
+                top_cry.get_my_data_without_reply(), top_wow.get_my_data_without_reply() ],
+            'top_5_loves': top_5_loves,
+            'top_5_angries': top_5_angries,
+            'top_5_cries': top_5_cries,
+            'top_5_wows': top_5_wows
+        }
+        return top_stats
+    
     
 class Replies(models.Model):
     sticky_note = models.ForeignKey(StickyNote, on_delete=models.CASCADE, related_name='replies', default=None)

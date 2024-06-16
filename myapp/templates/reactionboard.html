@@ -106,7 +106,6 @@
             }
 
             function genderIcon(gender, iconColor){
-                console.log(gender);
                 if (gender == "1"){
                     return `<svg id="gender-icon" fill="${iconColor}" viewBox="-25.6 -25.6 307.20 307.20" id="Flat" xmlns="http://www.w3.org/2000/svg" stroke="#791717" transform="rotate(0)"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="1.536"></g><g id="SVGRepo_iconCarrier"> <path d="M227.9978,39.95557q-.00219-.56984-.05749-1.13819c-.018-.18408-.05237-.36279-.07849-.54443-.02979-.20557-.05371-.41211-.09424-.61621-.04029-.20362-.09607-.40088-.14649-.60059-.04541-.18017-.08484-.36084-.13867-.53906-.05884-.19434-.13159-.38135-.19971-.57129-.06445-.17969-.12353-.36084-.19677-.5376-.07349-.17724-.15967-.34668-.24109-.51953-.08582-.18213-.16687-.36621-.26257-.54492-.088-.16455-.18824-.32031-.2837-.48047-.10534-.17627-.2052-.355-.32031-.52685-.11572-.17334-.24475-.33545-.369-.502-.11-.14746-.21252-.29834-.3302-.4414-.23462-.28614-.4834-.55957-.74316-.82227-.01782-.01807-.03247-.03809-.05054-.05615-.01953-.01953-.041-.03565-.06067-.05469-.26123-.25781-.53271-.50537-.81653-.73828-.14794-.12158-.30383-.22754-.45605-.34082-.16138-.12061-.31885-.24561-.48645-.35791-.17725-.11865-.36108-.22168-.54309-.33008-.15442-.0918-.30518-.189-.46411-.27392-.18311-.09815-.37134-.18116-.55811-.269-.16846-.07959-.334-.16357-.50659-.23486-.18042-.0752-.36475-.13525-.54785-.20068-.18652-.0669-.37073-.13868-.56152-.19629-.18189-.05518-.3667-.09571-.55066-.14161-.19568-.04931-.389-.10449-.58851-.144-.20935-.041-.42077-.06592-.63171-.09619-.17688-.02539-.351-.05908-.53027-.07666q-.56837-.05567-1.13953-.05762c-.01465,0-.02893-.002-.0437-.002H168a12,12,0,0,0,0,24h19.02905l-32.7334,32.7334a83.9988,83.9988,0,1,0,16.971,16.97021L204,68.9707V88a12,12,0,0,0,24,0V40C228,39.98486,227.9978,39.97021,227.9978,39.95557ZM146.42627,194.42676a59.97169,59.97169,0,1,1,0-84.85352A60.06666,60.06666,0,0,1,146.42627,194.42676Z"></path> </g></svg>`
                 }
@@ -117,18 +116,21 @@
             }
 
             function onetimeChange(
-                note_id, note_color, nickname_font, nickname_color, content_font, content_color , gender
+                note_id, note_color, nickname_font, nickname_color, content_font, content_color , gender, note_id_add_key
             ){
-                const sticky_note = document.getElementById(`sticky-note-${note_id}`);
+                //console.log(note_id_add_key);
+                
+                const sticky_note = document.getElementById(`sticky-note-${note_id}-${note_id_add_key}`);
+                console.log(note_id_add_key);
                 sticky_note.style.backgroundColor = noteColor[note_color];
 
                 const selected_font = getComputedStyle(document.documentElement).getPropertyValue(FontNames[nickname_font]);
-                const sticky_nickname = document.getElementById(`nickname-${note_id}`);
+                const sticky_nickname = document.getElementById(`nickname-${note_id}-${note_id_add_key}`);
                 sticky_nickname.style.fontFamily = selected_font;
                 sticky_nickname.style.color = textColor[nickname_color];
                 
                 const selected_content_font = getComputedStyle(document.documentElement).getPropertyValue(FontNames[content_font]);
-                const sticky_content = document.getElementById(`content-${note_id}`);
+                const sticky_content = document.getElementById(`content-${note_id}-${note_id_add_key}`);
                 sticky_content.style.fontFamily = selected_content_font;
                 sticky_content.style.color = textColor[content_color];
 
@@ -137,62 +139,36 @@
                     react.style.backgroundColor = noteColor[note_color];
                 });
 
-                const note_time = document.getElementById(`note-date-${note_id}`);
+                const note_time = document.getElementById(`note-date-${note_id}-${note_id_add_key}`);
                 note_time.style.backgroundColor = noteColor[note_color];
 
-                const reply_text = document.getElementById(`replies-text-${note_id}`);
+                const reply_text = document.getElementById(`replies-text-${note_id}-${note_id_add_key}`);
                 reply_text.style.color = noteColor[note_color];
 
-                const love_emoji = document.getElementById(`love-num-${note_id}`);
+                const love_emoji = document.getElementById(`love-num-${note_id}-${note_id_add_key}`);
                 love_emoji.innerHTML = abbreviateNumber(parseInt(love_emoji.getAttribute("total")));
 
-                const angry_emoji = document.getElementById(`angry-num-${note_id}`);
+                const angry_emoji = document.getElementById(`angry-num-${note_id}-${note_id_add_key}`);
                 angry_emoji.innerHTML = abbreviateNumber(parseInt(angry_emoji.getAttribute("total")));
 
-                const cry_emoji = document.getElementById(`cry-num-${note_id}`);
+                const cry_emoji = document.getElementById(`cry-num-${note_id}-${note_id_add_key}`);
                 cry_emoji.innerHTML = abbreviateNumber(parseInt(cry_emoji.getAttribute("total")));
 
-                const wows_emoji = document.getElementById(`wow-num-${note_id}`);
+                const wows_emoji = document.getElementById(`wow-num-${note_id}-${note_id_add_key}`);
                 wows_emoji.innerHTML = abbreviateNumber(parseInt(wows_emoji.getAttribute("total")));
 
-                const pin = document.getElementById(`pin-${note_id}`);
+                const pin = document.getElementById(`pin-${note_id}-${note_id_add_key}`);
                 pin.innerHTML = genderIcon(gender, noteColor[note_color]);
 
             }
 
-            function clickReact(react){
-                react.classList.add('react-clicked');
-                react.onclick = null;
-                
-                const reactNum = react.querySelector('i');
-                reactNum.innerHTML = abbreviateNumber(parseInt(reactNum.getAttribute("total"), 10 ) + 1);
-                const note_id = reactNum.getAttribute("note-id");
-                const react_selected = reactNum.getAttribute("react");
-                
-                var csrftoken = '{{ csrf_token }}';
-            
-                $.ajax({
-                    type: 'POST',
-                    url: '/reacted/',
-                    headers: { 'X-CSRFToken': csrftoken },
-                    data: {
-                        'note_id': note_id,
-                        'react': react_selected
-                    },
-                    success: function(response) {
-                        
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Error fetching sticky notes:', error);
-                    }
-                });
-            }
       
         </script>
 
         
         <div class="reaction-boards-container">
 
+            {% comment %} Over All Most Reacted  {% endcomment %}
             <div class="reactions-board">
 
                 <div class="reactions-board-label">
@@ -214,24 +190,24 @@
                 
                 <div class="sticky-notes-container">
 
-                    {% for note in notes %}
+                    {% for note in top_overall %}
                         <div class="notes-second-container">
 
                             <div class="clip">
-                                <p id="replies-text-{{note.note_id}}" onclick="changeTemplate('{% url 'whiteboard' note.note_id %}');">REPLIES</p>
+                                <p id="replies-text-{{note.note_id}}-1" onclick="changeTemplate('{% url 'whiteboard' note.note_id %}');">REPLIES</p>
                                 <svg fill="#B76767" height="200px" width="200px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <path d="M487.458,271.701C501.632,267.546,512,254.43,512,238.933c0-18.825-15.309-34.133-34.133-34.133H316.083l-7.808-45.662 c20.198-10.906,33.058-28.075,33.058-47.787c0-33.724-37.478-60.151-85.333-60.151c-47.846,0-85.333,26.428-85.333,60.151 c0,19.712,12.868,36.881,33.067,47.787l-7.808,45.662H34.133C15.317,204.8,0,220.109,0,238.933 c0,15.497,10.377,28.612,24.55,32.768L2.722,431.744c-0.998,7.322,1.22,14.72,6.084,20.301c4.855,5.564,11.887,8.755,19.277,8.755 h91.383c4.719,0,8.533-3.814,8.533-8.533c0-18.825,15.317-34.133,34.133-34.133c18.825,0,34.133,15.309,34.133,34.133 c0,4.719,3.823,8.533,8.533,8.533h102.4c4.719,0,8.533-3.814,8.533-8.533c0-18.825,15.317-34.133,34.133-34.133 c18.825,0,34.133,15.309,34.133,34.133c0,4.719,3.823,8.533,8.533,8.533h91.383c7.398,0,14.43-3.191,19.285-8.764 c4.864-5.581,7.083-12.971,6.084-20.292L487.458,271.701z M213.24,204.8l6.639-38.827c10.931,3.516,23.117,5.53,36.122,5.53 c13.005,0,25.199-2.014,36.13-5.53l6.639,38.827H213.24z"></path> </g> </g> </g></svg>
                             </div>
 
-                            <div class="sticky-note"id="sticky-note-{{note.note_id}}" note_id="{{ note.note_id }}">
+                            <div class="sticky-note" id="sticky-note-{{note.note_id}}-1" note_id="{{ note.note_id }}">
 
                                 <div class="note-header">
-                                    <p class="nickname" id="nickname-{{note.note_id}}" >{{ note.nickname }}</p>
+                                    <p class="nickname" id="nickname-{{note.note_id}}-1" >{{ note.nickname }}</p>
                                     <p class="emoji">{{ note.emoji }}</p>
-                                    <span class="pin" id="pin-{{note.note_id}}"></span>
+                                    <span class="pin" id="pin-{{note.note_id}}-1"></span>
                                 </div>
 
                                 <div class="sticky-note-content">
-                                    <p id="content-{{note.note_id}}">{{ note.content }}</p>
+                                    <p id="content-{{note.note_id}}-1">{{ note.content }}</p>
                                 </div>
 
                             </div>
@@ -239,23 +215,23 @@
                             <div class="reactions">
                                 <div class="react react-{{note.note_id}}">
                                     <p>😻</p>
-                                    <i id="love-num-{{note.note_id}}" note-id="{{note.note_id}}" react="1" total="{{note.loves}}"></i>
+                                    <i id="love-num-{{note.note_id}}-1" note-id="{{note.note_id}}" react="1" total="{{note.loves}}"></i>
                                 </div>
                                 <div class="react react-{{note.note_id}}" >
                                     <p>😾</p>
-                                    <i id="angry-num-{{note.note_id}}" note-id="{{note.note_id}}" react="2" total="{{note.angries}}"></i>
+                                    <i id="angry-num-{{note.note_id}}-1" note-id="{{note.note_id}}" react="2" total="{{note.angries}}"></i>
                                 </div>
                                 <div class="react react-{{note.note_id}}">
                                     <p>😿</p>
-                                    <i id="cry-num-{{note.note_id}}" note-id="{{note.note_id}}" react="3" total="{{note.cries}}"></i>
+                                    <i id="cry-num-{{note.note_id}}-1" note-id="{{note.note_id}}" react="3" total="{{note.cries}}"></i>
                                 </div>
                                 <div class="react react-{{note.note_id}}">
                                     <p>🙀</p>
-                                    <i id="wow-num-{{note.note_id}}" note-id="{{note.note_id}}" react="4" total="{{note.wows}}"></i>
+                                    <i id="wow-num-{{note.note_id}}-1" note-id="{{note.note_id}}" react="4" total="{{note.wows}}"></i>
                                 </div>
                             </div>
 
-                            <div class="note-date" id="note-date-{{note.note_id}}">
+                            <div class="note-date" id="note-date-{{note.note_id}}-1">
                                 {{note.time}}
                             </div>
 
@@ -264,11 +240,10 @@
                     
 
                         <script>
-                            console.log({{note.gender}});
                             onetimeChange(
                                 {{note.note_id}}, {{note.note_color}}, {{note.nickname_font}}, 
                                 {{note.nickname_color}}, {{note.content_font}}, {{note.content_color}},
-                                {{note.gender}}
+                                "{{note.gender}}", "1"
                             );
                         </script>
                         
@@ -278,7 +253,7 @@
 
             </div>
         
-            
+            {% comment %} Top 5 Most Love Reacted  {% endcomment %}
             <div class="reactions-board">
                 <div class="reactions-board-label">
                     <div class="most-text">
@@ -296,24 +271,24 @@
                 
                 <div class="sticky-notes-container">
 
-                    {% for note in notes %}
+                    {% for note in top_5_loves %}
                         <div class="notes-second-container">
 
                             <div class="clip">
-                                <p id="replies-text-{{note.note_id}}" onclick="changeTemplate('{% url 'whiteboard' note.note_id %}');">REPLIES</p>
+                                <p id="replies-text-{{note.note_id}}-2" onclick="changeTemplate('{% url 'whiteboard' note.note_id %}');">REPLIES</p>
                                 <svg fill="#B76767" height="200px" width="200px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <path d="M487.458,271.701C501.632,267.546,512,254.43,512,238.933c0-18.825-15.309-34.133-34.133-34.133H316.083l-7.808-45.662 c20.198-10.906,33.058-28.075,33.058-47.787c0-33.724-37.478-60.151-85.333-60.151c-47.846,0-85.333,26.428-85.333,60.151 c0,19.712,12.868,36.881,33.067,47.787l-7.808,45.662H34.133C15.317,204.8,0,220.109,0,238.933 c0,15.497,10.377,28.612,24.55,32.768L2.722,431.744c-0.998,7.322,1.22,14.72,6.084,20.301c4.855,5.564,11.887,8.755,19.277,8.755 h91.383c4.719,0,8.533-3.814,8.533-8.533c0-18.825,15.317-34.133,34.133-34.133c18.825,0,34.133,15.309,34.133,34.133 c0,4.719,3.823,8.533,8.533,8.533h102.4c4.719,0,8.533-3.814,8.533-8.533c0-18.825,15.317-34.133,34.133-34.133 c18.825,0,34.133,15.309,34.133,34.133c0,4.719,3.823,8.533,8.533,8.533h91.383c7.398,0,14.43-3.191,19.285-8.764 c4.864-5.581,7.083-12.971,6.084-20.292L487.458,271.701z M213.24,204.8l6.639-38.827c10.931,3.516,23.117,5.53,36.122,5.53 c13.005,0,25.199-2.014,36.13-5.53l6.639,38.827H213.24z"></path> </g> </g> </g></svg>
                             </div>
 
-                            <div class="sticky-note"id="sticky-note-{{note.note_id}}" note_id="{{ note.note_id }}">
+                            <div class="sticky-note" id="sticky-note-{{note.note_id}}-2" note_id="{{ note.note_id }}">
 
                                 <div class="note-header">
-                                    <p class="nickname" id="nickname-{{note.note_id}}" >{{ note.nickname }}</p>
+                                    <p class="nickname" id="nickname-{{note.note_id}}-2" >{{ note.nickname }}</p>
                                     <p class="emoji">{{ note.emoji }}</p>
-                                    <span class="pin" id="pin-{{note.note_id}}"></span>
+                                    <span class="pin" id="pin-{{note.note_id}}-2"></span>
                                 </div>
 
                                 <div class="sticky-note-content">
-                                    <p id="content-{{note.note_id}}">{{ note.content }}</p>
+                                    <p id="content-{{note.note_id}}-2">{{ note.content }}</p>
                                 </div>
 
                             </div>
@@ -321,23 +296,23 @@
                             <div class="reactions">
                                 <div class="react react-{{note.note_id}}">
                                     <p>😻</p>
-                                    <i id="love-num-{{note.note_id}}" note-id="{{note.note_id}}" react="1" total="{{note.loves}}"></i>
+                                    <i id="love-num-{{note.note_id}}-2" note-id="{{note.note_id}}" react="1" total="{{note.loves}}"></i>
                                 </div>
                                 <div class="react react-{{note.note_id}}" >
                                     <p>😾</p>
-                                    <i id="angry-num-{{note.note_id}}" note-id="{{note.note_id}}" react="2" total="{{note.angries}}"></i>
+                                    <i id="angry-num-{{note.note_id}}-2" note-id="{{note.note_id}}" react="2" total="{{note.angries}}"></i>
                                 </div>
                                 <div class="react react-{{note.note_id}}">
                                     <p>😿</p>
-                                    <i id="cry-num-{{note.note_id}}" note-id="{{note.note_id}}" react="3" total="{{note.cries}}"></i>
+                                    <i id="cry-num-{{note.note_id}}-2" note-id="{{note.note_id}}" react="3" total="{{note.cries}}"></i>
                                 </div>
                                 <div class="react react-{{note.note_id}}">
                                     <p>🙀</p>
-                                    <i id="wow-num-{{note.note_id}}" note-id="{{note.note_id}}" react="4" total="{{note.wows}}"></i>
+                                    <i id="wow-num-{{note.note_id}}-2" note-id="{{note.note_id}}" react="4" total="{{note.wows}}"></i>
                                 </div>
                             </div>
 
-                            <div class="note-date" id="note-date-{{note.note_id}}">
+                            <div class="note-date" id="note-date-{{note.note_id}}-2">
                                 {{note.time}}
                             </div>
 
@@ -346,11 +321,10 @@
                     
 
                         <script>
-                            console.log({{note.gender}});
                             onetimeChange(
                                 {{note.note_id}}, {{note.note_color}}, {{note.nickname_font}}, 
                                 {{note.nickname_color}}, {{note.content_font}}, {{note.content_color}},
-                                {{note.gender}}
+                                "{{note.gender}}", "2"
                             );
                         </script>
                         
@@ -359,7 +333,7 @@
                 </div>
             </div>
         
-            
+            {% comment %} Top 5 Most Angries Reacted {% endcomment %}
             <div class="reactions-board">
                 <div class="reactions-board-label">
                     <div class="most-text">
@@ -377,24 +351,24 @@
                 
                 <div class="sticky-notes-container">
 
-                    {% for note in notes %}
+                    {% for note in top_5_angries %}
                         <div class="notes-second-container">
 
                             <div class="clip">
-                                <p id="replies-text-{{note.note_id}}" onclick="changeTemplate('{% url 'whiteboard' note.note_id %}');">REPLIES</p>
+                                <p id="replies-text-{{note.note_id}}-3" onclick="changeTemplate('{% url 'whiteboard' note.note_id %}');">REPLIES</p>
                                 <svg fill="#B76767" height="200px" width="200px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <path d="M487.458,271.701C501.632,267.546,512,254.43,512,238.933c0-18.825-15.309-34.133-34.133-34.133H316.083l-7.808-45.662 c20.198-10.906,33.058-28.075,33.058-47.787c0-33.724-37.478-60.151-85.333-60.151c-47.846,0-85.333,26.428-85.333,60.151 c0,19.712,12.868,36.881,33.067,47.787l-7.808,45.662H34.133C15.317,204.8,0,220.109,0,238.933 c0,15.497,10.377,28.612,24.55,32.768L2.722,431.744c-0.998,7.322,1.22,14.72,6.084,20.301c4.855,5.564,11.887,8.755,19.277,8.755 h91.383c4.719,0,8.533-3.814,8.533-8.533c0-18.825,15.317-34.133,34.133-34.133c18.825,0,34.133,15.309,34.133,34.133 c0,4.719,3.823,8.533,8.533,8.533h102.4c4.719,0,8.533-3.814,8.533-8.533c0-18.825,15.317-34.133,34.133-34.133 c18.825,0,34.133,15.309,34.133,34.133c0,4.719,3.823,8.533,8.533,8.533h91.383c7.398,0,14.43-3.191,19.285-8.764 c4.864-5.581,7.083-12.971,6.084-20.292L487.458,271.701z M213.24,204.8l6.639-38.827c10.931,3.516,23.117,5.53,36.122,5.53 c13.005,0,25.199-2.014,36.13-5.53l6.639,38.827H213.24z"></path> </g> </g> </g></svg>
                             </div>
 
-                            <div class="sticky-note"id="sticky-note-{{note.note_id}}" note_id="{{ note.note_id }}">
+                            <div class="sticky-note"id="sticky-note-{{note.note_id}}-3" note_id="{{ note.note_id }}">
 
                                 <div class="note-header">
-                                    <p class="nickname" id="nickname-{{note.note_id}}" >{{ note.nickname }}</p>
+                                    <p class="nickname" id="nickname-{{note.note_id}}-3" >{{ note.nickname }}</p>
                                     <p class="emoji">{{ note.emoji }}</p>
-                                    <span class="pin" id="pin-{{note.note_id}}"></span>
+                                    <span class="pin" id="pin-{{note.note_id}}-3"></span>
                                 </div>
 
                                 <div class="sticky-note-content">
-                                    <p id="content-{{note.note_id}}">{{ note.content }}</p>
+                                    <p id="content-{{note.note_id}}-3">{{ note.content }}</p>
                                 </div>
 
                             </div>
@@ -402,23 +376,23 @@
                             <div class="reactions">
                                 <div class="react react-{{note.note_id}}">
                                     <p>😻</p>
-                                    <i id="love-num-{{note.note_id}}" note-id="{{note.note_id}}" react="1" total="{{note.loves}}"></i>
+                                    <i id="love-num-{{note.note_id}}-3" note-id="{{note.note_id}}" react="1" total="{{note.loves}}"></i>
                                 </div>
                                 <div class="react react-{{note.note_id}}" >
                                     <p>😾</p>
-                                    <i id="angry-num-{{note.note_id}}" note-id="{{note.note_id}}" react="2" total="{{note.angries}}"></i>
+                                    <i id="angry-num-{{note.note_id}}-3" note-id="{{note.note_id}}" react="2" total="{{note.angries}}"></i>
                                 </div>
                                 <div class="react react-{{note.note_id}}">
                                     <p>😿</p>
-                                    <i id="cry-num-{{note.note_id}}" note-id="{{note.note_id}}" react="3" total="{{note.cries}}"></i>
+                                    <i id="cry-num-{{note.note_id}}-3" note-id="{{note.note_id}}" react="3" total="{{note.cries}}"></i>
                                 </div>
                                 <div class="react react-{{note.note_id}}">
                                     <p>🙀</p>
-                                    <i id="wow-num-{{note.note_id}}" note-id="{{note.note_id}}" react="4" total="{{note.wows}}"></i>
+                                    <i id="wow-num-{{note.note_id}}-3" note-id="{{note.note_id}}" react="4" total="{{note.wows}}"></i>
                                 </div>
                             </div>
 
-                            <div class="note-date" id="note-date-{{note.note_id}}">
+                            <div class="note-date" id="note-date-{{note.note_id}}-3">
                                 {{note.time}}
                             </div>
 
@@ -427,11 +401,10 @@
                     
 
                         <script>
-                            console.log({{note.gender}});
                             onetimeChange(
                                 {{note.note_id}}, {{note.note_color}}, {{note.nickname_font}}, 
                                 {{note.nickname_color}}, {{note.content_font}}, {{note.content_color}},
-                                {{note.gender}}
+                                "{{note.gender}}", "3"
                             );
                         </script>
                         
@@ -440,7 +413,7 @@
                 </div>
             </div>       
         
-            
+            {% comment %} Top 5 Most Cries Reacted {% endcomment %}
             <div class="reactions-board">
                 <div class="reactions-board-label">
                     <div class="most-text">
@@ -458,24 +431,24 @@
                 
                 <div class="sticky-notes-container">
 
-                    {% for note in notes %}
+                    {% for note in top_5_cries %}
                         <div class="notes-second-container">
 
                             <div class="clip">
-                                <p id="replies-text-{{note.note_id}}" onclick="changeTemplate('{% url 'whiteboard' note.note_id %}');">REPLIES</p>
+                                <p id="replies-text-{{note.note_id}}-4" onclick="changeTemplate('{% url 'whiteboard' note.note_id %}');">REPLIES</p>
                                 <svg fill="#B76767" height="200px" width="200px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <path d="M487.458,271.701C501.632,267.546,512,254.43,512,238.933c0-18.825-15.309-34.133-34.133-34.133H316.083l-7.808-45.662 c20.198-10.906,33.058-28.075,33.058-47.787c0-33.724-37.478-60.151-85.333-60.151c-47.846,0-85.333,26.428-85.333,60.151 c0,19.712,12.868,36.881,33.067,47.787l-7.808,45.662H34.133C15.317,204.8,0,220.109,0,238.933 c0,15.497,10.377,28.612,24.55,32.768L2.722,431.744c-0.998,7.322,1.22,14.72,6.084,20.301c4.855,5.564,11.887,8.755,19.277,8.755 h91.383c4.719,0,8.533-3.814,8.533-8.533c0-18.825,15.317-34.133,34.133-34.133c18.825,0,34.133,15.309,34.133,34.133 c0,4.719,3.823,8.533,8.533,8.533h102.4c4.719,0,8.533-3.814,8.533-8.533c0-18.825,15.317-34.133,34.133-34.133 c18.825,0,34.133,15.309,34.133,34.133c0,4.719,3.823,8.533,8.533,8.533h91.383c7.398,0,14.43-3.191,19.285-8.764 c4.864-5.581,7.083-12.971,6.084-20.292L487.458,271.701z M213.24,204.8l6.639-38.827c10.931,3.516,23.117,5.53,36.122,5.53 c13.005,0,25.199-2.014,36.13-5.53l6.639,38.827H213.24z"></path> </g> </g> </g></svg>
                             </div>
 
-                            <div class="sticky-note"id="sticky-note-{{note.note_id}}" note_id="{{ note.note_id }}">
+                            <div class="sticky-note"id="sticky-note-{{note.note_id}}-4" note_id="{{ note.note_id }}">
 
                                 <div class="note-header">
-                                    <p class="nickname" id="nickname-{{note.note_id}}" >{{ note.nickname }}</p>
+                                    <p class="nickname" id="nickname-{{note.note_id}}-4" >{{ note.nickname }}</p>
                                     <p class="emoji">{{ note.emoji }}</p>
-                                    <span class="pin" id="pin-{{note.note_id}}"></span>
+                                    <span class="pin" id="pin-{{note.note_id}}-4"></span>
                                 </div>
 
                                 <div class="sticky-note-content">
-                                    <p id="content-{{note.note_id}}">{{ note.content }}</p>
+                                    <p id="content-{{note.note_id}}-4">{{ note.content }}</p>
                                 </div>
 
                             </div>
@@ -483,23 +456,23 @@
                             <div class="reactions">
                                 <div class="react react-{{note.note_id}}">
                                     <p>😻</p>
-                                    <i id="love-num-{{note.note_id}}" note-id="{{note.note_id}}" react="1" total="{{note.loves}}"></i>
+                                    <i id="love-num-{{note.note_id}}-4" note-id="{{note.note_id}}" react="1" total="{{note.loves}}"></i>
                                 </div>
                                 <div class="react react-{{note.note_id}}" >
                                     <p>😾</p>
-                                    <i id="angry-num-{{note.note_id}}" note-id="{{note.note_id}}" react="2" total="{{note.angries}}"></i>
+                                    <i id="angry-num-{{note.note_id}}-4" note-id="{{note.note_id}}" react="2" total="{{note.angries}}"></i>
                                 </div>
                                 <div class="react react-{{note.note_id}}">
                                     <p>😿</p>
-                                    <i id="cry-num-{{note.note_id}}" note-id="{{note.note_id}}" react="3" total="{{note.cries}}"></i>
+                                    <i id="cry-num-{{note.note_id}}-4" note-id="{{note.note_id}}" react="3" total="{{note.cries}}"></i>
                                 </div>
                                 <div class="react react-{{note.note_id}}">
                                     <p>🙀</p>
-                                    <i id="wow-num-{{note.note_id}}" note-id="{{note.note_id}}" react="4" total="{{note.wows}}"></i>
+                                    <i id="wow-num-{{note.note_id}}-4" note-id="{{note.note_id}}" react="4" total="{{note.wows}}"></i>
                                 </div>
                             </div>
 
-                            <div class="note-date" id="note-date-{{note.note_id}}">
+                            <div class="note-date" id="note-date-{{note.note_id}}-4">
                                 {{note.time}}
                             </div>
 
@@ -508,11 +481,10 @@
                     
 
                         <script>
-                            console.log({{note.gender}});
                             onetimeChange(
                                 {{note.note_id}}, {{note.note_color}}, {{note.nickname_font}}, 
                                 {{note.nickname_color}}, {{note.content_font}}, {{note.content_color}},
-                                {{note.gender}}
+                                "{{note.gender}}", "4"
                             );
                         </script>
                         
@@ -521,7 +493,7 @@
                 </div>
             </div>
         
-            
+            {% comment %} Top 5 Most Wows Reacted  {% endcomment %}
             <div class="reactions-board">
                 <div class="reactions-board-label">
                     <div class="most-text">
@@ -539,24 +511,24 @@
                 
                 <div class="sticky-notes-container">
 
-                    {% for note in notes %}
+                    {% for note in top_5_wows %}
                         <div class="notes-second-container">
 
                             <div class="clip">
-                                <p id="replies-text-{{note.note_id}}" onclick="changeTemplate('{% url 'whiteboard' note.note_id %}');">REPLIES</p>
+                                <p id="replies-text-{{note.note_id}}-5" onclick="changeTemplate('{% url 'whiteboard' note.note_id %}');">REPLIES</p>
                                 <svg fill="#B76767" height="200px" width="200px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <path d="M487.458,271.701C501.632,267.546,512,254.43,512,238.933c0-18.825-15.309-34.133-34.133-34.133H316.083l-7.808-45.662 c20.198-10.906,33.058-28.075,33.058-47.787c0-33.724-37.478-60.151-85.333-60.151c-47.846,0-85.333,26.428-85.333,60.151 c0,19.712,12.868,36.881,33.067,47.787l-7.808,45.662H34.133C15.317,204.8,0,220.109,0,238.933 c0,15.497,10.377,28.612,24.55,32.768L2.722,431.744c-0.998,7.322,1.22,14.72,6.084,20.301c4.855,5.564,11.887,8.755,19.277,8.755 h91.383c4.719,0,8.533-3.814,8.533-8.533c0-18.825,15.317-34.133,34.133-34.133c18.825,0,34.133,15.309,34.133,34.133 c0,4.719,3.823,8.533,8.533,8.533h102.4c4.719,0,8.533-3.814,8.533-8.533c0-18.825,15.317-34.133,34.133-34.133 c18.825,0,34.133,15.309,34.133,34.133c0,4.719,3.823,8.533,8.533,8.533h91.383c7.398,0,14.43-3.191,19.285-8.764 c4.864-5.581,7.083-12.971,6.084-20.292L487.458,271.701z M213.24,204.8l6.639-38.827c10.931,3.516,23.117,5.53,36.122,5.53 c13.005,0,25.199-2.014,36.13-5.53l6.639,38.827H213.24z"></path> </g> </g> </g></svg>
                             </div>
 
-                            <div class="sticky-note"id="sticky-note-{{note.note_id}}" note_id="{{ note.note_id }}">
+                            <div class="sticky-note"id="sticky-note-{{note.note_id}}-5" note_id="{{ note.note_id }}">
 
                                 <div class="note-header">
-                                    <p class="nickname" id="nickname-{{note.note_id}}" >{{ note.nickname }}</p>
+                                    <p class="nickname" id="nickname-{{note.note_id}}-5" >{{ note.nickname }}</p>
                                     <p class="emoji">{{ note.emoji }}</p>
-                                    <span class="pin" id="pin-{{note.note_id}}"></span>
+                                    <span class="pin" id="pin-{{note.note_id}}-5"></span>
                                 </div>
 
                                 <div class="sticky-note-content">
-                                    <p id="content-{{note.note_id}}">{{ note.content }}</p>
+                                    <p id="content-{{note.note_id}}-5">{{ note.content }}</p>
                                 </div>
 
                             </div>
@@ -564,23 +536,23 @@
                             <div class="reactions">
                                 <div class="react react-{{note.note_id}}">
                                     <p>😻</p>
-                                    <i id="love-num-{{note.note_id}}" note-id="{{note.note_id}}" react="1" total="{{note.loves}}"></i>
+                                    <i id="love-num-{{note.note_id}}-5" note-id="{{note.note_id}}" react="1" total="{{note.loves}}"></i>
                                 </div>
                                 <div class="react react-{{note.note_id}}" >
                                     <p>😾</p>
-                                    <i id="angry-num-{{note.note_id}}" note-id="{{note.note_id}}" react="2" total="{{note.angries}}"></i>
+                                    <i id="angry-num-{{note.note_id}}-5" note-id="{{note.note_id}}" react="2" total="{{note.angries}}"></i>
                                 </div>
                                 <div class="react react-{{note.note_id}}">
                                     <p>😿</p>
-                                    <i id="cry-num-{{note.note_id}}" note-id="{{note.note_id}}" react="3" total="{{note.cries}}"></i>
+                                    <i id="cry-num-{{note.note_id}}-5" note-id="{{note.note_id}}" react="3" total="{{note.cries}}"></i>
                                 </div>
                                 <div class="react react-{{note.note_id}}">
                                     <p>🙀</p>
-                                    <i id="wow-num-{{note.note_id}}" note-id="{{note.note_id}}" react="4" total="{{note.wows}}"></i>
+                                    <i id="wow-num-{{note.note_id}}-5" note-id="{{note.note_id}}" react="4" total="{{note.wows}}"></i>
                                 </div>
                             </div>
 
-                            <div class="note-date" id="note-date-{{note.note_id}}">
+                            <div class="note-date" id="note-date-{{note.note_id}}-5">
                                 {{note.time}}
                             </div>
 
@@ -589,11 +561,10 @@
                     
 
                         <script>
-                            console.log({{note.gender}});
                             onetimeChange(
                                 {{note.note_id}}, {{note.note_color}}, {{note.nickname_font}}, 
                                 {{note.nickname_color}}, {{note.content_font}}, {{note.content_color}},
-                                {{note.gender}}
+                                "{{note.gender}}", "5"
                             );
                         </script>
                         
