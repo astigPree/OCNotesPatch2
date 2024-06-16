@@ -165,6 +165,7 @@
             Array.from(reply_content).forEach(rep_con =>{
                 let rep = rep_con.getElementsByTagName('p')[1];
                 rep.style.fontFamily = selected_content_font;
+                console.log(rep);
                 rep.style.color = textColor[content_color];
             })
 
@@ -294,7 +295,7 @@
                     </div>
                     <div class="content-input">
                         <label for="content">Content :</label>
-                        <textarea id="content" rows="4" cols="50" oninput="updateContent()" maxlength="347" placeholder="347 letters only can be put inside"></textarea>
+                        <textarea id="content" rows="4" cols="50" oninput="updateContent()" maxlength="260" placeholder="260 letters only can be put inside"></textarea>
                     </div>
     
                     <div class="preview-buttons">
