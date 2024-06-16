@@ -20,7 +20,7 @@ class StickyNote(models.Model):
     
     emoji = models.CharField(max_length=255, default='')
     
-    posted_date = models.DateTimeField( auto_now_add=True)
+    posted_date = models.DateTimeField( auto_now_add=True )
     
     loves = models.PositiveBigIntegerField(default=0)
     angries = models.PositiveBigIntegerField(default=0)
@@ -48,7 +48,8 @@ class StickyNote(models.Model):
             'angries' : self.angries,
             'cries' : self.cries,
             'wows' : self.wows,
-            'gender' : self.gender
+            'gender' : self.gender,
+            'total_replies' : self.replies.count()
         }
         
         return data
@@ -70,6 +71,7 @@ class StickyNote(models.Model):
             'cries' : self.cries,
             'wows' : self.wows,
             'gender' : self.gender,
+            'total_replies' : self.replies.count(),
             'replies' : [
                 reply.get_data() for reply in self.replies.all()[::-1]
             ]

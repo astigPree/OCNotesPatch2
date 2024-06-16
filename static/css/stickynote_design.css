@@ -1,0 +1,192 @@
+
+@keyframes loadNote {
+    0%{
+        opacity: 0;
+        transform: translateY(5%);
+
+    }
+    80%{
+        transform: translateY(0%);
+    }
+    100%{
+        opacity: 1;
+
+    }
+}
+
+.sticky-notes-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    /* background-color: rebeccapurple; */
+    row-gap: 0.5svh;
+    column-gap: 10.0svh;
+    padding-bottom: 5.0svh;
+}
+
+.sticky-notes-container > *{
+    animation: loadNote 0.6s ease-in 0s 1 forwards;
+}
+
+.sticky-note {
+    position: relative;
+    transform: rotate(-5deg);
+    width: 250px;
+    height: 230px;
+    min-width: 250px;
+    min-height: 230px;
+    background-color: #f9f485; 
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.2);
+    padding: 10px;
+    line-height: 1.5;
+    border-radius: 5px; 
+    flex: 0 1 250px;
+    z-index: 5;
+}
+
+
+.note-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: fit-content;
+}
+
+.nickname{
+    font-family: var(--primary-font);
+    margin: 0;
+    width: fit-content;
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+.pin{
+    background-color: var(--secondary-color);
+    box-shadow: 0 0 6px rgba(0,0,0,0.8);
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    position: relative;
+    top: -20px;
+    right: -20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pin > * {
+    resize: both;
+    height: 80%;
+    width: 80%;
+}
+
+.emoji{
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 35px;
+    transform: rotate(11deg);
+}
+
+.sticky-note-content > *{
+    color: black;
+    font-family: var(--secondary-font);
+    font-weight: 400;
+    margin-top: 16px;
+    width: 250px;
+    height: fit-content;
+    word-wrap:break-word ;
+    font-size: 14px;
+}
+
+.clip{
+    position: relative;
+    left: 264px;
+    top: 227px;
+    text-align: center;
+    display: flex;
+    width: fit-content;
+    flex-direction: column;
+    padding: 5px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transform: rotate(84deg);
+    z-index: 11;
+}
+
+.clip svg{
+    position: relative;
+    flex: 1;
+    width: 55px;
+    height: 45px;
+    filter: drop-shadow(0 0 1px rgba(1, 1, 1 ,0.7));
+    z-index: 10;
+}
+
+.clip p{
+    position: relative;
+    top: 40px;
+    z-index: 11;
+    font-size: 9px;
+    font-weight: bold;
+    font-family: var(--secondary-font);
+    letter-spacing: 1px;
+}
+
+.note-date{
+    position: relative;
+    text-align: center;
+    padding: 5px 3px ;
+    color: black;
+    font-family: var(--primary-font);
+    font-size: 10px;
+    width: fit-content;
+    border-radius: 25% 25% 0% 0% / 25% 25% 25% 25%;
+    bottom: 332px;
+    transform: rotate(-5deg) translateX(10%);
+}
+
+.reactions{
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    column-gap: 10px;
+    bottom: 7px;
+    transform: rotate(-5deg);
+    width: 230px;
+    margin-left: 20px;
+    justify-content: space-evenly;
+    z-index: 1;
+}
+
+@keyframes remove_react {
+    to{
+        transform : translateY(-56%);
+    }
+}
+
+.react{
+    position: relative;
+    text-align: center;
+    padding: 5px 3px ;
+    border-radius: 0% 0% 0% 25% / 25% 25% 25% 25%;
+    cursor: pointer;
+}
+
+.react-clicked{
+    animation: remove_react 0.6s ease-in-out 0s 1 forwards;
+
+}
+
+.react p{
+    font-size: 30px;
+}
+
+.react i{
+    font-size: 12px;
+    color: black;
+    font-family: var(--secondary-font);
+}
+
