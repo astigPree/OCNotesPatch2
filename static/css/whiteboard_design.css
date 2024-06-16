@@ -38,51 +38,9 @@
 body{
     background-color: var(--primary-color);
     margin: 0;
-    padding-bottom: 13.0svh;
+    padding-bottom: 100px;
     min-width: 326px;
 }
-
-.tool-bar{
-    z-index: 5;
-    position: fixed;
-    bottom: 0;
-    display: flex;
-    width: 100%;
-    background-color: var(--secondary-color);
-    justify-content: space-around;
-    height: 8.5svh;
-    box-shadow: 0.0svh -0.5svh 1.0svh rgba(0,0,0,0.2);
-    padding-bottom: 0.5svh;
-}
-
-.tool{
-    width: fit-content;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    /* background-color: rebeccapurple; */
-    margin-top: 1.0svh;
-    opacity: 0.5;
-    cursor: pointer;
-}
-
-.tool svg{
-    flex : 1;
-    height: 4.0svh;
-    width: 4.0svh;
-}
-
-.tool p{
-    flex: 0;
-    font-family: var(--secondary-font);
-    color: var(--tertiary-color);
-}
-
-.tool:nth-child(1){
-    opacity: 1;
-}
-
 
 
 .header-bar{
@@ -116,24 +74,12 @@ body{
     font-size: 2.0svh;
 }
 
-.header-right{
-    display: flex;
-    flex-direction: column;
-    /* background-color: rebeccapurple; */
-    align-items: center;
-    transform: rotate(15deg);
-    width: 100px;
-    margin-right: 3.0svh;
-}
-
-.container{
-}
 
 .note-whiteboard-placeholder{
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0 5.0svh;
+    padding: 0 50px;
 }
 
 .note-whiteboard-container{
@@ -143,8 +89,8 @@ body{
     flex-wrap: wrap;
     justify-content: center;
     align-items: flex-start;
-    column-gap: 10.0svh;
-    row-gap: 13.0svh;
+    column-gap: 100px;
+    row-gap: 130px;
     max-width: 1300px;
 }
 
@@ -154,87 +100,18 @@ body{
 
 .note-container h2{
     font-family: var(--primary-font);
-    padding-bottom: 3.0svh;
+    padding-bottom: 30px;
 }
 
 
-.sticky-note {
-    transform: rotate(-5deg);
-    width: 250px;
-    height: 230px;
-    background-color: #f9f485; 
-    box-shadow: 5px 5px 15px rgba(0,0,0,0.2);
-    padding: 10px;
-    line-height: 1.5;
-    border-radius: 5px; 
-    flex: 0 1 250px;
-}
-
-
-.note-header{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    height: fit-content;
-}
-
-.nickname{
-    font-family: var(--primary-font);
-    color: black;
-    margin: 0;
-    width: fit-content;
-    font-size: 3.0svh;
-    margin-top: 1.0svh;
-}
-
-.pin{
-    background-color: var(--secondary-color);
-    box-shadow: 0 0 1.0svh rgba(0,0,0,0.2);
-    border-radius: 50%;
-    width: 5.0svh;
-    height: 5.0svh;
-    position: relative;
-    top: -20px;
-    right: -20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.pin > * {
-    resize: both;
-    height: 80%;
-    width: 80%;
-}
-
-
-.emoji{
-    position: absolute;
-    top: 10px;
-    right: 20px;
-    font-size: 5.9svh;
-    transform: rotate(11deg);
-}
-
-.sticky-note-content > *{
-    color: black;
-    font-family: var(--secondary-font);
-    font-weight: 400;
-    margin-top: 3.1svh;
-    width: 250px;
-    height: fit-content;
-    word-wrap:break-word ;
-    font-size: 2.0svh;
-}
-
-.clip{
+.clip-react{
     position: relative;
     text-align: center;
     display: flex;
     width: fit-content;
     flex-direction: column;
-    padding: 1.0svh;
-    border-radius: 1.0svh 0 0 0;
+    padding: 5px;
+    border-radius: 5px 0 0 0;
     align-items: center;
     justify-content: center;
     cursor: pointer;
@@ -242,23 +119,23 @@ body{
     transform: translateY(-50%) translateX(65%) rotate(50deg) scale(200%);
 }
 
-.clip svg{
+.clip-react svg{
     position: relative;
     flex: 1;
-    width: 8.0svh;
-    height: 8.0svh;
+    width: 60px;
+    height: 60px;
     filter: drop-shadow(0 0 0.5px rgba(1, 1, 1 ,0.7));
     z-index: 10;
 }
 
-.clip p{
+.clip-react p{
     position: relative;
-    top: 6.1svh;
+    top: 46px;
     z-index: 11;
-    font-size: 1.1svh;  
+    font-size: 8px;  
     font-weight: bold;
     font-family: var(--secondary-font);
-    letter-spacing: 0.2svh;
+    letter-spacing: 2px;
 }
 
 @keyframes cryEmote {
@@ -303,11 +180,11 @@ body{
     }
 }
 
-.reactions{
+.reactions-reply{
     display: flex;
     position: relative;
     flex-direction: row;
-    column-gap: 2.0svh;
+    column-gap: 15px;
     bottom: 7px;
     width: 230px;
     margin-left: 20px;
@@ -315,7 +192,7 @@ body{
     z-index: 1;
 }
 
-.react{
+.react-reply{
     position: relative;
     text-align: center;
     padding: 5px 3px ;
@@ -324,90 +201,91 @@ body{
     background-color: #f9f485;
 }
 
-.react p{
+.react-reply p{
     font-size: 30px;
 }
 
-.react i{
+.react-reply i{
     font-size: 12px;
     color: black;
     font-family: var(--secondary-font);
 }
 
-.react:nth-child(4){
+.react-reply:nth-child(4){
     transform:  translateY(10%) ;
 }
 
-.react:nth-child(4) > p{
+.react-reply:nth-child(4) > p{
     animation: wowEmote 0.5s ease-in 0s infinite ;
 }
 
-.react:nth-child(3){
+.react-reply:nth-child(3){
     transform:  translateX(-10%) translateY(25%) ;
 }
 
-.react:nth-child(3) > p{
+.react-reply:nth-child(3) > p{
     animation: cryEmote 1s ease-in-out 0s infinite;
 }
 
-.react:nth-child(2){
+.react-reply:nth-child(2){
     transform:  translateX(140%) translateY(135%);
 }
 
-.react:nth-child(2) > p{
+.react-reply:nth-child(2) > p{
     animation: angryEmote 1s ease-in-out 0s infinite;
 }
 
-.react:nth-child(1){
+.react-reply:nth-child(1){
     transform:  translateX(410%) translateY(125%);
 }
 
-.react:nth-child(1) > p{
+.react-reply:nth-child(1) > p{
     animation: jumpEmote 0.6s ease-in-out 0s infinite;
 }
 
 .note-container .label-reply{
-    padding-top: 5.0svh;
+    padding-top: 50px;
 }
 
 
 .note-container label{
     font-family: var(--primary-font);
-    padding-bottom: 3.0svh;
+    padding-bottom: 20px;
     width: 100px;
 }
 
 .note-container input[type="text"]:not(button){
-    font-size: 2.0svh;
-    border-radius: 0.5svh;
+    font-size: 15px;
+    border-radius: 5px;
     line-height: 1.5;
-    padding: 0.5svh;
-    border: 0.5svh solid #dee1e2;
+    padding: 5px;
+    border: 5px solid #dee1e2;
     color: rgb(14, 14, 16);
     background: #dee1e2;
     display: block;
-    height: 2.0svh;
-    margin-left: 1.5svh;
+    height: 15px;
+    margin-left: 15px;
     width: 150px;
     font-family: var(--secondary-font);
+    margin-bottom: 5px;
 }
 
 .note-container textarea{
-    font-size: 2.0svh;
-    border-radius: 0.5svh;
+    font-size: 15px;
+    border-radius: 5px;
     line-height: 1.5;
-    padding: 0.5svh;
-    border: 0.5svh solid #dee1e2;
+    padding: 5px;
+    border: 5px solid #dee1e2;
     color: rgb(14, 14, 16);
     background: #dee1e2;
     display: block;
-    height: 16.0svh;
-    margin-left: 1.5svh;
+    height: 160px;
+    margin-left: 13px;
     width: 250px;
     font-family: var(--secondary-font);
     max-width: 250px;
     min-width: 250px;
-    min-height: 200px;
+    min-height: 160px;
 }
 
 
@@ -418,8 +296,8 @@ body{
 
 .name-input label{
     text-align: center;
-    height: 2.0svh;
-    font-size: 2.5svh;
+    height: 20px;
+    font-size: 17px;
     align-self: center;
 }
 
@@ -429,8 +307,8 @@ body{
     display: flex;
     flex-direction: row;
     justify-content: center;
-    margin-top: 6.0svh;
-    gap: 10.0svh;
+    margin-top: 50px;
+    gap: 80px;
 }
 
 .preview-buttons div{
@@ -440,17 +318,17 @@ body{
     width: fit-content;
     height: fit-content;
     background-color: var(--secondary-color);
-    padding: 1.0svh;
+    padding: 10px;
     text-align: center;
-    gap: 1.0svh;
-    border-radius: 1.0svh;
+    gap: 10px;
+    border-radius: 8px;
     align-items: center;
     cursor: pointer;
 }
 
 .preview-buttons div svg{
-    width: 4.0svh;
-    height: 4.0svh;
+    width:25px;
+    height: 25px;
     flex: 1;
 }
 
@@ -477,10 +355,10 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 2.0svh;
-    margin-left: 0.5svh;
-    margin-right: 0.5svh;
-    border: var(--tertiary-color) solid 0.5svh;
+    border-radius: 15px;
+    margin-left: 5px;
+    margin-right: 5px;
+    border: var(--tertiary-color) solid 5px;
 }
 
 .whiteboard{
@@ -488,17 +366,17 @@ body{
     width: 98%;
     height: 97%;
     margin: 0;
-    border: 1.5svh solid black ;
-    border-radius: 2.0svh;
+    border: 10px solid black ;
+    border-radius: 15px;
 }
 
 .whiteboard h2{
     font-family: var(--primary-font);
-    padding-bottom: 3.0svh;
+    padding-bottom: 30px;
     color: var(--tertiary-color);
-    margin-left: 2.0svh;
-    margin-top: 2.0svh;
-    letter-spacing: 0.2svh;
+    margin-left: 15px;
+    margin-top: 15px;
+    letter-spacing: 2px;
 }
 
 
@@ -518,29 +396,28 @@ body{
 }
 
 .replies-container{
-    margin-top: 2.0svh;
+    margin-top: 15px;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
     flex-wrap: wrap;
-    row-gap: 5.0svh;
+    row-gap: 50px;
     resize: horizontal;
     width: 100%;
-    margin-bottom: 3.0svh;
+    margin-bottom: 30px;
     /* background-color: #791717; */
 }
 
 .reply{
-    width: 210px;
-    height: 230px;
+    width: 250px;
+    height: 250px;
     background-color: #f9f485; 
     box-shadow: 0px 3px 3px rgba(0,0,0,0.4);
-    padding: 0.8svh;
+    padding: 8px;
     line-height: 1.5;
     border-radius: 5px; 
-    flex: 0 1 250px;
-    margin-left: 1.5svh;
-    margin-right: 1.5svh;
+    margin-left: 13px;
+    margin-right: 13px;
     transform: rotate(-2deg);
     animation: loadNote 0.6s ease-in 0s 1 forwards;
 }
@@ -548,8 +425,8 @@ body{
 .reply-content{
     display: flex;
     flex-direction: column;
-    padding: 0 0.5svh;
-    row-gap: 1.3svh;
+    padding: 0 5px;
+    row-gap: 8px;
 }
 
 .reply-content > *{
@@ -557,34 +434,33 @@ body{
 }
 
 .reply-content > p:nth-child(1){
-    font-size: 3.5svh;
+    font-size: 22px;
     font-family: var(--permanent-marker);
 }
 
 .reply-content > p:nth-child(2){
-    font-size: 1.8svh;
+    font-size: 12.5px;
     font-family: var(--secondary-font);
     height: fit-content;
     word-wrap:break-word ;
-    letter-spacing: 0.1svh;
+    letter-spacing: 1px;
 }
 
 .tape{
     width: 45px;
     height: 20px;
     background-color: #B76767;
-    border-radius: 1.0svh;
+    border-radius: 6px;
     position: absolute;
     transform: translateX(500%) translateY(-80%) rotate(30deg);
     display: flex;
     justify-content: center;
     align-items: center;
-    
 }
 
 .tape > *{
     font-family: var(--secondary-font);
-    font-size: 1.3svh;
+    font-size: 8px;
     color: #f9f485;
     font-weight: bold;
 }
