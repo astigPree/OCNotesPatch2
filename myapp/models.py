@@ -32,6 +32,27 @@ class StickyNote(models.Model):
     def __str__(self) -> str:
         return f"{self.posted_date.date()} - {self.nickname}"
     
+    def get_my_data_without_reply(self) -> dict:
+        data = {
+            'note_id' : self.id,
+            'note_color' : self.note_color,
+            'nickname' : self.nickname,
+            'nickname_color' : self.nickname_color,
+            'nickname_font' : self.nickname_font,
+            'content' : self.content,
+            'content_color' : self.content_color,
+            'content_font' : self.content_font,
+            'emoji' : self.emoji,
+            'time' : self.posted_date.strftime("%b / %I:%M %p").lower(),
+            'loves' : self.loves,
+            'angries' : self.angries,
+            'cries' : self.cries,
+            'wows' : self.wows,
+            'gender' : self.gender
+        }
+        
+        return data
+    
     def get_my_data(self) -> dict:
         data = {
             'note_id' : self.id,

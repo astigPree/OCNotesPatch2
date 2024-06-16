@@ -17,8 +17,8 @@ def clipboard_list_page(request):
     if request.method == "GET":
         # notes = StickyNote.objects.all().order_by('-id')[:NUMBER_OF_NOTES_TO_DISPLAY]
         notes = StickyNote.objects.order_by('-id')[:NUMBER_OF_NOTES_TO_DISPLAY]
-        context = { "notes" : [ note.get_my_data() for note in notes ] }
-        # print(context)
+        context = { "notes" : [ note.get_my_data_without_reply() for note in notes ] }
+        print(context)
         return render(request , 'clipboards_screens.html' , context=context)
     
 def sticky_notes_view(request):
@@ -44,7 +44,7 @@ def sticky_notes_view(request):
 
         isDatabaseHasData = len(sticky_notes) > NUMBER_OF_NOTES_TO_DISPLAY - 1
         notes_data = [
-            note.get_my_data() for note in sticky_notes
+            note.get_my_data_without_reply() for note in sticky_notes
         ]
         print(len(notes_data))
         
@@ -105,8 +105,6 @@ def write_notes(request):
 
 @csrf_exempt
 def suggestion_page(request):
-    print(StickyNote.getStickyNote(7).get_my_data())
-    
     if request.method == 'POST':
         nickname = request.POST.get('nickname')
         subject = request.POST.get('subject')
