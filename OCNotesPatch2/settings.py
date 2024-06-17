@@ -110,11 +110,13 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+# TIME_ZONE = 'UTC' # Django Time Zone
 
 USE_I18N = True
 
 USE_TZ = True
+
+TIME_ZONE = 'Asia/Manila' # Fix timezone
 
 
 # Static files (CSS, JavaScript, Images)

@@ -3,7 +3,7 @@ from .models import StickyNote
 from html.parser import HTMLParser
 import re
 
-NUMBER_OF_NOTES_TO_DISPLAY = 30
+NUMBER_OF_NOTES_TO_DISPLAY = 3
 BAD_WORDS = (
     'puta', 'pota', 'tangina', 'gago' , 'bobo' , 'bubo' , 'bubu' , 'bobu', 'patay', 'matay', 'natay', 'amp', 'nigga', 'yawa',
     'pisot' , 'bayag', 'buto', 'totoy', 'boto', 'letche', 'itot' , 'salsal', 'jabol', 'pusli', 'shabu', 'whana', 'bilat', 'belat',
@@ -57,7 +57,6 @@ def getLocationOfTag(text: str) -> list:
     # print("Tag html object" , tags )
     return [ f'{tag[0]}' for tag in tags]
 
-
 def isBadWords(sentence : str, word : str) -> bool:
     hasBadWord = sentence.lower().find(word)
     return True if hasBadWord > -1 else False
@@ -84,13 +83,21 @@ def get_incremental_sticky_notes(start_id, count):
     sticky_notes.reverse()
     return sticky_notes
 
-def next_page(start_id):
+def next_page(start_id) -> tuple[list[StickyNote], int ]:
+    """Get the next page
+
+    Args:
+        start_id (int): The starting ID of the selected StickyNote
+
+    Returns:
+        tuple[ Queryset[StickyNote, ...] , remaining notes ]: return the sticky notes needed and the remaining notes
+    """
     sticky_notes = StickyNote.objects.filter(id__lt=start_id).order_by('-id')[:NUMBER_OF_NOTES_TO_DISPLAY]
-    return sticky_notes
+    return sticky_notes, len(StickyNote.objects.filter(id__lt=start_id).order_by('-id')[NUMBER_OF_NOTES_TO_DISPLAY::])
 
 def previous_page(start_id):
     sticky_notes = StickyNote.objects.filter(id__gt=start_id).order_by('id')[:NUMBER_OF_NOTES_TO_DISPLAY:-1]
-    return sticky_notes
+    return sticky_notes, len(StickyNote.objects.filter(id__lt=start_id).order_by('-id')[NUMBER_OF_NOTES_TO_DISPLAY::])
     
 def get_decremental_sticky_notes(start_id, count):
     sticky_notes = list(StickyNote.objects.filter(id__lte=start_id).order_by('-id')[:count])

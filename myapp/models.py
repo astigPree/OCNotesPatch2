@@ -1,6 +1,11 @@
 from django.db import models
-from django.utils import timezone
 import typing as tp
+
+from django.utils import timezone
+import pytz
+
+# Define the Masbate City timezone
+manila_tz = pytz.timezone('Asia/Manila')
 
 # Create your models here.
 REACTIONS = ('loves', 'angries', 'cries', 'wows')
@@ -20,7 +25,7 @@ class StickyNote(models.Model):
     
     emoji = models.CharField(max_length=255, default='')
     
-    posted_date = models.DateTimeField( auto_now_add=True )
+    posted_date = models.DateTimeField(null=True, blank=True, default=timezone.now)
     
     loves = models.PositiveBigIntegerField(default=0)
     angries = models.PositiveBigIntegerField(default=0)
@@ -30,9 +35,10 @@ class StickyNote(models.Model):
     gender = models.CharField(max_length=1, default='')
     
     def __str__(self) -> str:
-        return f"{self.posted_date.date()} - {self.nickname}"
+        return f"{self.posted_date} - {self.nickname}"
     
     def get_my_data_without_reply(self) -> dict:
+        # print(f"Get data : {self.posted_date}")
         data = {
             'note_id' : self.id,
             'note_color' : self.note_color,
@@ -43,7 +49,7 @@ class StickyNote(models.Model):
             'content_color' : self.content_color,
             'content_font' : self.content_font,
             'emoji' : self.emoji,
-            'time' : self.posted_date.strftime("%b / %I:%M %p").lower(),
+            'time' : self.posted_date,
             'loves' : self.loves,
             'angries' : self.angries,
             'cries' : self.cries,
@@ -51,6 +57,24 @@ class StickyNote(models.Model):
             'gender' : self.gender,
             'total_replies' : self.replies.count()
         }
+        # data = {
+        #     'note_id' : self.id,
+        #     'note_color' : self.note_color,
+        #     'nickname' : self.nickname,
+        #     'nickname_color' : self.nickname_color,
+        #     'nickname_font' : self.nickname_font,
+        #     'content' : self.content,
+        #     'content_color' : self.content_color,
+        #     'content_font' : self.content_font,
+        #     'emoji' : self.emoji,
+        #     'time' : self.posted_date.strftime("%b / %I:%M %p").lower(),
+        #     'loves' : self.loves,
+        #     'angries' : self.angries,
+        #     'cries' : self.cries,
+        #     'wows' : self.wows,
+        #     'gender' : self.gender,
+        #     'total_replies' : self.replies.count()
+        # }
         
         return data
     
@@ -80,14 +104,44 @@ class StickyNote(models.Model):
         return data
     
     @classmethod
-    def next_page(cls, start_id : int, number_to_display : int) -> tp.Union[tp.List['StickyNote'], None] :
+    def next_page(cls, start_id : int, number_to_display : int) -> tp.Tuple[ tp.Union[tp.List['StickyNote'], None], int ] :
+        """Get the next page
+
+        Args:
+            start_id (int): The starting ID of the selected StickyNote
+
+        Returns:
+            tuple[ Queryset[StickyNote, ...] , remaining notes ]: return the sticky notes needed and the remaining notes
+        """
         sticky_notes = cls.objects.filter(id__lt=start_id).order_by('-id')[:number_to_display]
-        return sticky_notes
-        
+        return sticky_notes, len(cls.objects.filter(id__lt=start_id).order_by('-id')[number_to_display::])
+    
     @classmethod
-    def previous_page(cls, start_id : int, number_to_display : int) -> tp.Union[ tp.List['StickyNote'], None] :
+    def next_page_remaining(cls, start_id : int, number_to_display : int ) -> int:
+       return len(cls.objects.filter(id__lt=start_id).order_by('-id')[number_to_display::])
+    
+    @classmethod
+    def previous_page(cls, start_id : int, number_to_display : int) -> tp.Tuple[ tp.Union[ tp.List['StickyNote'], None] , int ] :
+        """Get the prev page
+
+        Args:
+            start_id (int): The starting ID of the selected StickyNote
+
+        Returns:
+            tuple[ Queryset[StickyNote, ...] , remaining notes ]: return the sticky notes needed and the remaining notes
+        """
         sticky_notes = cls.objects.filter(id__gt=start_id).order_by('id')[:number_to_display:-1]
-        return sticky_notes
+        remaining = len(cls.objects.filter(id__gt=start_id).order_by('-id')) - number_to_display
+        if remaining < 0:
+            remaining = 0
+        return sticky_notes, remaining
+    
+    @classmethod
+    def prev_page_remaining(cls, start_id : int , number_to_display : int) -> int:
+        remaining = len(cls.objects.filter(id__gt=start_id).order_by('-id')) - number_to_display
+        if remaining < 0:
+            remaining = 0
+        return remaining
     
     @classmethod
     def isWhiteBoardIsFull(cls, note_id ) -> bool:
@@ -192,10 +246,17 @@ class Replies(models.Model):
     sticky_note = models.ForeignKey(StickyNote, on_delete=models.CASCADE, related_name='replies', default=None)
     nickname = models.CharField(max_length=13)
     content = models.TextField()
-    replies_date = models.DateTimeField(default=timezone.now)
+    replies_date = models.DateTimeField(null=True, blank=True, default=timezone.now)
     
     def __str__(self) -> str:
         return f"{self.sticky_note.posted_date.date()} - {self.sticky_note.nickname}"
+    
+    # def save(self, *args, **kwargs):
+    #     if not self.replies_date:
+    #         self.replies_date = timezone.now().astimezone(manila_tz)
+    #     else:
+    #         self.replies_date = self.replies_date.astimezone(manila_tz)
+    #     super().save(*args, **kwargs)
     
     def get_data(self) -> tuple[str, str]:
         return ( self.nickname, self.content , self.replies_date.strftime("%I:%M%p").lower())
@@ -218,7 +279,9 @@ class Replies(models.Model):
         if sticky_note is None:
             return False
         
-        cls.objects.create(sticky_note=sticky_note, nickname=nickname, content=content)
+        reply = cls.objects.create(sticky_note=sticky_note, nickname=nickname, content=content)
+        reply.replies_date = timezone.now().astimezone(manila_tz)
+        reply.save()
         return True
          
     

@@ -6,7 +6,7 @@ from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 
 from django.shortcuts import render
-from .models import UserSuggestion, Replies
+from .models import UserSuggestion, Replies, manila_tz , timezone
 
 from .tools import *
 
@@ -15,10 +15,15 @@ from .tools import *
 def clipboard_list_page(request):
     
     if request.method == "GET":
-        # notes = StickyNote.objects.all().order_by('-id')[:NUMBER_OF_NOTES_TO_DISPLAY]
-        notes = StickyNote.objects.order_by('-id')[:NUMBER_OF_NOTES_TO_DISPLAY]
-        context = { "notes" : [ note.get_my_data_without_reply() for note in notes ] }
-        # print(context)
+        notes = StickyNote.objects.all().order_by('-id')[:NUMBER_OF_NOTES_TO_DISPLAY]
+        # notes = StickyNote.next_page()
+        context = { 
+            "notes" : [ note.get_my_data_without_reply() for note in notes ],
+            "hasPrev" : '0',
+            "hasNext" : '1',
+            "prevRemaining" : 0, 
+            "nextRemaining" : StickyNote.objects.all().count()
+            }
         return render(request , 'clipboards_screens.html' , context=context)
     
 def sticky_notes_view(request):
@@ -30,28 +35,52 @@ def sticky_notes_view(request):
             return JsonResponse({'error': 'Invalid direction'}, status=400)
         
         start_id = int(request.POST.get('start_id'))
+        nextRemaining = 0
+        prevRemaining = 0
 
         if direction == 'up':
-            sticky_notes = StickyNote.next_page(start_id=start_id, number_to_display=NUMBER_OF_NOTES_TO_DISPLAY)
-        elif direction == 'down':
-            sticky_notes = StickyNote.previous_page(start_id=start_id, number_to_display=NUMBER_OF_NOTES_TO_DISPLAY)
+            sticky_notes , nextRemaining = StickyNote.next_page(start_id=start_id, number_to_display=NUMBER_OF_NOTES_TO_DISPLAY)
+            prevRemaining = StickyNote.prev_page_remaining(sticky_notes[0].id, NUMBER_OF_NOTES_TO_DISPLAY)
             
+        elif direction == 'down':
+            sticky_notes, prevRemaining = StickyNote.previous_page(start_id=start_id, number_to_display=NUMBER_OF_NOTES_TO_DISPLAY)
+            nextRemaining = StickyNote.next_page_remaining(sticky_notes[len(sticky_notes) - 1].id , NUMBER_OF_NOTES_TO_DISPLAY)
         else:
             return JsonResponse({'error': 'Invalid direction'}, status=400)
         
         if sticky_notes is None:
             return JsonResponse({'error': 'Invalid ID'}, status=400)
 
-        isDatabaseHasData = len(sticky_notes) > NUMBER_OF_NOTES_TO_DISPLAY - 1
         notes_data = [
             note.get_my_data_without_reply() for note in sticky_notes
         ]
-        # print(len(notes_data))
+        
+        if direction == "up":
+            hasPrev = '1'
+        else:
+            if prevRemaining > 0:
+                hasPrev = '1'
+            else:
+                hasPrev = '0'
+
+        if direction == "down":
+            hasNext = '1'
+        else:
+            if nextRemaining > 0:
+                hasNext = '1'
+            else:
+                hasNext = '0'
+        
+        print(prevRemaining , " Prev", sticky_notes[-1].id )
+        print(nextRemaining, " Next" , sticky_notes[-1].id)
         
         return JsonResponse(
             {
                 'sticky_notes': notes_data ,
-                'isDatabaseHasData' : isDatabaseHasData
+                'hasPrev' : hasPrev,
+                'hasNext' : hasNext,
+                "prevRemaining" : prevRemaining, 
+                "nextRemaining" : nextRemaining
             }
         )
     else:
@@ -89,7 +118,12 @@ def write_notes(request):
             content=data[3], content_color=int(data[4]), content_font=int(data[5]),
             emoji=data[6] , note_color = int(data[7]) , gender = data[8]
             )
+            
+            sticky_note.posted_date = timezone.now().astimezone(manila_tz)
+            print(sticky_note.posted_date)
             sticky_note.save()
+            print(sticky_note.posted_date)
+            
             
         return JsonResponse(
             {

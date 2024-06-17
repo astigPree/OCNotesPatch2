@@ -114,17 +114,6 @@
                 '3' : 'blue'
             }
 
-            function genderIcon(gender, iconColor){
-                console.log(gender);
-                if (gender == "1"){
-                    return `<svg id="gender-icon" fill="${iconColor}" viewBox="-25.6 -25.6 307.20 307.20" id="Flat" xmlns="http://www.w3.org/2000/svg" stroke="#791717" transform="rotate(0)"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="1.536"></g><g id="SVGRepo_iconCarrier"> <path d="M227.9978,39.95557q-.00219-.56984-.05749-1.13819c-.018-.18408-.05237-.36279-.07849-.54443-.02979-.20557-.05371-.41211-.09424-.61621-.04029-.20362-.09607-.40088-.14649-.60059-.04541-.18017-.08484-.36084-.13867-.53906-.05884-.19434-.13159-.38135-.19971-.57129-.06445-.17969-.12353-.36084-.19677-.5376-.07349-.17724-.15967-.34668-.24109-.51953-.08582-.18213-.16687-.36621-.26257-.54492-.088-.16455-.18824-.32031-.2837-.48047-.10534-.17627-.2052-.355-.32031-.52685-.11572-.17334-.24475-.33545-.369-.502-.11-.14746-.21252-.29834-.3302-.4414-.23462-.28614-.4834-.55957-.74316-.82227-.01782-.01807-.03247-.03809-.05054-.05615-.01953-.01953-.041-.03565-.06067-.05469-.26123-.25781-.53271-.50537-.81653-.73828-.14794-.12158-.30383-.22754-.45605-.34082-.16138-.12061-.31885-.24561-.48645-.35791-.17725-.11865-.36108-.22168-.54309-.33008-.15442-.0918-.30518-.189-.46411-.27392-.18311-.09815-.37134-.18116-.55811-.269-.16846-.07959-.334-.16357-.50659-.23486-.18042-.0752-.36475-.13525-.54785-.20068-.18652-.0669-.37073-.13868-.56152-.19629-.18189-.05518-.3667-.09571-.55066-.14161-.19568-.04931-.389-.10449-.58851-.144-.20935-.041-.42077-.06592-.63171-.09619-.17688-.02539-.351-.05908-.53027-.07666q-.56837-.05567-1.13953-.05762c-.01465,0-.02893-.002-.0437-.002H168a12,12,0,0,0,0,24h19.02905l-32.7334,32.7334a83.9988,83.9988,0,1,0,16.971,16.97021L204,68.9707V88a12,12,0,0,0,24,0V40C228,39.98486,227.9978,39.97021,227.9978,39.95557ZM146.42627,194.42676a59.97169,59.97169,0,1,1,0-84.85352A60.06666,60.06666,0,0,1,146.42627,194.42676Z"></path> </g></svg>`
-                }
-                if (gender == "2"){
-                    return `<svg id="gender-icon" fill="${iconColor}" viewBox="0 0 256 256" id="Flat" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M212,96a84,84,0,1,0-96,83.12891V196H88a12,12,0,0,0,0,24h28v20a12,12,0,0,0,24,0V220h28a12,12,0,0,0,0-24H140V179.12891A84.119,84.119,0,0,0,212,96ZM68,96a60,60,0,1,1,60,60A60.06812,60.06812,0,0,1,68,96Z"></path> </g></svg>`
-                }
-                return `<svg id="gender-icon" fill="${iconColor}" viewBox="0 0 256 256" id="Flat" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M219.9978,23.95557q-.00219-.56984-.05749-1.13819c-.018-.18408-.05237-.36279-.07849-.54443-.02979-.20557-.05371-.41211-.09424-.61621-.04029-.20362-.09607-.40088-.14649-.60059-.04541-.18017-.08484-.36084-.13867-.53906-.05884-.19434-.13159-.38135-.19971-.57129-.06445-.17969-.12353-.36084-.19677-.5376-.07349-.17724-.15967-.34668-.24109-.51953-.08582-.18213-.16687-.36621-.26257-.54492-.088-.16455-.18824-.32031-.2837-.48047-.10534-.17627-.2052-.355-.32031-.52685-.11572-.17334-.24475-.33545-.369-.502-.11-.14746-.21252-.29834-.3302-.4414-.23462-.28614-.4834-.55957-.74316-.82227-.01782-.01807-.03247-.03809-.05054-.05615-.01831-.01856-.03857-.0332-.05688-.05127q-.39441-.38966-.82227-.74317c-.13965-.11474-.28686-.21435-.43042-.32177-.16992-.127-.33606-.25879-.51269-.377-.16883-.11328-.34424-.21093-.51734-.31445-.16333-.09765-.32324-.20019-.49145-.29-.1731-.09277-.3512-.1709-.52759-.25439-.17871-.08448-.35462-.17383-.538-.24951-.16932-.07032-.34229-.12647-.514-.18848-.19751-.07129-.39307-.14649-.59534-.208-.16882-.05078-.34045-.08789-.51086-.13135-.20874-.05322-.41529-.11132-.62818-.15332-.19055-.03759-.383-.05957-.57507-.08789-.19544-.02881-.38831-.06494-.58679-.08447-.33252-.03271-.666-.04541-.99988-.05078C208.11853,12.0083,208.0603,12,208,12H172a12,12,0,0,0,0,24h7.0293l-15.051,15.05127A71.97526,71.97526,0,1,0,108,178.981V192H88a12,12,0,0,0,0,24h20v16a12,12,0,0,0,24,0V216h20a12,12,0,0,0,0-24H132V178.981A71.928,71.928,0,0,0,180.27783,68.69287L196,52.9707V60a12,12,0,0,0,24,0V24C220,23.98486,219.9978,23.97021,219.9978,23.95557ZM120,156a48,48,0,1,1,48-48A48.05468,48.05468,0,0,1,120,156Z"></path> </g></svg>`
-            }
-
             function abbreviateNumber(number) {
                 if (number >= 1e8) {
                     return (number / 1e9).toFixed(1) + 'B';
@@ -136,6 +125,61 @@
                     return Math.floor(number).toString();
                 }
             }
+
+            function configuringPageButton(hasPrev, hasNext, prevRemaining, nextRemaining ){
+                // Removing a function on the buttons in next page and previus page
+                
+                const prev_text = document.getElementById("prev-remaining");
+                prev_text.textContent = `${abbreviateNumber(parseInt(prevRemaining))} Read`;
+                const next_text = document.getElementById("next-remaining");
+                next_text.textContent = `${abbreviateNumber(parseInt(nextRemaining))} Left`;
+                
+
+                if (hasPrev == "1"){
+                    const prevPageBut = document.getElementById('prev-page-button');
+                    if (!prevPageBut.onclick){
+                        prevPageBut.setAttribute('onclick' , "fetchStickyNotes('down')");
+                        prevPageBut.style.opacity = 1;
+                        nextPageBut.style.cursor = "pointer";
+                    }
+                } else {
+                    const prevPageBut = document.getElementById('prev-page-button');
+                    if (prevPageBut.onclick){
+                        prevPageBut.onclick = null;
+                        prevPageBut.style.opacity = 0;
+                        prevPageBut.style.cursor = "none"
+                    }
+                }
+            
+                if (hasNext == "1"){
+                    const nextPageBut = document.getElementById('next-page-button');
+                    if (!nextPageBut.onclick){
+                        nextPageBut.setAttribute('onclick' , "fetchStickyNotes('up')");
+                        nextPageBut.style.opacity = 1;
+                        nextPageBut.style.cursor = "pointer";
+                    }
+                } else {
+                    const nextPageBut = document.getElementById('next-page-button');
+                    if (nextPageBut.onclick){
+                        nextPageBut.onclick = null;
+                        nextPageBut.style.opacity = 0;
+                        nextPageBut.style.cursor = "none";
+                    }
+                }
+            
+            }
+
+            function genderIcon(gender, iconColor){
+                console.log(gender);
+                if (gender == "1"){
+                    return `<svg id="gender-icon" fill="${iconColor}" viewBox="-25.6 -25.6 307.20 307.20" id="Flat" xmlns="http://www.w3.org/2000/svg" stroke="#791717" transform="rotate(0)"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="1.536"></g><g id="SVGRepo_iconCarrier"> <path d="M227.9978,39.95557q-.00219-.56984-.05749-1.13819c-.018-.18408-.05237-.36279-.07849-.54443-.02979-.20557-.05371-.41211-.09424-.61621-.04029-.20362-.09607-.40088-.14649-.60059-.04541-.18017-.08484-.36084-.13867-.53906-.05884-.19434-.13159-.38135-.19971-.57129-.06445-.17969-.12353-.36084-.19677-.5376-.07349-.17724-.15967-.34668-.24109-.51953-.08582-.18213-.16687-.36621-.26257-.54492-.088-.16455-.18824-.32031-.2837-.48047-.10534-.17627-.2052-.355-.32031-.52685-.11572-.17334-.24475-.33545-.369-.502-.11-.14746-.21252-.29834-.3302-.4414-.23462-.28614-.4834-.55957-.74316-.82227-.01782-.01807-.03247-.03809-.05054-.05615-.01953-.01953-.041-.03565-.06067-.05469-.26123-.25781-.53271-.50537-.81653-.73828-.14794-.12158-.30383-.22754-.45605-.34082-.16138-.12061-.31885-.24561-.48645-.35791-.17725-.11865-.36108-.22168-.54309-.33008-.15442-.0918-.30518-.189-.46411-.27392-.18311-.09815-.37134-.18116-.55811-.269-.16846-.07959-.334-.16357-.50659-.23486-.18042-.0752-.36475-.13525-.54785-.20068-.18652-.0669-.37073-.13868-.56152-.19629-.18189-.05518-.3667-.09571-.55066-.14161-.19568-.04931-.389-.10449-.58851-.144-.20935-.041-.42077-.06592-.63171-.09619-.17688-.02539-.351-.05908-.53027-.07666q-.56837-.05567-1.13953-.05762c-.01465,0-.02893-.002-.0437-.002H168a12,12,0,0,0,0,24h19.02905l-32.7334,32.7334a83.9988,83.9988,0,1,0,16.971,16.97021L204,68.9707V88a12,12,0,0,0,24,0V40C228,39.98486,227.9978,39.97021,227.9978,39.95557ZM146.42627,194.42676a59.97169,59.97169,0,1,1,0-84.85352A60.06666,60.06666,0,0,1,146.42627,194.42676Z"></path> </g></svg>`
+                }
+                if (gender == "2"){
+                    return `<svg id="gender-icon" fill="${iconColor}" viewBox="0 0 256 256" id="Flat" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M212,96a84,84,0,1,0-96,83.12891V196H88a12,12,0,0,0,0,24h28v20a12,12,0,0,0,24,0V220h28a12,12,0,0,0,0-24H140V179.12891A84.119,84.119,0,0,0,212,96ZM68,96a60,60,0,1,1,60,60A60.06812,60.06812,0,0,1,68,96Z"></path> </g></svg>`
+                }
+                return `<svg id="gender-icon" fill="${iconColor}" viewBox="0 0 256 256" id="Flat" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M219.9978,23.95557q-.00219-.56984-.05749-1.13819c-.018-.18408-.05237-.36279-.07849-.54443-.02979-.20557-.05371-.41211-.09424-.61621-.04029-.20362-.09607-.40088-.14649-.60059-.04541-.18017-.08484-.36084-.13867-.53906-.05884-.19434-.13159-.38135-.19971-.57129-.06445-.17969-.12353-.36084-.19677-.5376-.07349-.17724-.15967-.34668-.24109-.51953-.08582-.18213-.16687-.36621-.26257-.54492-.088-.16455-.18824-.32031-.2837-.48047-.10534-.17627-.2052-.355-.32031-.52685-.11572-.17334-.24475-.33545-.369-.502-.11-.14746-.21252-.29834-.3302-.4414-.23462-.28614-.4834-.55957-.74316-.82227-.01782-.01807-.03247-.03809-.05054-.05615-.01831-.01856-.03857-.0332-.05688-.05127q-.39441-.38966-.82227-.74317c-.13965-.11474-.28686-.21435-.43042-.32177-.16992-.127-.33606-.25879-.51269-.377-.16883-.11328-.34424-.21093-.51734-.31445-.16333-.09765-.32324-.20019-.49145-.29-.1731-.09277-.3512-.1709-.52759-.25439-.17871-.08448-.35462-.17383-.538-.24951-.16932-.07032-.34229-.12647-.514-.18848-.19751-.07129-.39307-.14649-.59534-.208-.16882-.05078-.34045-.08789-.51086-.13135-.20874-.05322-.41529-.11132-.62818-.15332-.19055-.03759-.383-.05957-.57507-.08789-.19544-.02881-.38831-.06494-.58679-.08447-.33252-.03271-.666-.04541-.99988-.05078C208.11853,12.0083,208.0603,12,208,12H172a12,12,0,0,0,0,24h7.0293l-15.051,15.05127A71.97526,71.97526,0,1,0,108,178.981V192H88a12,12,0,0,0,0,24h20v16a12,12,0,0,0,24,0V216h20a12,12,0,0,0,0-24H132V178.981A71.928,71.928,0,0,0,180.27783,68.69287L196,52.9707V60a12,12,0,0,0,24,0V24C220,23.98486,219.9978,23.97021,219.9978,23.95557ZM120,156a48,48,0,1,1,48-48A48.05468,48.05468,0,0,1,120,156Z"></path> </g></svg>`
+            }
+
 
             function onetimeChange(
                 note_id, note_color, nickname_font, nickname_color, content_font, content_color , gender
@@ -269,7 +313,6 @@
             
 
                 <script>
-                    console.log({{note.gender}});
                     onetimeChange(
                         {{note.note_id}}, {{note.note_color}}, {{note.nickname_font}}, 
                         {{note.nickname_color}}, {{note.content_font}}, {{note.content_color}},
@@ -283,11 +326,9 @@
         </div>
 
         <div class="paging-buttons">
-            <div class="page-button" onclick="fetchStickyNotes('down')" id="prev-page-button">
-                <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 24 24">
-                    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 11l3 2m0-8a1 1 0 1 0 0-2a1 1 0 0 0 0 2ZM9.5 9.5L9.525 6H15L8 17H4m11-9l-3 5l.5 1L17 7.5L15 6m-4 7l5 3.5v5"/>
-                </svg>
-                <p>go back</p>
+            <div class="page-button" id="prev-page-button" style="opacity: 0;">
+                <svg fill="#ffffff" height="200px" width="200px" version="1.2" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-63 65 128 128" xml:space="preserve" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M-11.9,66c7.1,0,13,5.8,13,12.9s-5.8,13-12.9,13c-7.1,0-13-5.8-13-12.9S-19.1,66-11.9,66z M48.2,93.4l-16-12.1l-1.9,6.2 l-9.4-3.1l-10.6,32.2l-17.7,0.2l-14.8-24.9c-1.1-2-3.2-3.1-5.8-3c-0.4,0-2.4,0.5-2.7,0.6c-10.9,3.6-19.5,20.8-19.4,38.5 c-0.1,5.3,0,9.9,0.4,14.1c-0.4,5.1,2.6,10.2,7.7,12c1.3,0.5,2.6,0.7,4,0.7h32.2l0.1,30.3c0,4.2,3.3,7.4,7.4,7.4 c4.2,0,7.4-3.3,7.4-7.4l-0.1-37.8c0-1.9-0.7-3.9-2.3-5.1c-1.4-1.4-3.3-2.3-5.1-2.3h-21.7v-16.2l-11.3-19.1c-0.5-0.7-0.1-1.8,0.5-2.3 c0.7-0.5,1.8-0.1,2.3,0.5l12.9,22.2c1,1.7,2.7,2.9,4.9,2.9h22.2c2.4,0,4.5-1.5,5.2-3.7l19.4,6.3l0.7,0.2l0.1-0.2l12.1-37.1 L48.2,93.4z M35.1,128.2l-18.3-5.9c0-2.6-2-4.9-4.4-5.5l9.7-29.7L46.1,95L35.1,128.2z M-61.7,165l0-6.8l52.7,0.1l0,6.8L-61.7,165z"></path> </g></svg>
+                <p id="prev-remaining">0 read</p>
             </div>
             <div class="page-button" onclick="changeTemplate('#headbar-location')">
                 <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 72 72">
@@ -303,16 +344,18 @@
                         <path stroke-linejoin="round" d="M25.267 39.441v2.214l4.16 5.124a6.622 6.622 0 0 1 .756 2.705l.406 9.151c.086 1.78-.824 2.72-1.736 2.72c-.97 0-1.72-.912-1.884-2.631l-1.053-8.66L19 44.172a3.216 3.216 0 0 1-1.113-2.366a5.417 5.417 0 0 1 .765-2.581l3.293-5.947c1.141-2.281 2.256-3.091 3.762-3.091a2.714 2.714 0 0 1 2.68 2.767m-.27-6.838a3.266 3.266 0 1 1 3.266 3.266"/>
                     </g>
                 </svg>
-                <p>go home</p>
+                <p>Go Top</p>
             </div>
             <div class="page-button" onclick="fetchStickyNotes('up')" id="next-page-button">
-                <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 24 24">
-                    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 11l3 2m0-8a1 1 0 1 0 0-2a1 1 0 0 0 0 2ZM9.5 9.5L9.525 6H15L8 17H4m11-9l-3 5l.5 1L17 7.5L15 6m-4 7l5 3.5v5"/>
-                </svg>
-                <p>forward</p>
+                <svg fill="#ffffff" height="200px" width="200px" version="1.2" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-63 65 128 128" xml:space="preserve" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M-11.9,66c7.1,0,13,5.8,13,12.9s-5.8,13-12.9,13c-7.1,0-13-5.8-13-12.9S-19.1,66-11.9,66z M48.2,93.4l-16-12.1l-1.9,6.2 l-9.4-3.1l-10.6,32.2l-17.7,0.2l-14.8-24.9c-1.1-2-3.2-3.1-5.8-3c-0.4,0-2.4,0.5-2.7,0.6c-10.9,3.6-19.5,20.8-19.4,38.5 c-0.1,5.3,0,9.9,0.4,14.1c-0.4,5.1,2.6,10.2,7.7,12c1.3,0.5,2.6,0.7,4,0.7h32.2l0.1,30.3c0,4.2,3.3,7.4,7.4,7.4 c4.2,0,7.4-3.3,7.4-7.4l-0.1-37.8c0-1.9-0.7-3.9-2.3-5.1c-1.4-1.4-3.3-2.3-5.1-2.3h-21.7v-16.2l-11.3-19.1c-0.5-0.7-0.1-1.8,0.5-2.3 c0.7-0.5,1.8-0.1,2.3,0.5l12.9,22.2c1,1.7,2.7,2.9,4.9,2.9h22.2c2.4,0,4.5-1.5,5.2-3.7l19.4,6.3l0.7,0.2l0.1-0.2l12.1-37.1 L48.2,93.4z M35.1,128.2l-18.3-5.9c0-2.6-2-4.9-4.4-5.5l9.7-29.7L46.1,95L35.1,128.2z M-61.7,165l0-6.8l52.7,0.1l0,6.8L-61.7,165z"></path> </g></svg>
+                <p id = "next-remaining">200 left</p>
             </div>
 
         </div>
+
+        <script>
+            configuringPageButton({{hasPrev}}, {{hasNext}} , {{prevRemaining}} , {{nextRemaining}});
+        </script>
         
 
     </div>
@@ -335,7 +378,7 @@
                 success: function(response) {
                     
                     if (response.sticky_notes) {
-                        configuringPageButton(response.isDatabaseHasData, direction);
+                        configuringPageButton(response.hasPrev, response.hasNext);
         
                         if (response.sticky_notes.length > 0){
                             var notesList = $('.sticky-notes-container');

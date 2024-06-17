@@ -135,7 +135,6 @@ body{
     padding: 10px;
     border-radius: 10px;
     align-items: center;
-    cursor: pointer;
 }
 
 .page-button svg{
@@ -155,6 +154,10 @@ body{
 
 .page-button:nth-child(1) svg{
     transform: scaleX(-1);
+}
+
+.page-button:nth-child(2){
+    cursor: pointer;
 }
 
 .page-button:nth-child(3){
