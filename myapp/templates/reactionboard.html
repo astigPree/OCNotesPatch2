@@ -147,7 +147,7 @@
 
                 const reply_text = document.getElementById(`replies-text-${note_id}-${note_id_add_key}`);
                 reply_text.style.color = noteColor[note_color];
-                reply_text.textContent = `R; ${abbreviateNumber(parseInt(reply_text.getAttribute("replies")))}`;
+                reply_text.textContent = `${abbreviateNumber(parseInt(reply_text.getAttribute("replies")))}`;
 
                 const love_emoji = document.getElementById(`love-num-${note_id}-${note_id_add_key}`);
                 love_emoji.innerHTML = abbreviateNumber(parseInt(love_emoji.getAttribute("total")));

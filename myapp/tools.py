@@ -3,7 +3,7 @@ from .models import StickyNote
 from html.parser import HTMLParser
 import re
 
-NUMBER_OF_NOTES_TO_DISPLAY = 3
+NUMBER_OF_NOTES_TO_DISPLAY = 2
 BAD_WORDS = (
     'puta', 'pota', 'tangina', 'gago' , 'bobo' , 'bubo' , 'bubu' , 'bobu', 'patay', 'matay', 'natay', 'amp', 'nigga', 'yawa',
     'pisot' , 'bayag', 'buto', 'totoy', 'boto', 'letche', 'itot' , 'salsal', 'jabol', 'pusli', 'shabu', 'whana', 'bilat', 'belat',

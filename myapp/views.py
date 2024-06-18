@@ -17,12 +17,14 @@ def clipboard_list_page(request):
     if request.method == "GET":
         notes = StickyNote.objects.all().order_by('-id')[:NUMBER_OF_NOTES_TO_DISPLAY]
         # notes = StickyNote.next_page()
+        _ , nextRemain = StickyNote.get_next_objects( start_id=None, number_to_display=NUMBER_OF_NOTES_TO_DISPLAY)
+        _ , prevRemain = StickyNote.get_previous_objects(start_id=None , number_to_display=NUMBER_OF_NOTES_TO_DISPLAY)
         context = { 
             "notes" : [ note.get_my_data_without_reply() for note in notes ],
             "hasPrev" : '0',
             "hasNext" : '1',
-            "prevRemaining" : 0, 
-            "nextRemaining" : StickyNote.objects.all().count()
+            "prevRemaining" : prevRemain, 
+            "nextRemaining" : nextRemain
             }
         return render(request , 'clipboards_screens.html' , context=context)
     
@@ -35,16 +37,14 @@ def sticky_notes_view(request):
             return JsonResponse({'error': 'Invalid direction'}, status=400)
         
         start_id = int(request.POST.get('start_id'))
-        nextRemaining = 0
-        prevRemaining = 0
+        # prevRemaining = 0
 
         if direction == 'up':
-            sticky_notes , nextRemaining = StickyNote.next_page(start_id=start_id, number_to_display=NUMBER_OF_NOTES_TO_DISPLAY)
-            prevRemaining = StickyNote.prev_page_remaining(sticky_notes[0].id, NUMBER_OF_NOTES_TO_DISPLAY)
-            
+            sticky_notes , nextRemaining = StickyNote.get_next_objects(start_id=start_id, number_to_display=NUMBER_OF_NOTES_TO_DISPLAY)
+            _ , prevRemaining = StickyNote.get_previous_objects(start_id=start_id, number_to_display=NUMBER_OF_NOTES_TO_DISPLAY)
         elif direction == 'down':
-            sticky_notes, prevRemaining = StickyNote.previous_page(start_id=start_id, number_to_display=NUMBER_OF_NOTES_TO_DISPLAY)
-            nextRemaining = StickyNote.next_page_remaining(sticky_notes[len(sticky_notes) - 1].id , NUMBER_OF_NOTES_TO_DISPLAY)
+            sticky_notes = StickyNote.previous_page(start_id=start_id, number_to_display=NUMBER_OF_NOTES_TO_DISPLAY)
+            
         else:
             return JsonResponse({'error': 'Invalid direction'}, status=400)
         
@@ -54,6 +54,7 @@ def sticky_notes_view(request):
         notes_data = [
             note.get_my_data_without_reply() for note in sticky_notes
         ]
+        
         
         if direction == "up":
             hasPrev = '1'
@@ -71,8 +72,6 @@ def sticky_notes_view(request):
             else:
                 hasNext = '0'
         
-        print(prevRemaining , " Prev", sticky_notes[-1].id )
-        print(nextRemaining, " Next" , sticky_notes[-1].id)
         
         return JsonResponse(
             {

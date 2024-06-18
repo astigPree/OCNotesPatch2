@@ -128,38 +128,39 @@
 
             function configuringPageButton(hasPrev, hasNext, prevRemaining, nextRemaining ){
                 // Removing a function on the buttons in next page and previus page
+
+                console.log(prevRemaining , nextRemaining);
                 
                 const prev_text = document.getElementById("prev-remaining");
                 prev_text.textContent = `${abbreviateNumber(parseInt(prevRemaining))} Read`;
                 const next_text = document.getElementById("next-remaining");
                 next_text.textContent = `${abbreviateNumber(parseInt(nextRemaining))} Left`;
                 
+                
+                const prevPageBut = document.getElementById('prev-page-button');
+                const nextPageBut = document.getElementById('next-page-button');
 
                 if (hasPrev == "1"){
-                    const prevPageBut = document.getElementById('prev-page-button');
                     if (!prevPageBut.onclick){
                         prevPageBut.setAttribute('onclick' , "fetchStickyNotes('down')");
                         prevPageBut.style.opacity = 1;
-                        nextPageBut.style.cursor = "pointer";
+                        prevPageBut.style.cursor = "pointer";
                     }
                 } else {
-                    const prevPageBut = document.getElementById('prev-page-button');
                     if (prevPageBut.onclick){
                         prevPageBut.onclick = null;
                         prevPageBut.style.opacity = 0;
                         prevPageBut.style.cursor = "none"
                     }
                 }
-            
+                
                 if (hasNext == "1"){
-                    const nextPageBut = document.getElementById('next-page-button');
                     if (!nextPageBut.onclick){
                         nextPageBut.setAttribute('onclick' , "fetchStickyNotes('up')");
                         nextPageBut.style.opacity = 1;
                         nextPageBut.style.cursor = "pointer";
                     }
                 } else {
-                    const nextPageBut = document.getElementById('next-page-button');
                     if (nextPageBut.onclick){
                         nextPageBut.onclick = null;
                         nextPageBut.style.opacity = 0;
@@ -170,7 +171,6 @@
             }
 
             function genderIcon(gender, iconColor){
-                console.log(gender);
                 if (gender == "1"){
                     return `<svg id="gender-icon" fill="${iconColor}" viewBox="-25.6 -25.6 307.20 307.20" id="Flat" xmlns="http://www.w3.org/2000/svg" stroke="#791717" transform="rotate(0)"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="1.536"></g><g id="SVGRepo_iconCarrier"> <path d="M227.9978,39.95557q-.00219-.56984-.05749-1.13819c-.018-.18408-.05237-.36279-.07849-.54443-.02979-.20557-.05371-.41211-.09424-.61621-.04029-.20362-.09607-.40088-.14649-.60059-.04541-.18017-.08484-.36084-.13867-.53906-.05884-.19434-.13159-.38135-.19971-.57129-.06445-.17969-.12353-.36084-.19677-.5376-.07349-.17724-.15967-.34668-.24109-.51953-.08582-.18213-.16687-.36621-.26257-.54492-.088-.16455-.18824-.32031-.2837-.48047-.10534-.17627-.2052-.355-.32031-.52685-.11572-.17334-.24475-.33545-.369-.502-.11-.14746-.21252-.29834-.3302-.4414-.23462-.28614-.4834-.55957-.74316-.82227-.01782-.01807-.03247-.03809-.05054-.05615-.01953-.01953-.041-.03565-.06067-.05469-.26123-.25781-.53271-.50537-.81653-.73828-.14794-.12158-.30383-.22754-.45605-.34082-.16138-.12061-.31885-.24561-.48645-.35791-.17725-.11865-.36108-.22168-.54309-.33008-.15442-.0918-.30518-.189-.46411-.27392-.18311-.09815-.37134-.18116-.55811-.269-.16846-.07959-.334-.16357-.50659-.23486-.18042-.0752-.36475-.13525-.54785-.20068-.18652-.0669-.37073-.13868-.56152-.19629-.18189-.05518-.3667-.09571-.55066-.14161-.19568-.04931-.389-.10449-.58851-.144-.20935-.041-.42077-.06592-.63171-.09619-.17688-.02539-.351-.05908-.53027-.07666q-.56837-.05567-1.13953-.05762c-.01465,0-.02893-.002-.0437-.002H168a12,12,0,0,0,0,24h19.02905l-32.7334,32.7334a83.9988,83.9988,0,1,0,16.971,16.97021L204,68.9707V88a12,12,0,0,0,24,0V40C228,39.98486,227.9978,39.97021,227.9978,39.95557ZM146.42627,194.42676a59.97169,59.97169,0,1,1,0-84.85352A60.06666,60.06666,0,0,1,146.42627,194.42676Z"></path> </g></svg>`
                 }
@@ -207,7 +207,7 @@
 
                 const reply_text = document.getElementById(`replies-text-${note_id}`);
                 reply_text.style.color = noteColor[note_color];
-                reply_text.textContent = `R; ${abbreviateNumber(parseInt(reply_text.getAttribute("replies")))}`;
+                reply_text.textContent = `${abbreviateNumber(parseInt(reply_text.getAttribute("replies")))}`;
 
                 const love_emoji = document.getElementById(`love-num-${note_id}`);
                 love_emoji.innerHTML = abbreviateNumber(parseInt(love_emoji.getAttribute("total")));
@@ -265,7 +265,7 @@
 
                     <div class="clip">
                         <p id="replies-text-{{note.note_id}}" onclick="changeTemplate('{% url 'whiteboard' note.note_id %}');"
-                            replies="{{note.total_replies}}">R; 200m</p>
+                            replies="{{note.total_replies}}"></p>
                         <svg fill="#B76767" height="200px" width="200px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <path d="M487.458,271.701C501.632,267.546,512,254.43,512,238.933c0-18.825-15.309-34.133-34.133-34.133H316.083l-7.808-45.662 c20.198-10.906,33.058-28.075,33.058-47.787c0-33.724-37.478-60.151-85.333-60.151c-47.846,0-85.333,26.428-85.333,60.151 c0,19.712,12.868,36.881,33.067,47.787l-7.808,45.662H34.133C15.317,204.8,0,220.109,0,238.933 c0,15.497,10.377,28.612,24.55,32.768L2.722,431.744c-0.998,7.322,1.22,14.72,6.084,20.301c4.855,5.564,11.887,8.755,19.277,8.755 h91.383c4.719,0,8.533-3.814,8.533-8.533c0-18.825,15.317-34.133,34.133-34.133c18.825,0,34.133,15.309,34.133,34.133 c0,4.719,3.823,8.533,8.533,8.533h102.4c4.719,0,8.533-3.814,8.533-8.533c0-18.825,15.317-34.133,34.133-34.133 c18.825,0,34.133,15.309,34.133,34.133c0,4.719,3.823,8.533,8.533,8.533h91.383c7.398,0,14.43-3.191,19.285-8.764 c4.864-5.581,7.083-12.971,6.084-20.292L487.458,271.701z M213.24,204.8l6.639-38.827c10.931,3.516,23.117,5.53,36.122,5.53 c13.005,0,25.199-2.014,36.13-5.53l6.639,38.827H213.24z"></path> </g> </g> </g></svg>
                     </div>
 
@@ -346,7 +346,7 @@
                 </svg>
                 <p>Go Top</p>
             </div>
-            <div class="page-button" onclick="fetchStickyNotes('up')" id="next-page-button">
+            <div class="page-button" id="next-page-button">
                 <svg fill="#ffffff" height="200px" width="200px" version="1.2" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-63 65 128 128" xml:space="preserve" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M-11.9,66c7.1,0,13,5.8,13,12.9s-5.8,13-12.9,13c-7.1,0-13-5.8-13-12.9S-19.1,66-11.9,66z M48.2,93.4l-16-12.1l-1.9,6.2 l-9.4-3.1l-10.6,32.2l-17.7,0.2l-14.8-24.9c-1.1-2-3.2-3.1-5.8-3c-0.4,0-2.4,0.5-2.7,0.6c-10.9,3.6-19.5,20.8-19.4,38.5 c-0.1,5.3,0,9.9,0.4,14.1c-0.4,5.1,2.6,10.2,7.7,12c1.3,0.5,2.6,0.7,4,0.7h32.2l0.1,30.3c0,4.2,3.3,7.4,7.4,7.4 c4.2,0,7.4-3.3,7.4-7.4l-0.1-37.8c0-1.9-0.7-3.9-2.3-5.1c-1.4-1.4-3.3-2.3-5.1-2.3h-21.7v-16.2l-11.3-19.1c-0.5-0.7-0.1-1.8,0.5-2.3 c0.7-0.5,1.8-0.1,2.3,0.5l12.9,22.2c1,1.7,2.7,2.9,4.9,2.9h22.2c2.4,0,4.5-1.5,5.2-3.7l19.4,6.3l0.7,0.2l0.1-0.2l12.1-37.1 L48.2,93.4z M35.1,128.2l-18.3-5.9c0-2.6-2-4.9-4.4-5.5l9.7-29.7L46.1,95L35.1,128.2z M-61.7,165l0-6.8l52.7,0.1l0,6.8L-61.7,165z"></path> </g></svg>
                 <p id = "next-remaining">200 left</p>
             </div>
@@ -378,7 +378,7 @@
                 success: function(response) {
                     
                     if (response.sticky_notes) {
-                        configuringPageButton(response.hasPrev, response.hasNext);
+                        configuringPageButton(response.hasPrev, response.hasNext , response.prevRemaining, response.nextRemaining);
         
                         if (response.sticky_notes.length > 0){
                             var notesList = $('.sticky-notes-container');

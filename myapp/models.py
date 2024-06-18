@@ -1,6 +1,7 @@
 from django.db import models
 import typing as tp
-
+from django.core.paginator import Paginator
+from django.core.exceptions import ObjectDoesNotExist
 from django.utils import timezone
 import pytz
 
@@ -38,7 +39,6 @@ class StickyNote(models.Model):
         return f"{self.posted_date} - {self.nickname}"
     
     def get_my_data_without_reply(self) -> dict:
-        # print(f"Get data : {self.posted_date}")
         data = {
             'note_id' : self.id,
             'note_color' : self.note_color,
@@ -49,7 +49,7 @@ class StickyNote(models.Model):
             'content_color' : self.content_color,
             'content_font' : self.content_font,
             'emoji' : self.emoji,
-            'time' : self.posted_date,
+            'time' : self.posted_date.strftime("%B %d").upper(),
             'loves' : self.loves,
             'angries' : self.angries,
             'cries' : self.cries,
@@ -89,7 +89,7 @@ class StickyNote(models.Model):
             'content_color' : self.content_color,
             'content_font' : self.content_font,
             'emoji' : self.emoji,
-            'time' : self.posted_date.strftime("%b / %I:%M %p").lower(),
+            'time' : self.posted_date.strftime("%B %d").upper(),
             'loves' : self.loves,
             'angries' : self.angries,
             'cries' : self.cries,
@@ -104,21 +104,38 @@ class StickyNote(models.Model):
         return data
     
     @classmethod
-    def next_page(cls, start_id : int, number_to_display : int) -> tp.Tuple[ tp.Union[tp.List['StickyNote'], None], int ] :
+    def next_page(cls, start_id : int, number_to_display : int) -> tp.Union[tp.List['StickyNote'], None] :
         """Get the next page
 
         Args:
             start_id (int): The starting ID of the selected StickyNote
 
         Returns:
-            tuple[ Queryset[StickyNote, ...] , remaining notes ]: return the sticky notes needed and the remaining notes
+            Queryset[StickyNote, ...] : return the sticky notes needed 
         """
         sticky_notes = cls.objects.filter(id__lt=start_id).order_by('-id')[:number_to_display]
-        return sticky_notes, len(cls.objects.filter(id__lt=start_id).order_by('-id')[number_to_display::])
+        return sticky_notes
     
     @classmethod
-    def next_page_remaining(cls, start_id : int, number_to_display : int ) -> int:
-       return len(cls.objects.filter(id__lt=start_id).order_by('-id')[number_to_display::])
+    def next_page_remaining(cls, start_id: int = None, number_to_display: int = 10) -> int:
+        queryset = cls.objects.order_by('-id')
+        
+        paginator = Paginator(queryset, number_to_display)
+
+        if start_id is None:
+            # Start from the first page
+            start_page = paginator.page(1)
+            
+        else:
+            # Get the page based on the start_id
+            start_page = paginator.get_page(start_id // number_to_display + 1)
+        
+        print("page next number ", paginator.get_page(start_page.next_page_number()) )
+
+        # Get the remaining objects after the start_page
+        remaining_objects = paginator.object_list[start_page.end_index():]
+
+        return len(remaining_objects)
     
     @classmethod
     def previous_page(cls, start_id : int, number_to_display : int) -> tp.Tuple[ tp.Union[ tp.List['StickyNote'], None] , int ] :
@@ -241,6 +258,59 @@ class StickyNote(models.Model):
             return top_stats
             
     
+    @classmethod
+    def get_previous_objects(cls, start_id: int = None, number_to_display: int = 10) -> tuple[list, int]:
+        try:
+            if start_id is None:
+                start_object = cls.objects.order_by('-id').first()
+                start_id = start_object.id if start_object else None
+                queryset = cls.objects.filter(id__gt=start_id).order_by('-id')
+            else:
+                start_object = cls.objects.get(id=start_id)
+                queryset = cls.objects.filter(id__gte=start_id).order_by('-id')
+
+            paginator = Paginator(queryset, number_to_display)
+            start_page = paginator.page(1)
+
+            remaining_objects = paginator.object_list[:start_page.start_index()]
+            
+            
+            for n , q in enumerate(queryset):
+                print(f"{n} - {q}")
+            
+            print(" Query Len " , len(queryset))
+            print( "Page list" , len(paginator.object_list))
+            print( "Getted Page" , len(start_page.object_list))
+            print( "List Remaining : ", len(remaining_objects) )
+            
+            return list(start_page.object_list),  len(paginator.object_list)
+        except ObjectDoesNotExist:
+            return [], 0
+        
+        
+    @classmethod
+    def get_next_objects(cls, start_id: int = None, number_to_display: int = 10) -> tuple[list, int]:
+        try:
+            if start_id is None:
+                start_object = cls.objects.order_by('-id').first()
+                start_id = start_object.id if start_object else None
+                queryset = cls.objects.filter(id__lte=start_id).order_by('-id')
+            else:
+                start_object = cls.objects.get(id=start_id)
+                queryset = cls.objects.filter(id__lt=start_id).order_by('-id')
+
+            paginator = Paginator(queryset, number_to_display)
+            start_page = paginator.page(1)
+            
+            # print(" Query Len " , len(queryset))
+            # print( "Page list" , len(paginator.object_list))
+            # print( "Getted Page" , len(start_page.object_list))
+
+            return list(start_page.object_list), len(paginator.object_list)  - len(start_page.object_list)
+        except ObjectDoesNotExist:
+            return [], 0
+        
+        
     
 class Replies(models.Model):
     sticky_note = models.ForeignKey(StickyNote, on_delete=models.CASCADE, related_name='replies', default=None)
@@ -251,19 +321,14 @@ class Replies(models.Model):
     def __str__(self) -> str:
         return f"{self.sticky_note.posted_date.date()} - {self.sticky_note.nickname}"
     
-    # def save(self, *args, **kwargs):
-    #     if not self.replies_date:
-    #         self.replies_date = timezone.now().astimezone(manila_tz)
-    #     else:
-    #         self.replies_date = self.replies_date.astimezone(manila_tz)
-    #     super().save(*args, **kwargs)
-    
     def get_data(self) -> tuple[str, str]:
-        return ( self.nickname, self.content , self.replies_date.strftime("%I:%M%p").lower())
+        return ( self.nickname, self.content , self.replies_date.strftime("%B %d").upper())
+        # return ( self.nickname, self.content , self.replies_date.strftime("%I:%M%p").lower())
     
     @classmethod
     def getData(cls) -> tuple[str, str]:
-        return ( cls.nickname, cls.content, cls.replies_date.strftime("%I:%M%p").lower() )
+        return ( cls.nickname, cls.content, cls.replies_date.strftime("%B %d").upper())
+        # return ( cls.nickname, cls.content, cls.replies_date.strftime("%I:%M%p").lower() )
     
     @classmethod
     def addNewReplies(cls, note_id : int , nickname : str , content : str) -> bool:
