@@ -305,7 +305,7 @@ class StickyNote(models.Model):
             # print( "List Remaining : ", len(remaining_objects) )
             remaining = len(paginator.object_list) - len(start_page.object_list) if isRetriving else len(paginator.object_list)
             return list(start_page.object_list),  remaining
-        except ObjectDoesNotExist:
+        except ( ObjectDoesNotExist, ValueError ):
             return [], 0
     
         
@@ -333,7 +333,7 @@ class StickyNote(models.Model):
             # print( "Getted Page" , len(start_page.object_list))
             remaining = len(paginator.object_list)  - len(start_page.object_list) if isRetriving else len(paginator.object_list)
             return list(start_page.object_list), remaining
-        except ObjectDoesNotExist:
+        except ( ObjectDoesNotExist, ValueError ):
             return [], 0
         
         

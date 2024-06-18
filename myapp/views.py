@@ -15,14 +15,25 @@ from .tools import *
 def clipboard_list_page(request):
     
     if request.method == "GET":
-        notes = StickyNote.objects.all().order_by('-id')[:NUMBER_OF_NOTES_TO_DISPLAY]
+        # notes = StickyNote.objects.all().order_by('-id')[:NUMBER_OF_NOTES_TO_DISPLAY]
         # notes = StickyNote.next_page()
-        _ , nextRemain = StickyNote.get_next_objects( start_id=None, number_to_display=NUMBER_OF_NOTES_TO_DISPLAY , isRetriving=True)
+        notes , nextRemain = StickyNote.get_next_objects( start_id=None, number_to_display=NUMBER_OF_NOTES_TO_DISPLAY , isRetriving=True)
         _ , prevRemain = StickyNote.get_previous_objects(start_id=None , number_to_display=NUMBER_OF_NOTES_TO_DISPLAY, isRetriving=False)
+        
+        if prevRemain > 0:
+            hasPrev = '1'
+        else:
+            hasPrev = '0'
+
+        if nextRemain > 0:
+            hasNext = '1'
+        else:
+            hasNext = '0'
+        
         context = { 
             "notes" : [ note.get_my_data_without_reply() for note in notes ],
-            "hasPrev" : '0',
-            "hasNext" : '1',
+            "hasPrev" : hasPrev,
+            "hasNext" : hasNext,
             "prevRemaining" : prevRemain, 
             "nextRemaining" : nextRemain
             }
