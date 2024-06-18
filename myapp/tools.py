@@ -151,6 +151,7 @@ def isDataIncorrect(request) -> tuple[bool, object] :
     nickname_font = request.POST.get('nickname_font')
     content_font = request.POST.get('content_font')
     if (nickname_font not in NICKNAME_FONTS or content_font not in CONTENT_FONTS):
+        print(nickname_font not in NICKNAME_FONTS , nickname_font)
         return True, None, ERROR_TYPE['hack']
     # Check if the emoji exist
     emoji = request.POST.get('emoji')
