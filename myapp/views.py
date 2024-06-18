@@ -17,8 +17,8 @@ def clipboard_list_page(request):
     if request.method == "GET":
         notes = StickyNote.objects.all().order_by('-id')[:NUMBER_OF_NOTES_TO_DISPLAY]
         # notes = StickyNote.next_page()
-        _ , nextRemain = StickyNote.get_next_objects( start_id=None, number_to_display=NUMBER_OF_NOTES_TO_DISPLAY)
-        _ , prevRemain = StickyNote.get_previous_objects(start_id=None , number_to_display=NUMBER_OF_NOTES_TO_DISPLAY)
+        _ , nextRemain = StickyNote.get_next_objects( start_id=None, number_to_display=NUMBER_OF_NOTES_TO_DISPLAY , isRetriving=True)
+        _ , prevRemain = StickyNote.get_previous_objects(start_id=None , number_to_display=NUMBER_OF_NOTES_TO_DISPLAY, isRetriving=False)
         context = { 
             "notes" : [ note.get_my_data_without_reply() for note in notes ],
             "hasPrev" : '0',
@@ -37,13 +37,13 @@ def sticky_notes_view(request):
             return JsonResponse({'error': 'Invalid direction'}, status=400)
         
         start_id = int(request.POST.get('start_id'))
-        # prevRemaining = 0
 
         if direction == 'up':
-            sticky_notes , nextRemaining = StickyNote.get_next_objects(start_id=start_id, number_to_display=NUMBER_OF_NOTES_TO_DISPLAY)
-            _ , prevRemaining = StickyNote.get_previous_objects(start_id=start_id, number_to_display=NUMBER_OF_NOTES_TO_DISPLAY)
+            sticky_notes , nextRemaining = StickyNote.get_next_objects(start_id=start_id, number_to_display=NUMBER_OF_NOTES_TO_DISPLAY, isRetriving=True)
+            _ , prevRemaining = StickyNote.get_previous_objects(start_id=start_id, number_to_display=NUMBER_OF_NOTES_TO_DISPLAY , isRetriving=False)
         elif direction == 'down':
-            sticky_notes = StickyNote.previous_page(start_id=start_id, number_to_display=NUMBER_OF_NOTES_TO_DISPLAY)
+            sticky_notes , prevRemaining = StickyNote.get_previous_objects(start_id=start_id, number_to_display=NUMBER_OF_NOTES_TO_DISPLAY , isRetriving=True)
+            _ , nextRemaining = StickyNote.get_next_objects(start_id=start_id, number_to_display=NUMBER_OF_NOTES_TO_DISPLAY, isRetriving=False)
             
         else:
             return JsonResponse({'error': 'Invalid direction'}, status=400)

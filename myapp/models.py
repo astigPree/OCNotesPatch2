@@ -259,7 +259,7 @@ class StickyNote(models.Model):
             
     
     @classmethod
-    def get_previous_objects(cls, start_id: int = None, number_to_display: int = 10) -> tuple[list, int]:
+    def get_previous_objects(cls, start_id: int = None, number_to_display: int = 10, isRetriving : bool = False) -> tuple[list, int]:
         try:
             if start_id is None:
                 start_object = cls.objects.order_by('-id').first()
@@ -267,29 +267,50 @@ class StickyNote(models.Model):
                 queryset = cls.objects.filter(id__gt=start_id).order_by('-id')
             else:
                 start_object = cls.objects.get(id=start_id)
-                queryset = cls.objects.filter(id__gte=start_id).order_by('-id')
-
-            paginator = Paginator(queryset, number_to_display)
-            start_page = paginator.page(1)
-
-            remaining_objects = paginator.object_list[:start_page.start_index()]
+                if isRetriving:
+                    queryset = cls.objects.filter(id__gt=start_id).order_by('-id')
+                    print("happen Retrive", start_id)
+                else :
+                    queryset = cls.objects.filter(id__gte=start_id).order_by('-id')
+                    print("happen Read" , start_id)
+                    
+                
             
             
+            print("-----------------------------------")
             for n , q in enumerate(queryset):
-                print(f"{n} - {q}")
+                print(f"{n}: {q.id} - {q}")
+    
+            paginator = Paginator(queryset, number_to_display)
+            print("total page : ", paginator.num_pages)
+            start_page = paginator.page( paginator.num_pages)
+            remaining_objects = paginator.object_list[start_page.start_index():]
+            print(remaining_objects)
             
-            print(" Query Len " , len(queryset))
-            print( "Page list" , len(paginator.object_list))
-            print( "Getted Page" , len(start_page.object_list))
-            print( "List Remaining : ", len(remaining_objects) )
+            print("-----------------------------------")
+            for n , q in enumerate(paginator.object_list):
+                print(f"{n}: {q.id} - {q}")
+
             
-            return list(start_page.object_list),  len(paginator.object_list)
+            
+            
+            print("-----------------------------------")
+            for n , q in enumerate(start_page):
+                print(f"{n}: {q.id} - {q}")
+            
+            # print("-----------------------------------")
+            # print("Query Len " , len(queryset))
+            # print( "Page list" , len(paginator.object_list))
+            # print( "Getted Page" , len(start_page.object_list))
+            # print( "List Remaining : ", len(remaining_objects) )
+            remaining = len(paginator.object_list) - len(start_page.object_list) if isRetriving else len(paginator.object_list)
+            return list(start_page.object_list),  remaining
         except ObjectDoesNotExist:
             return [], 0
-        
+    
         
     @classmethod
-    def get_next_objects(cls, start_id: int = None, number_to_display: int = 10) -> tuple[list, int]:
+    def get_next_objects(cls, start_id: int = None, number_to_display: int = 10, isRetriving : bool = False) -> tuple[list, int]:
         try:
             if start_id is None:
                 start_object = cls.objects.order_by('-id').first()
@@ -297,7 +318,12 @@ class StickyNote(models.Model):
                 queryset = cls.objects.filter(id__lte=start_id).order_by('-id')
             else:
                 start_object = cls.objects.get(id=start_id)
-                queryset = cls.objects.filter(id__lt=start_id).order_by('-id')
+                if isRetriving:
+                    queryset = cls.objects.filter(id__lt=start_id).order_by('-id')
+                    print("happen Retrive", start_id)
+                else :
+                    queryset = cls.objects.filter(id__lte=start_id).order_by('-id')
+                    print("happen Read" , start_id)
 
             paginator = Paginator(queryset, number_to_display)
             start_page = paginator.page(1)
@@ -305,8 +331,8 @@ class StickyNote(models.Model):
             # print(" Query Len " , len(queryset))
             # print( "Page list" , len(paginator.object_list))
             # print( "Getted Page" , len(start_page.object_list))
-
-            return list(start_page.object_list), len(paginator.object_list)  - len(start_page.object_list)
+            remaining = len(paginator.object_list)  - len(start_page.object_list) if isRetriving else len(paginator.object_list)
+            return list(start_page.object_list), remaining
         except ObjectDoesNotExist:
             return [], 0
         
